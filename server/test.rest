@@ -1,0 +1,4 @@
+@resthost = http://127.0.0.1:8080/rest.api
+
+# Captcha
+GET GET {{resthost}}/captcha/get HTTP/1.1

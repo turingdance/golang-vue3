@@ -1,0 +1,38 @@
+$w1:35px;
+$w2:30px;
+.loading-wraper {
+    width: $w1;
+    height: $w1;
+    background: conic-gradient(transparent 10%, #d63737 90%);
+    border-radius: 50%;
+    position: relative;
+    // margin: 0.2rem auto;
+    // margin-left: calc( 50vw - 17px );
+    // margin-top: calc( 50vh - 17px );
+    animation: loading-rotate 3s linear infinite;
+  }
+  .loading-circle {
+    width: $w2;
+    height: $w2;
+    background-color: #a182e9;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    img{
+        width: $w2;
+        height: $w2;    
+        border-radius: 50%;
+        border: none;
+    }
+  }
+  
+  @keyframes loading-rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }

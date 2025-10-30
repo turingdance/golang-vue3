@@ -1,0 +1,154 @@
+engin:
+    env: prod
+    pidfile: /etc/turing/engin.pid
+http:
+    name: ipaonline
+    port: 8087
+    host:
+redis:
+  dbIndex: 1
+  addr: redis://127.0.0.1:6379
+  password: rootme@123
+  maxIdle: 10
+  idleTimeoutSec: 15
+
+log:
+  level: 6
+  file: ./log/log.log
+
+discover:
+  Impl:  
+  Addr:  
+  updateIntervalSecond: 30
+  basepath:  ipaonline
+auth:
+  whiteList:
+    -  /sys/captcha/
+    -  /sys/account/
+    -  /sys/userinfo/snsinfo
+    -  /sys/smstask/send
+    -  /sys/oss/callback
+    -  /sys/config/search
+    -  /sys/config/site
+    -  /sys/area/search
+    -  /sys/area/getOne
+    -  /sys/org/search
+    -  /sys/storage/config
+    -  /cms/expert/search
+    -  /sys/dict/search
+    -  /sys/dict/listAll
+    -  /sys/dict/getOne
+    -  /cls/lesson/search
+    -  /cls/lesson/commend
+    -  /cls/lesson/.* get
+    -  /cls/chapter/search
+    -  /cls/section/search
+    -  /cms/service/search
+    -  /cms/article/getOne
+    -  /cms/article/search
+    -  /cms/category/search
+    -  /cms/category/tree
+    -  /cms/banner/search
+    -  /cms/article/\w+ get
+    -  /storage/.* get
+    -  /cms/menu/tree
+    -  /cms/menu/search 
+sysConf:
+  dsn: mysql://root:rootme@123@tcp(127.0.0.1:3306)/dbetrain?charset=utf8mb4&parseTime=true&loc=Local
+  prefix: sys_
+  engin: InnoDB
+  charset: utf8mb4
+  loglevel: 6
+  connMaxIdleTime: 3600s
+  connMaxLifeTime: 80s
+  conMaxOpen: 20
+  conMaxIdle: 2
+
+
+eclsConf:
+  dsn: mysql://root:rootme@123@tcp(127.0.0.1:3306)/dbetrain?charset=utf8mb4&parseTime=true&loc=Local
+  prefix: ecls_
+  engin: InnoDB
+  charset: utf8mb4
+  loglevel: 6
+  connMaxIdleTime: 3600s
+  connMaxLifeTime: 80s
+  conMaxOpen: 20
+  conMaxIdle: 2
+
+clsConf:
+  dsn: mysql://admipa:admipa@1q2w3e4r@tcp(www.techidea8.com:3306)/dbipaonline?charset=utf8mb4&parseTime=true&loc=Local
+  prefix: cls_
+  engin: InnoDB
+  charset: utf8mb4
+  loglevel: 6
+  connMaxIdleTime: 3600
+  connMaxLifeTime: 80
+  conMaxOpen: 20
+  conMaxIdle: 2
+
+genConf:
+  dsn: mysql://root:rootme@123@tcp(127.0.0.1:3306)/dbetrain?charset=utf8mb4&parseTime=true&loc=Local
+  prefix: gen_
+  engin: InnoDB
+  charset: utf8mb4
+  loglevel: 6
+  connMaxIdleTime: 3600s
+  connMaxLifeTime: 80s
+  conMaxOpen: 20
+  conMaxIdle: 2
+
+oss:
+  accessKeyId: LTAI5tS2XrXQ8iHcranApZYj
+  accessKeySecret: 0ujj4nEvCPx4L5slsya7gjOi50rc3L
+  host: http://turingres.oss-cn-heyuan.aliyuncs.com
+  callbackUrl: http://microsite.techidea8.com/rest.api/oss/callback
+  expireTime: 3360 
+  uploadDir: ipaonline/
+
+local:
+   datadir: /mnt/data/ipaonline/
+   alias:  /storage/
+   host: http://127.0.0.1:8087
+   server: /rest.api/attach/render
+
+storage:
+    - driver: local
+      bucket: mnt
+      datapath: /data/etrain/public
+      ssl: false
+      host: 127.0.0.1:8087
+      funSubDir: YYYY,MM,DD
+      funName:  datetime
+      authRequired: false
+    - driver: local
+      bucket: res
+      datapath: /data/etrain/private
+      ssl: false
+      host: 
+      funSubDir: YYYY,MM,DD
+      funName:  datetime
+      authRequired: true 
+admin:
+  mobile: 15367151352
+  username: admin
+  # 加密后的
+  password: $2a$04$zq79Oq2Szs7RHgcByH3eDeJ9waA89IYh9mfqysJH6bg/XODacuaMq
+  nickname: 创世
+  pic: https://www.techidea8.com/logo.png
+
+miniapp:
+  appId: 
+  secret: 
+  httpDebug: true
+  log:
+    file: ./log/wxapp.log
+    level: debug
+  cacheConf:
+    addr: 
+    password: 
+    dbIndex: 0
+
+enpryt:
+  secret: 239-81uhukljwq782138920342903409
+  method: md5

@@ -1,0 +1,11 @@
+log/*
+*.exe
+idea
+*.exe
+
+internal/rpc
+internal/rpc/*
+.bak
+.bak/*
+.vscode
+.vscode/*

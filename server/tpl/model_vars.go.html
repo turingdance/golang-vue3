@@ -1,0 +1,12 @@
+{{define "./server/internal/app/[prjname]/model/vars.go.tpl"}}
+package model
+
+var modelArray []interface{} = make([]interface{}, 0)
+
+func RegisterModel(m interface{}) {
+	modelArray = append(modelArray, m)
+}
+func AllRegistedModel() []interface{} {
+	return modelArray
+}
+{{end}}

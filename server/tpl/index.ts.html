@@ -1,0 +1,7 @@
+{{define "./console/src/api/[prjname]/index.ts.tpl"}}
+import {createService,createRequestFunction} from "@/utils/request"
+/** 用于网络请求的实例 */
+const service = createService()
+export const request = createRequestFunction(service, import.meta.env.VITE_APP_BASE_API+"/{{.Project.Name|lcfirst}}")
+export default request
+{{end}}
