@@ -99,12 +99,12 @@ genConf:
   conMaxIdle: 2
 
 oss:
-  accessKeyId: LTAI5tS2XrXQ8iHcranApZYj
-  accessKeySecret: 0ujj4nEvCPx4L5slsya7gjOi50rc3L
-  host: http://turingres.oss-cn-heyuan.aliyuncs.com
+  accessKeyId: 
+  accessKeySecret: 
+  host: 
   callbackUrl: http://microsite.techidea8.com/rest.api/oss/callback
   expireTime: 3360 
-  uploadDir: ipaonline/
+  uploadDir: 
 
 local:
    datadir: /mnt/data/ipaonline/
@@ -130,10 +130,10 @@ storage:
       funName:  datetime
       authRequired: true 
 admin:
-  mobile: 15367151352
-  username: admin
+  mobile: 
+  username: 
   # 加密后的
-  password: $2a$04$zq79Oq2Szs7RHgcByH3eDeJ9waA89IYh9mfqysJH6bg/XODacuaMq
+  password: 
   nickname: 创世
   pic: https://www.techidea8.com/logo.png
 
@@ -150,5 +150,5 @@ miniapp:
     dbIndex: 0
 
 enpryt:
-  secret: 239-81uhukljwq782138920342903409
+  secret: 
   method: md5
