@@ -1,17 +1,20 @@
-BINARY_NAME=etrain.exe
+BINARY_NAME_LINUX=turing
+BINARY_NAME=turing.exe
 DATETIME=$(shell date +%Y%m%d%H%M)
+OS := $(shell uname)
+ifeq ($(OS), Linux)
+	BINARY_NAME=$(BINARY_NAME_LINUX)
+endif
 .PHONY:build
 buildserver:
 	go mod tidy
-	go build -o ${BINARY_NAME} -ldflags "turingdance.com/turing/internal/conf/conf.Version=${DATETIME} -X turingdance.com/turing/internal/conf/config.Commit=${CI_COMMIT_SHA}"
+	go build -o ${BINARY_NAME} -ldflags "-X turingdance.com/turing/internal/conf.Version=${DATETIME} -X turingdance.com/turing/internal/config.Commit=${CI_COMMIT_SHA}"
 
 buildsite:
-	cd ../console/ && npm run build
+	cd ../web/ && npm install && npm run build
 
 build: buildsite buildserver
 
-menu:
-	go run main.go menu -t cms系统 -n $(app) -o ./internal/app/$(app)/rest
 
 app:
 	codectl reverse

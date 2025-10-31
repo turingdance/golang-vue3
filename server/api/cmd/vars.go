@@ -23,3 +23,6 @@ var dstpkg string = "turingdance.com/turing"
 // 生成的router 文件
 
 var dstfile = "router_file.go"
+
+// show version or not
+var version = false

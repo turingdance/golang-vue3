@@ -119,6 +119,10 @@ func SendStop(appConf *conf.BootConf) error {
 }
 
 func Run(file, signalstr string) {
+	if version {
+		fmt.Println(conf.Banner)
+		return
+	}
 	appConf := conf.ParseConf(file)
 	switch signalstr {
 	case "stop":

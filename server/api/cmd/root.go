@@ -17,4 +17,5 @@ var rootCmd = &cobra.Command{
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&configfile, "config", "c", "./app-prod.yaml", "config file path")
 	rootCmd.PersistentFlags().StringVarP(&signalstr, "signal", "s", "", "reload/start/stop")
+	rootCmd.PersistentFlags().BoolVarP(&version, "version", "v", false, "verion of app")
 }

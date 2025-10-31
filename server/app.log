@@ -24,3 +24,4 @@ time="2025-10-29T16:09:31+08:00" level=info msg="update default file C:\\Users\\
 time="2025-10-29T16:10:57+08:00" level=info msg="update default file C:\\Users\\Administrator\\AppData\\Roaming/.codectl/config.yaml"
 time="2025-10-30T13:53:14+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
 time="2025-10-30T14:13:21+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+time="2025-10-31T09:23:35+08:00" level=error msg="unknown shorthand flag: 'v' in -v"

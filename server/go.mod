@@ -24,7 +24,6 @@ require (
 	github.com/xuri/excelize/v2 v2.9.1
 	golang.org/x/crypto v0.38.0
 	golang.org/x/text v0.25.0
-	gorm.io/datatypes v1.2.5
 	gorm.io/gorm v1.25.12
 )
 
