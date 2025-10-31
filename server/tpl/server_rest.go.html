@@ -155,9 +155,4 @@ func (ctrl *{{.Module|ucfirst}}) GetOne(w http.ResponseWriter, req *http.Request
 	}
 }
 
-// 获得{{.Title}}的meta信息
-// @Router /{{.Module|lcfirst}}/meta [GET]
-func (ctrl *{{.Module|ucfirst}}) Meta(w http.ResponseWriter, req *http.Request) {
-	wraper.OkData(model.{{.Module|ucfirst}}Meta).Encode(w)
-}
 {{end}}
