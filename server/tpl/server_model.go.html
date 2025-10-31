@@ -13,21 +13,12 @@ import
 	"time"
 	{{end}}
 	"gorm.io/gorm"
-	"github.com/turingdance/infra/dbkit"
 )
 {{end}}
-
-var {{.Module|ucfirst}}Meta dbkit.Meta = dbkit.Meta{
-	Table: "{{.Name}}",
-	Title: "{{.Title}}",
-	Model: "{{.Module}}",
-	Column: []dbkit.Column{
-		{{- range $i,$v := .Columns}}
-			{Field: "{{ $v.DataColumn | camel }}", Type: "$v.DataType", Size: {{if gt $v.DataSize 0}}{{$v.DataSize}}{{else}}0{{end}}, Title: "{{$v.Title}}", Dom: "text", Option: nil},
-		{{end}}
-	},
-}
-
+const TableName{{.Module|ucfirst}} = "{{.Name}}"
+const TableTitle{{.Module|ucfirst}} = "{{.Title}}"
+const Table{{.Module|ucfirst}} = "{{.Module}}"
+var {{.Module}}Keys []string= []string{ {{- range $i,$v := .Columns}}"{{ $v.DataColumn | camel }}",{{end}} }
 //{{.Title}}数据库模型
 type {{.Module|ucfirst}} struct{
 	{{- range $i,$v := .Columns}}
@@ -37,14 +28,14 @@ type {{.Module|ucfirst}} struct{
 
 // TableName {{.Module|ucfirst}}'s table name
 func (*{{.Module|ucfirst}}) TableName() string {
-	return {{.Module|ucfirst}}Meta.Table
+	return TableName{{.Module|ucfirst}}
 }
 func (obj *{{.Module|ucfirst}}) BeforeCreate(tx *gorm.DB) (err error) {
 	{{- range $i,$v := .Columns}}
-		{{if eq $v.DataColumn "startAt"}} 
+		{{if eq $v.DataColumn "StartAt"}} 
 			obj.StartAt = types.DateTimeNow()	
 		{{end}}
-		{{if eq $v.DataColumn "deleted"}} 
+		{{if eq $v.DataColumn "Deleted"}} 
 			obj.Deleted = 0
 		{{end}}
 	{{end}}
@@ -52,7 +43,7 @@ func (obj *{{.Module|ucfirst}}) BeforeCreate(tx *gorm.DB) (err error) {
 }
 func (obj *{{.Module|ucfirst}}) BeforeUpdate(tx *gorm.DB) (err error) {
 	{{- range $i,$v := .Columns}}
-		{{if eq $v.DataColumn "updateAt"}} 
+		{{if eq $v.DataColumn "UpdateAt"}} 
 		obj.UpdateAt = types.DateTimeNow()	
 		{{end}}
 	{{end}}

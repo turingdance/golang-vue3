@@ -98,7 +98,6 @@ const contextStore = useUserStore()
  )
  const trylogin = () => {
      refForm.value.validate(r=>{
-         console.log('r',r)
          if(r){
              outerVisible.value = true      
          }

@@ -1,11 +1,15 @@
 <template>
-  <el-form :model="form" label-width="auto" :disabled="true">
+  <el-form :model="form" label-width="auto" :disabled="true" :labelPosition="labelPosition">
     <el-form-item disabled  v-for="(item,index) in appdata" :label="item.label" :key="index" >
-        <el-input v-model="item.value" v-if="item.domType=='text'" />
+      <el-input  v-model="item.value" v-if="item.domType=='text'" />
         <el-input v-model.number="item.value" v-else-if="item.domType=='number'" />
-        <el-date-picker type="datetime" format="YYYY-MM-DD hh:mm:ss" v-model="item.value" v-else-if="item.domType=='datetime'" />
-        <el-date-picker type="date" format="YYYY-MM-DD" v-model="item.value" v-else-if="item.domType=='date'" />
-        <PickImage v-model="item.value" v-else-if="item.domType=='PickImage'"/>
+        <el-input  v-model="item.value" type="textarea" v-else-if="item.domType=='textarea'" />
+        <el-date-picker type="datetime" v-bind="item.attr" format="YYYY-MM-DD hh:mm:ss" v-model="item.value" v-else-if="item.domType=='datetime'" />
+        <el-date-picker type="date" v-bind="item.attr" format="YYYY-MM-DD" v-model="item.value" v-else-if="item.domType=='date'" />
+        <el-switch v-model="item.value" v-bind="item.attr" :style="item.style" v-else-if="item.domType=='switch'"  :active-text="item.option.activeText" :inactive-text="item.option.inactiveText" />
+        <WangEditor  v-model="item.value" v-bind="item.attr" type="richtext" v-else-if="item.domType=='richtext'" />
+        <PickImage v-model="item.value" v-bind="item.attr" :style="item.style" v-else-if="item.domType=='PickImage'"/>
+        <PickImage v-model="item.value" v-bind="item.attr" v-else-if="item.domType=='PickImage'"/>
         <PickFile v-model="item.value" v-else-if="item.domType=='PickFile'"/>
         <PickAddress v-model="item.value" v-else-if="item.domType=='PickAddress'"/>
         <DictOption v-model="item.value" v-else-if="item.domType=='DictOption'" />
@@ -32,6 +36,10 @@ const appprops = defineProps({
     type:Function,
     required:true,
   },
+  labelPosition:{
+    type:String,
+    default:()=>"top",
+  },
   modelValue:{
     type:Array,
     default :()=>([{field:"",op:"eq",value:""}])
@@ -51,7 +59,7 @@ const appdata = ref([])
 const initappdata = ()=>{
   let tmp = appprops.meta.filter(o=>!!o.suportUpdate).map(oo=>{
     let  value = appprops.formdata[`${oo.prop}`]
-    return {domType:oo.domType,label:oo.label,field:oo.prop,value:value,option:oo.option,dataType:oo.dataType}
+    return {domType:oo.domType,label:oo.label,style:oo.style,attr:oo.attr,field:oo.prop,value:value,option:oo.option,dataType:oo.dataType}
   })
   //console.log('tmp',tmp,appprops.meta)
   appdata.value = tmp

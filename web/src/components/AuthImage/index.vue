@@ -18,7 +18,6 @@ watch(()=>appprops.src,async (v)=>{
     }
 })
 onMounted(async ()=>{
-    // console.log('srx',appprops.src)
     pic.value = await storageStore.shareUrl(appprops.src)
 })
 </script>

@@ -45,6 +45,12 @@
                    <TagList :value="scope.row[`${item.prop}`]"></TagList>
                 </template>
             </el-table-column>
+            <el-table-column  v-else-if="item.domType=='PickImage'" :label="item.label">
+                <template #default="scope">
+                   <el-image v-if="item.option && item.option.ref" :src="scope.row[item.option.ref]"></el-image>
+                   <AuthImage v-else :src="item.value"/>
+                </template>
+            </el-table-column>
             <el-table-column  v-else v-bind="item"></el-table-column>
           </template>
           </slot>
@@ -118,6 +124,7 @@
     </template>
     <slot name="update" :meta="meta" :tabledata="tabledata" :context="context" :formdata="formdata" :action="actionfunc">
          <PanelUpdate 
+         :labelPosition="labelPosition"
          :meta="meta" @confirm="()=>{
         _update=false
         handlesearch()
@@ -138,7 +145,9 @@
     :formdata="formdata" 
     :tabledata="tabledata"
     :action="actionfunc">
-      <PanelCreate :meta="meta"  
+      <PanelCreate 
+      :labelPosition="labelPosition"
+       :meta="meta"  
         @confirm="()=>{
         _create=false
         handlesearch()
@@ -158,7 +167,7 @@
       </div>
     </template>
     <slot name="view" :meta="meta" :context="context" :formdata="formdata" :action="actionfunc">
-      <PanelView :meta="meta"   :context="context" :formdata="formdata" :action="actionfunc" ></PanelView>
+      <PanelView :labelPosition="labelPosition" :meta="meta"   :context="context" :formdata="formdata" :action="actionfunc" ></PanelView>
     </slot>
 </el-dialog>
 </template>
@@ -213,6 +222,10 @@ const appprops=defineProps({
   pagesizes:{
     type:Array,
     default:()=>([10,20,50,100,200,500,1000,2000,5000,10000,100000])
+  },
+  labelPosition:{
+    type:String,
+    default:()=>"top",
   },
   handlers:{
     type:Object,
@@ -273,7 +286,6 @@ const reftable = ref()
 const handledelete =(row,index)=>{
     var key = appprops.context.primaryKey
     let primaryValue = row[`${key}`]
-    console.log('key',key,primaryValue,row)
     if(!primaryValue){
       ElMessage.error('请输入ID标识')
       return 

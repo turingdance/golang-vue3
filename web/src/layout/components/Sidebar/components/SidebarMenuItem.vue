@@ -129,9 +129,6 @@ function hasOneShowingChild(
       return false;;
     }
   });
-  console.log('children',children)
-  // 如果只有一个或没有显示的子路由
-  console.log('showingChildren',showingChildren)
   return showingChildren.length==1
   if (showingChildren.length == 1) {
     return true;

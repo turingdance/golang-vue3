@@ -1,21 +1,18 @@
 <template>
   <div class="file-upload-wraper">
     <slot :filekeys="filekeys" :filelist="filelist" :filekey="filekey">
-      
-        <div class="cover" :style="styles" v-for="item,index in filekeys" :key="index">
-          <AuthImage :src="item"></AuthImage>
-          <div class="action-wraper">
-            <el-button class="btn-icon" @click="handledelete(index)" icon="delete" circle type="danger"></el-button>
-          </div>
+      <div class="cover" :style="styles" v-if="!filekey">
+            <el-icon size="32"><Plus/></el-icon>
+      </div>
+      <div class="cover" :style="styles" v-else>
+        <AuthImage :src="filekey"></AuthImage>
+        <div class="action-wraper">
+          <el-button class="btn-icon" @click="handledelete(0)" icon="delete" circle type="danger"></el-button>
         </div>
-        
-    </slot>
-    <div class="cover" :style="styles" v-if="(multiple && filelist?.length<limit) || (!multiple && filelist.length<1)">
-          <el-icon size="32"><Plus/></el-icon>
-    </div>
+      </div>
+  </slot>
     <input
-      v-if="(multiple && filekeys.length<limit) || !multiple && filekeys.length==0"
-      :multiple="multiple"
+      v-if="!filekey"
       class="file-upload-btn"
       type="file"
       :accept="appprops.accept"
@@ -26,7 +23,6 @@
 <script lang="ts" setup>
 import { computed, CSSProperties, ref } from "vue"
 import uploader from "@/utils/uploader/index"
-import AuthImage from '@/components/AuthImage/index.vue'
 import { UploadResult } from "@/utils/uploader/types";
 const appprops = defineProps({
   multiple: {
@@ -53,7 +49,7 @@ const filekey = defineModel<string>()
 const filekeys = defineModel<string[]>("filekeys",{
   default:()=>([])
 })
-const multipleit = computed(()=>appprops.multiple)
+
 const filelist = ref<UploadResult[]>([])
 const upload = ($e) => {
   uploader.upload($e.target.files,appprops.bucket).then(rows=>{
@@ -69,6 +65,10 @@ onMounted(()=>{
       key
     }
   })
+  if(filekey.value){
+    filekeys.value.push(filekey.value)
+  }
+  
 })
 const styles = computed(() => {
   const obj = {} as CSSProperties

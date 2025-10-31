@@ -3,9 +3,13 @@ package conf
 import "fmt"
 
 var AppConf *BootConf
-var Version = "1.0.0"
+
+var Version = "0.0.0.1"
 var Commit = "0.0.0.1"
 var bannerfmt = `
+rpcapi @%s-%s
+author:winlion
+email:27115188@qq.com
 _               _                                          
 _              (_)               | |                                         
 | |_ _   _  ____ _ ____   ____  _ | | ____ ____   ____ ____   ____ ___  ____  
@@ -13,9 +17,6 @@ _              (_)               | |
 | |_| |_| | |   | | | | ( ( | ( (_| ( ( | | | | ( (__( (/ / ( (__| |_| | | | |
 \___)____|_|   |_|_| |_|\_|| |\____|\_||_|_| |_|\____)____|_)____)___/|_|_|_|
 					   (_____|                                               
-图灵互动开发平台,为你链接更多价值
-suport @ www.turingdance.com
-version= 1.0.0.%s
-author = winlion
+图灵互动,为你链接更多价值
 `
-var Banner = fmt.Sprintf(bannerfmt, Version, Commit)
+var Banner = fmt.Sprintf("%s %s", Version, Commit)

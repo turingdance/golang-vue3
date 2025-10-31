@@ -62,7 +62,6 @@ const filterAsyncRoutes = (routes: RouteVO[], roles: string[]) => {
       if (tmpRoute.children) {
         tmpRoute.children = filterAsyncRoutes(route.children, roles);
       }
-      console.log('tmpRoute',tmpRoute)
       asyncRoutes.push(tmpRoute);
     }
   });

@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/turingdance/infra/signer"
-	"turingdance.com/turing/internal/conf"
 )
 
 type Signer struct {
@@ -16,8 +15,12 @@ type Signer struct {
 	FieldSign  bool
 	Duration   time.Duration
 }
+type Enpryt struct {
+	Secret string
+	Method string
+}
 
-func NewSigner(conf conf.Enpryt) *Signer {
+func NewSigner(conf Enpryt) *Signer {
 	var signerinstance signer.ISigner
 	if conf.Method == "md5" {
 		signerinstance = signer.NewMd5Signer(conf.Secret)

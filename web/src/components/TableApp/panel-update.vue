@@ -1,12 +1,16 @@
 <template>
-  <el-form :model="form" label-width="auto">
+  <el-form :model="form" label-width="auto" :labelPosition="labelPosition">
     <el-form-item  v-for="(item,index) in appdata" :label="item.label" :key="index" >
         <el-input  v-model="item.value" v-if="item.domType=='text'" />
         <el-input v-model.number="item.value" v-else-if="item.domType=='number'" />
-        <el-date-picker type="datetime" format="YYYY-MM-DD hh:mm:ss" v-model="item.value" v-else-if="item.domType=='datetime'" />
-        <el-date-picker type="date" format="YYYY-MM-DD" v-model="item.value" v-else-if="item.domType=='date'" />
-        <PickImage v-model="item.value" v-else-if="item.domType=='PickImage'"/>
-        <PickFile v-model="item.value" v-else-if="item.domType=='PickFile'"/>
+        <el-input  v-model="item.value" type="textarea" v-else-if="item.domType=='textarea'" />
+        <el-date-picker type="datetime" v-bind="item.attr" format="YYYY-MM-DD hh:mm:ss" v-model="item.value" v-else-if="item.domType=='datetime'" />
+        <el-date-picker type="date" v-bind="item.attr" format="YYYY-MM-DD" v-model="item.value" v-else-if="item.domType=='date'" />
+        <WangEditor  v-model="item.value" type="richtext" v-else-if="item.domType=='richtext'" />
+        <PickImage v-model="item.value" v-bind="item.attr" :style="item.style" v-else-if="item.domType=='PickImage'"/>
+        <el-switch v-model="item.value"  :style="item.style" 
+        v-else-if="item.domType=='switch'" v-bind="item.attr" :active-value="item.option.activeValue" :inactive-Value="item.option.inactiveValue" :active-text="item.option.activeText" :inactive-text="item.option.inactiveText" />
+        <PickFile v-model="item.value" :style="item.style" v-else-if="item.domType=='PickFile'"/>
         <PickAddress v-model="item.value" v-else-if="item.domType=='PickAddress'"/>
         <DictOption v-model="item.value" v-else-if="item.domType=='DictOption'" />
         <template v-else-if="item.domType=='dict'">
@@ -39,6 +43,10 @@ const appprops = defineProps({
     type:Array,
     default :()=>([{field:"",op:"eq",value:""}])
   },
+  labelPosition:{
+    type:String,
+    default:()=>"top",
+  },
   formdata:{
     type:Object,
     default:()=>({})
@@ -54,7 +62,7 @@ const appdata = ref([])
 const initappdata = ()=>{
   let tmp = appprops.meta.filter(o=>!!o.suportUpdate).map(oo=>{
     let  value = appprops.formdata[`${oo.prop}`]
-    return {domType:oo.domType,label:oo.label,field:oo.prop,value:value,option:oo.option,dataType:oo.dataType}
+    return {domType:oo.domType,label:oo.label,field:oo.prop,style:oo.style,attr:oo.attr,value:value,option:oo.option,dataType:oo.dataType}
   })
   //console.log('tmp',tmp,appprops.meta)
   appdata.value = tmp
@@ -79,9 +87,6 @@ const confirm = ()=>{
     }
     appprops.action(postdata).then(res=>{
       emits('confirm',res.data)
-      if(res.msg){
-        ElMessage.success(res.msg)
-      }
     }).catch(err=>{
       ElMessage.error(err.message)
     })

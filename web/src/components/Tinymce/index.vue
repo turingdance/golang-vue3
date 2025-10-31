@@ -165,7 +165,6 @@ export default defineComponent({
 
     // 图片上传自定义逻辑
     function handleImgUpload(blobInfo: any, success: any, failure: any, progress: any) {
-      console.log("blobInfo", blobInfo.blob(), blobInfo.filename(), progress)
       uploader
         .upload(blobInfo.blob())
         .then((res: any) => {
@@ -196,7 +195,6 @@ export default defineComponent({
         input.setAttribute("accept", "image/*")
         input.onchange = function () {
           uploader.upload(input.files![0]).then((res:any) => {
-            console.log("res", res)
             callback(res.url)
           })
         }

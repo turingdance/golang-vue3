@@ -13,15 +13,12 @@ import (
 	"turingdance.com/turing/internal/pkg/storage"
 	"turingdance.com/turing/internal/server"
 	"turingdance.com/turing/internal/server/auth"
+	"turingdance.com/turing/internal/server/middleware"
 )
 
 type Engin struct {
 	Env     string
 	Pidfile string
-}
-type Enpryt struct {
-	Secret string
-	Method string
 }
 type Attach struct {
 	Datadir    string
@@ -59,7 +56,7 @@ type BootConf struct {
 	Oss     osskit.OssConf
 	Storage []storage.StorageConf
 	Dysms   dysms.DysmsConf
-	Enpryt  Enpryt
+	Enpryt  middleware.Enpryt
 	Auth    auth.Conf
 }
 
@@ -77,7 +74,7 @@ func ParseConf(appfile string) *BootConf {
 	})
 	err = viper.Unmarshal(&c)
 	if err != nil {
-		fmt.Errorf("read config failed: %s\n", err.Error())
+		fmt.Printf("read config failed: %s\n", err.Error())
 	}
 	AppConf = &c
 	return &c
