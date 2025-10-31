@@ -5,7 +5,7 @@ import (
 
 	"github.com/turingdance/infra/pkkit"
 	"gorm.io/gorm"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/types"
 )
 
 // 统一流程了

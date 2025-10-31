@@ -2,9 +2,9 @@ package logic
 
 //字典
 import (
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/types"
 )
 
 // 创建字典

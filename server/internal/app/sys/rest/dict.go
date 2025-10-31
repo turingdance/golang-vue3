@@ -3,9 +3,9 @@ package rest
 import (
 	"net/http"
 
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/logic"
-	"turingdance.com/reliable/internal/app/sys/model"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/logic"
+	"turingdance.com/turing/internal/app/sys/model"
 
 	"github.com/turingdance/infra/wraper"
 )

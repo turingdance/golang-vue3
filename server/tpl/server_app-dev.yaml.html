@@ -1,0 +1,126 @@
+
+{{define "./server/app-dev.yaml.tpl"}}
+engin:
+    env: dev
+    pidfile: /etc/turing/{{.Project.Name}}/engin.pid
+http:
+    name: {{.Project.Name}}
+    port: 80
+    host:
+redis:
+  dbIndex: 1
+  addr: redis://127.0.0.1:6379
+  password: rootme@123
+  maxIdle: 10
+  idleTimeoutSec: 15
+
+log:
+  level: 6
+  file: /var/log/turing/{{.Project.Name}}/log.log
+
+discover:
+  Impl:  
+  Addr:  
+  updateIntervalSecond: 30
+  basepath:  {{.Project.Name}}
+auth:
+  whiteList:
+    -  /sys/captcha/
+    -  /sys/account/
+    -  /sys/userinfo/snsinfo
+    -  /sys/smstask/send
+    -  /sys/acc/authorize
+    -  /sys/oss/callback
+    -  /sys/config/search
+    -  /sys/config/site
+    -  /sys/area/search
+    -  /sys/area/getOne
+    -  /sys/dict/search
+    -  /sys/dict/listAll
+    -  /sys/org/search
+    -  /sys/storage/config
+    -  /sys/dict/getOne
+
+sysConf:
+  dsn: {{.Project.Dsn|unescape}}
+  engin: InnoDB
+  charset: utf8mb4
+  loglevel: 6
+  connMaxIdleTime: 3600s
+  connMaxLifeTime: 80s
+  conMaxOpen: 20
+  conMaxIdle: 2
+
+aliyun:
+  accessKeyId: 
+  accessKeySecret:
+dysms:
+  accessKeyId: 
+  accessKeySecret: 
+  signName: 
+  templateCode: 
+  endpoint: 
+  regionId: 
+
+oss:
+  accessKeyId: 
+  accessKeySecret: 
+  host: 
+  endpoint: 
+  callbackUrl: 
+  expireTime: 3360 
+  uploadDir: {{.Project.name}}/
+
+
+storage:
+    - driver: local
+      bucket: mnt
+      datapath: /data/{{.Project.name}}/public
+      ssl: false
+      host: localhost:3000/dev-api
+      funSubDir: YYYY,MM,DD
+      funName:  datetime
+      authRequired: false
+      primary: true
+    - driver: local
+      bucket: res
+      datapath: /data/{{.Project.name}}/private
+      ssl: false
+      host: 
+      funSubDir: YYYY,MM,DD
+      funName:  datetime
+      authRequired: true  
+      primary: false
+    - driver: oss
+      bucket: {{.Project.name}}
+      datapath: /data/{{.Project.name}}/private
+      ssl: false
+      host: 
+      funSubDir: YYYY,MM,DD
+      funName:  datetime
+      authRequired: true  
+      primary: false
+
+admin:
+  mobile: 
+  username: 
+  # 加密后的
+  password: 
+  nickname: 
+  pic: 
+
+miniapp:
+  appId: 
+  secret: 
+  httpDebug: true
+  log:
+    file: /var/log/turing/{{.Project.name}}/wxapp.log
+    level: debug
+  cacheConf:
+    addr: 
+    password: 
+    dbIndex: 0
+
+enpryt:
+  secret: 
+{{end}}

@@ -4,7 +4,7 @@ import (
 	"github.com/turingdance/infra/cond"
 	"github.com/turingdance/infra/dbkit"
 	"gorm.io/gorm"
-	"turingdance.com/reliable/internal/initial/conf"
+	"turingdance.com/turing/internal/conf"
 )
 
 var DbEngin *gorm.DB

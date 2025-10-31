@@ -6,7 +6,7 @@ import (
 	"regexp"
 
 	"github.com/turingdance/infra/slicekit"
-	"turingdance.com/reliable/internal/pkg/utils"
+	"turingdance.com/turing/internal/pkg/utils"
 )
 
 type RouteMatch struct {

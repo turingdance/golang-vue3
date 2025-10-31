@@ -26,9 +26,6 @@ var (
 	// 控制器
 	configCtrl = &Config{}
 
-	// 岗位控制器
-	deptCtrl = &Dept{}
-
 	// 字典控制器
 	dictCtrl = &Dict{}
 
@@ -37,9 +34,6 @@ var (
 
 	//
 	ossCtrl = &Oss{}
-
-	// 资源管理控制器
-	resourceCtrl = &Resource{}
 
 	// 控制器
 	rightsCtrl = &Rights{}
@@ -65,15 +59,11 @@ var MapCtrl map[string]any = map[string]any{
 
 	"Config": configCtrl, // 控制器
 
-	"Dept": deptCtrl, // 岗位控制器
-
 	"Dict": dictCtrl, // 字典控制器
 
 	"Org": orgCtrl, // 机构信息控制器
 
 	"Oss": ossCtrl, //
-
-	"Resource": resourceCtrl, // 资源管理控制器
 
 	"Rights": rightsCtrl, // 控制器
 
@@ -152,18 +142,6 @@ var Routes []restkit.Route = []restkit.Route{
 	{Package: "rest", Module: "Config", HandlerFunc: configCtrl.Site, Func: "Site", Path: "/config/site", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取"},
 	{Package: "rest", Module: "Config", HandlerFunc: configCtrl.Prefix, Func: "Prefix", Path: "/config/name", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取"},
 
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.Search, Func: "Search", Path: "/dept/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Dept{})"},
-
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.Create, Func: "Create", Path: "/dept/create", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "创建岗位"},
-
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.Update, Func: "Update", Path: "/dept/update", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "更新岗位"},
-
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.Delete, Func: "Delete", Path: "/dept/delete", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "删除岗位,系统默认都是逻辑删除"},
-
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.Tree, Func: "Tree", Path: "/dept/tree", Method: []string{"GET", "POST", "OPTIONS"}, Comment: ""},
-
-	{Package: "rest", Module: "Dept", HandlerFunc: deptCtrl.GetOne, Func: "GetOne", Path: "/dept/getOne", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取岗位"},
-
 	{Package: "rest", Module: "Dict", HandlerFunc: dictCtrl.Search, Func: "Search", Path: "/dict/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "搜索字典"},
 	{Package: "rest", Module: "Dict", HandlerFunc: dictCtrl.ListAll, Func: "ListAll", Path: "/dict/listAll", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "搜索字典"},
 
@@ -190,16 +168,6 @@ var Routes []restkit.Route = []restkit.Route{
 	{Package: "rest", Module: "Oss", HandlerFunc: ossCtrl.Policy, Func: "Policy", Path: "/oss/policy", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Oss{})"},
 
 	{Package: "rest", Module: "Oss", HandlerFunc: ossCtrl.Callback, Func: "Callback", Path: "/oss/callback", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获得token"},
-
-	{Package: "rest", Module: "Resource", HandlerFunc: resourceCtrl.Search, Func: "Search", Path: "/resource/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Resource{})"},
-
-	{Package: "rest", Module: "Resource", HandlerFunc: resourceCtrl.Create, Func: "Create", Path: "/resource/create", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "创建资源管理"},
-
-	{Package: "rest", Module: "Resource", HandlerFunc: resourceCtrl.Update, Func: "Update", Path: "/resource/update", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "更新资源管理"},
-
-	{Package: "rest", Module: "Resource", HandlerFunc: resourceCtrl.Delete, Func: "Delete", Path: "/resource/delete", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "删除资源管理,系统默认都是逻辑删除"},
-
-	{Package: "rest", Module: "Resource", HandlerFunc: resourceCtrl.GetOne, Func: "GetOne", Path: "/resource/getOne", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取资源管理"},
 
 	{Package: "rest", Module: "Rights", HandlerFunc: rightsCtrl.Search, Func: "Search", Path: "/rights/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Rights{})"},
 

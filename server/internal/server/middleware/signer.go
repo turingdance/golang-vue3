@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/turingdance/infra/signer"
-	"turingdance.com/reliable/internal/initial/conf"
+	"turingdance.com/turing/internal/conf"
 )
 
 type Signer struct {

@@ -1,4 +1,4 @@
-module turingdance.com/reliable
+module turingdance.com/turing
 
 go 1.23.0
 

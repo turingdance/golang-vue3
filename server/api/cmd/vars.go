@@ -1,16 +1,15 @@
 package cmd
 
-const PARAM_KEY_NAME = "envdocs"
+const PARAM_KEY_NAME = "turing"
 const PARAM_KEY_MEMO = "memo"
-const PARAM_KEY_APPNAME = "envdocs"
-
-const PARAM_APP_NAME = "envdocs"
-const PARAM_APP_TTTLE = "环境档案"
+const PARAM_KEY_APPNAME = "turing"
+const PARAM_APP_NAME = "turing"
+const PARAM_APP_TTTLE = "图灵互动框架"
 
 // 环境变量
 var env string
 var signalstr string
-var configfile string = "app-prod.yml"
+var configfile string = "app-prod.yaml"
 var rulefile string = ""
 var dirsave string = ""
 
@@ -19,7 +18,7 @@ var dirsave string = ""
 var source string = "."
 
 // 需要的包路径
-var dstpkg string = "turingdance.com/reliable"
+var dstpkg string = "turingdance.com/turing"
 
 // 生成的router 文件
 

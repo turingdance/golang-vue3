@@ -1,0 +1,157 @@
+
+{{define "./server/internal/app/[prjname]/rest/[module].gen.go.tpl"}}
+// gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
+// @author {{.Project.Author}}
+package rest
+import (
+	"net/http"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/logic"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/model"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/vo"
+	"github.com/turingdance/infra/cond"
+	"github.com/turingdance/infra/slicekit"
+	"github.com/turingdance/infra/wraper"
+	"github.com/turingdance/infra/xlskit"
+)
+// 控制器
+type {{.Module|ucfirst}} struct{}
+// 创建{{.Title}}
+// @Router /{{.Module|lcfirst}} [POST]
+func (ctrl *{{.Module|ucfirst}}) Create(w http.ResponseWriter, req *http.Request) {
+	instance := &model.{{.Module|ucfirst}}{}
+	if err := wraper.Bind(req, instance);err!=nil{
+		wraper.Error(err).Encode(w)
+		return 
+	}
+	if instance, err := logic.Create(instance);err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(instance).WithMsg("{{.Title}}创建成功").Encode(w)
+	}
+}
+// 修改{{.Title}}
+// @Router /{{.Module|lcfirst}} [PUT]
+func (ctrl *{{.Module|ucfirst}}) Update(w http.ResponseWriter, req *http.Request) {
+	instance := &model.{{.Module|ucfirst}}{}
+	if err := wraper.Bind(req, instance);err!=nil{
+		wraper.Error(err).Encode(w)
+		return
+	}
+	if instance, err := logic.Update(instance, "{{.Primary.RawData.ColumnName}} = ?", instance.{{.Primary.DataColumn|ucfirst}});err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(instance).WithMsg("{{.Title}}修改成功").Encode(w)
+	}
+}
+
+// 根据条件查询{{.Title}}
+// @Router /{{.Module|lcfirst}}/search [POST,GET]
+func (ctrl *{{.Module|ucfirst}}) Search(w http.ResponseWriter, req *http.Request){
+	condwraper := cond.NewCondWrapper()
+	if err := wraper.Bind(req, condwraper); err != nil {
+		wraper.Error(err).Encode(w)
+		return
+	}
+	instance := &model.{{.Module|ucfirst}}{}
+	if rows, total, err := logic.Search(instance, condwraper);err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(rows).WithTotal(total).Encode(w)
+	}
+}
+
+// 根据主键删除{{.Title}}
+// @Router /{{.Module|lcfirst}}/{pkId} [DELETE]
+func (ctrl *{{.Module|ucfirst}}) Delete(w http.ResponseWriter, req *http.Request) {
+	{{if eq .Primary.DataType "string"}}
+	pkId, _ := wraper.MuxStringVar(req, "pkId", "")
+	{{else}}
+	pkId, _ := wraper.MuxIntVar(req, "pkId", int32(0))
+	{{end}}
+	instance := &model.{{.Module|ucfirst}}{}
+	if total, err := logic.Delete(instance, "{{.Primary.RawData.ColumnName}} = ?", pkId);err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(total).WithMsg("{{.Title}}删除成功").Encode(w)
+	}
+}
+
+// 根据主键批量删除{{.Title}}
+// @Router /{{.Module|lcfirst}} [DELETE]
+func (ctrl *{{.Module|ucfirst}}) DeleteBatch(w http.ResponseWriter, req *http.Request){
+	cond := &vo.{{.Module|ucfirst}}KeyBatch{}
+	if err := wraper.Bind(req, cond) ;err!=nil {
+		wraper.Error(err).Encode(w)
+		return 
+	}
+	if len(cond.{{.Primary.DataColumn|ucfirst}}s)==0{
+		wraper.OkData(0).Encode(w)
+		return 
+	}
+	instance := &model.{{.Module|ucfirst}}{}
+	if total, err := logic.Delete(instance, "{{.Primary.RawData.ColumnName}} in ?", cond.{{.Primary.DataColumn|ucfirst}}s);err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(total).WithMsg("{{.Title}}删除成功").Encode(w)
+	}
+	
+	
+}
+// 导出{{.Title}}
+// @Router /{{.Module|lcfirst}}/export [POST,GET]
+func (ctrl *{{.Module|ucfirst}}) Export(w http.ResponseWriter, req *http.Request){
+	condwraper := cond.NewExport()
+	
+	if err:=wraper.Bind(req,condwraper) ;err != nil {
+		wraper.Error(err).Encode(w)
+		return 
+	}
+	instance := &model.{{.Module|ucfirst}}{}
+	rows, _, err := logic.Search(instance, condwraper.Cond)
+	if err != nil {
+		wraper.Error(err).Encode(w)
+		return 
+	}
+	//
+	
+
+	metaArr := make([]xlskit.Meta, 0)
+	for _, v := range condwraper.Meta {
+		metaArr = append(metaArr, xlskit.Meta{
+			Field: v.Prop,
+			Title: v.Label,
+		})
+	}
+	dataMap := slicekit.ObjListToMapList[model.{{.Module|ucfirst}}](rows)
+	// 创建一个工作表
+	xlsxctrl := xlskit.NewXlsCtrl(model.TableTitle{{.Module|ucfirst}})
+	if buf, err := xlsxctrl.Render(metaArr, dataMap); err != nil {
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.Blob(wraper.BlobDef{
+			File:        buf.Bytes(),
+			Name:        model.TableTitle{{.Module|ucfirst}}+".xls",
+			ContentType: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+		}).Encode(w)
+	}
+}
+
+
+// 根据主键获取1条{{.Title}}
+// @Router /{{.Module|lcfirst}}/{pkId} [GET]
+func (ctrl *{{.Module|ucfirst}}) GetOne(w http.ResponseWriter, req *http.Request) {
+	{{if eq .Primary.DataType "string"}}
+	pkId, _ := wraper.MuxStringVar(req, "pkId", "")
+	{{else}}
+	pkId, _ := wraper.MuxIntVar(req, "pkId", {{.Primary.DataType}}(0))
+	{{end}}
+	instance := &model.{{.Module|ucfirst}}{
+		{{.Primary.DataColumn | upercamel}}:pkId,
+	}
+	if instance, err := logic.TakeByPrimaryKey(instance);err!=nil{
+		wraper.Error(err).Encode(w)
+	}else{
+		wraper.OkData(instance).Encode(w)
+	}
+}
+{{end}}

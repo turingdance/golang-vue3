@@ -5,25 +5,25 @@ import (
 
 	"github.com/turingdance/infra/dbkit"
 	"github.com/turingdance/infra/restkit"
-	"turingdance.com/reliable/internal/app/sys/logic"
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/app/sys/rest"
-	"turingdance.com/reliable/internal/initial/conf"
+	"turingdance.com/turing/internal/app/sys/logic"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/app/sys/rest"
+	"turingdance.com/turing/internal/conf"
 )
 
 func Initialize(appconf *conf.BootConf) (err error) {
+	dbconf := appconf.SysConf
 	// 初始化数据库
-	_, err = logic.InitializeDataBase(appconf.SysConf,
+	_, err = logic.InitializeDataBase(dbconf,
 		dbkit.WithWriter(os.Stdout),
-		dbkit.WithPrefix(appconf.SysConf.Prefix),
 		dbkit.IgnoreRecordNotFoundError(true),
 		dbkit.ParameterizedQueries(true),
-		dbkit.SetLogLevel(appconf.SysConf.Loglevel),
+		dbkit.SetLogLevel(dbconf.Loglevel),
 		dbkit.SingularTable(true),
-		dbkit.SetConnMaxIdleTime(appconf.ClsConf.ConnMaxIdleTime),
-		dbkit.SetMaxOpenConns(appconf.ClsConf.ConnMaxOpen),
-		dbkit.SetMaxIdleConns(appconf.ClsConf.ConnMaxIdle),
-		dbkit.SetConnMaxLifetime(appconf.ClsConf.ConnMaxLifeTime),
+		dbkit.SetConnMaxIdleTime(dbconf.ConnMaxIdleTime),
+		dbkit.SetMaxOpenConns(dbconf.ConnMaxOpen),
+		dbkit.SetMaxIdleConns(dbconf.ConnMaxIdle),
+		dbkit.SetConnMaxLifetime(dbconf.ConnMaxLifeTime),
 		dbkit.AutoMigrate(model.AllRegistedModel()...),
 	)
 	// 短信应用

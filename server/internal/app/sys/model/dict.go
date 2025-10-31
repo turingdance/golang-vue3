@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 
 	"gorm.io/gorm"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/types"
 )
 
 type DictValue struct {
@@ -37,19 +37,19 @@ func (ds DictValue) Value() (driver.Value, error) {
 
 // 字典数据库模型
 type Dict struct {
-	Id int `json:"id" form:"id" gorm:"primaryKey;type:bigint not null ;comment:ID" `
+	Id int `json:"id" form:"id" gorm:"primaryKey;type:unit;primaryKey;autoIncrement;comment:ID" `
 
-	Name string `json:"name" form:"name" gorm:"type:varchar(255);comment:名称" `
+	Name string `json:"name" form:"name" gorm:"type:string;size:255;comment:名称" `
 
-	Title string `json:"title" form:"title" gorm:"type:varchar(255);comment:名字" `
+	Title string `json:"title" form:"title" gorm:"type:string;size:255;comment:名字" `
 
 	Value       []types.DataItem `json:"value" form:"value" gorm:"serializer:json;type:text;comment:值得" `
 	types.Model `gorm:"embedded"`
 }
 
-// func (r Dict) TableName() string {
-// 	return "sys_dict"
-// }
+func (r Dict) TableName() string {
+	return "sys_dict"
+}
 
 func (m *Dict) BeforeCreate(tx *gorm.DB) (err error) {
 	m.CreateAt = types.DateTimeNow()

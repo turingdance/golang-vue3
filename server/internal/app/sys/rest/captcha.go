@@ -3,7 +3,7 @@ package rest
 import (
 	"net/http"
 
-	"turingdance.com/reliable/internal/app/sys/logic"
+	"turingdance.com/turing/internal/app/sys/logic"
 
 	"github.com/turingdance/infra/wraper"
 )

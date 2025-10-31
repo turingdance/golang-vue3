@@ -138,7 +138,5 @@ function findOutermostParent(tree: any[], findName: string) {
 </script>
 
 <style lang="scss" scoped>
-.settings-option {
-  @apply py-1 flex-x-between;
-}
+
 </style>

@@ -2,7 +2,7 @@ package args
 
 import (
 	"gorm.io/gorm"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/types"
 )
 
 type Role struct {

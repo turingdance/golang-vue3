@@ -20,3 +20,7 @@ time="2025-06-01T09:29:23+08:00" level=info msg="run ..\\sql\\ecls\\record.sql, 
 time="2025-06-14T08:47:48+08:00" level=error msg="unknown command \"dev\" for \"engin\""
 time="2025-09-17T09:42:18+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
 time="2025-10-28T15:06:50+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+time="2025-10-29T16:09:31+08:00" level=info msg="update default file C:\\Users\\Administrator\\AppData\\Roaming/.codectl/config.yaml"
+time="2025-10-29T16:10:57+08:00" level=info msg="update default file C:\\Users\\Administrator\\AppData\\Roaming/.codectl/config.yaml"
+time="2025-10-30T13:53:14+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."
+time="2025-10-30T14:13:21+08:00" level=error msg="listen tcp :8087: bind: Only one usage of each socket address (protocol/network address/port) is normally permitted."

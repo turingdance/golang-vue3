@@ -4,8 +4,8 @@ package logic
 import (
 	"fmt"
 
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/model"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/model"
 )
 
 // 创建

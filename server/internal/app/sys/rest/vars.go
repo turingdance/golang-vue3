@@ -1,7 +1,7 @@
 package rest
 
 import (
-	config "turingdance.com/reliable/internal/initial/conf"
+	config "turingdance.com/turing/internal/conf"
 )
 
 var appCfg *config.BootConf = config.AppConf

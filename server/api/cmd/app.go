@@ -11,16 +11,15 @@ import (
 
 	"github.com/turingdance/infra/filekit"
 	"github.com/turingdance/infra/logger"
-	"turingdance.com/reliable/internal/app/ecls"
-	"turingdance.com/reliable/internal/app/sys"
-	"turingdance.com/reliable/internal/initial/conf"
-	"turingdance.com/reliable/internal/pkg/cache"
-	"turingdance.com/reliable/internal/pkg/log"
-	"turingdance.com/reliable/internal/pkg/storage"
-	"turingdance.com/reliable/internal/server"
-	"turingdance.com/reliable/internal/server/auth"
-	"turingdance.com/reliable/internal/server/middleware"
-	"turingdance.com/reliable/site"
+	"turingdance.com/turing/internal/app/sys"
+	"turingdance.com/turing/internal/conf"
+	"turingdance.com/turing/internal/pkg/cache"
+	"turingdance.com/turing/internal/pkg/log"
+	"turingdance.com/turing/internal/pkg/storage"
+	"turingdance.com/turing/internal/server"
+	"turingdance.com/turing/internal/server/auth"
+	"turingdance.com/turing/internal/server/middleware"
+	"turingdance.com/turing/site"
 )
 
 // 程序 运行
@@ -55,9 +54,7 @@ func Start(appConf *conf.BootConf) (svr *server.HttpServer, err error) {
 	// server.Handle("/rpc.api/", handle.NewRpcxHandler("/rpc.api/", appConf.Discover))
 	// api 服务
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
-	ecls.Initialize(appConf)
-	httpserver.Handle("/ecls/", ecls.CreateRouter("/ecls/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
-
+	// httpserver.Handle
 	// 下面是资源文件服务
 	for _, config := range appConf.Storage {
 		if config.Driver == storage.DriverLocal {

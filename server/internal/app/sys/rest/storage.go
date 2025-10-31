@@ -9,9 +9,9 @@ import (
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 	"github.com/turingdance/infra/slicekit"
 	"github.com/turingdance/infra/wraper"
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/pkg/storage"
-	"turingdance.com/reliable/internal/server/middleware"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/pkg/storage"
+	"turingdance.com/turing/internal/server/middleware"
 )
 
 var storageManager *storage.LocalStorage

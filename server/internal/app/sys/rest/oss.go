@@ -3,8 +3,8 @@ package rest
 import (
 	"net/http"
 
-	config "turingdance.com/reliable/internal/initial/conf"
-	"turingdance.com/reliable/internal/server/auth"
+	config "turingdance.com/turing/internal/conf"
+	"turingdance.com/turing/internal/server/auth"
 
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/wraper"

@@ -11,12 +11,12 @@ import (
 	"github.com/turingdance/infra/slicekit"
 	"github.com/turingdance/infra/wraper"
 	"github.com/xuri/excelize/v2"
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/logic"
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/pkg/utils"
-	"turingdance.com/reliable/internal/server/auth"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/logic"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/utils"
+	"turingdance.com/turing/internal/server/auth"
+	"turingdance.com/turing/internal/types"
 )
 
 // @Summary 账号管理模块

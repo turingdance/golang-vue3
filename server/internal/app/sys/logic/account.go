@@ -9,11 +9,11 @@ import (
 	"time"
 
 	"github.com/turingdance/infra/pkkit"
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/pkg/utils"
-	"turingdance.com/reliable/internal/server/auth"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/utils"
+	"turingdance.com/turing/internal/server/auth"
+	"turingdance.com/turing/internal/types"
 )
 
 type IAccount interface {

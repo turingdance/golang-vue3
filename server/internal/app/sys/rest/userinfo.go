@@ -4,11 +4,11 @@ import (
 	"net/http"
 
 	"github.com/turingdance/infra/wraper"
-	"turingdance.com/reliable/internal/app/sys/args"
-	"turingdance.com/reliable/internal/app/sys/logic"
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/pkg/utils"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/app/sys/args"
+	"turingdance.com/turing/internal/app/sys/logic"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/utils"
+	"turingdance.com/turing/internal/types"
 )
 
 // 控制器

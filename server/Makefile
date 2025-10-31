@@ -3,7 +3,7 @@ DATETIME=$(shell date +%Y%m%d%H%M)
 .PHONY:build
 buildserver:
 	go mod tidy
-	go build -o ${BINARY_NAME} -ldflags "turingdance.com/reliable/internal/initial/conf/conf.Version=${DATETIME} -X turingdance.com/reliable/internal/initial/conf/config.Commit=${CI_COMMIT_SHA}"
+	go build -o ${BINARY_NAME} -ldflags "turingdance.com/turing/internal/conf/conf.Version=${DATETIME} -X turingdance.com/turing/internal/conf/config.Commit=${CI_COMMIT_SHA}"
 
 buildsite:
 	cd ../console/ && npm run build

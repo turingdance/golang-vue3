@@ -6,11 +6,11 @@ import (
 
 	log "github.com/sirupsen/logrus"
 
-	"turingdance.com/reliable/internal/app/sys/model"
-	"turingdance.com/reliable/internal/pkg/cache"
-	"turingdance.com/reliable/internal/pkg/dysms"
-	"turingdance.com/reliable/internal/pkg/utils"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/cache"
+	"turingdance.com/turing/internal/pkg/dysms"
+	"turingdance.com/turing/internal/pkg/utils"
+	"turingdance.com/turing/internal/types"
 )
 
 // 发送短信

@@ -1,7 +1,7 @@
 package model
 
 import (
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/types"
 
 	"gorm.io/gorm"
 )
@@ -16,7 +16,7 @@ type Smstask struct {
 
 	TempleteId string `json:"templeteId" form:"templeteId" gorm:"type:varchar(20);comment:模板ID" `
 
-	Result string `json:"result" form:"result" gorm:"type:varchar(255);comment:发送结果" `
+	Result string `json:"result" form:"result" gorm:"type:string;size:255;comment:发送结果" `
 
 	CreateAt types.DateTime `json:"createAt" form:"createAt" time_format:"2006-01-02 15:04:05" time_utc:"1"   gorm:"type:datetime;comment:发布时间" `
 

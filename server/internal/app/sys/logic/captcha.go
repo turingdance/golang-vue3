@@ -10,7 +10,7 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	"github.com/wenlng/go-captcha/captcha"
-	"turingdance.com/reliable/internal/pkg/cache"
+	"turingdance.com/turing/internal/pkg/cache"
 )
 
 func GenerateCaptcha() (result map[int]captcha.CharDot, b64 string, tb64 string, key string, err error) {

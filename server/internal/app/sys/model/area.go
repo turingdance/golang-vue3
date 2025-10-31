@@ -2,7 +2,7 @@ package model
 
 import (
 	"gorm.io/gorm"
-	"turingdance.com/reliable/internal/types"
+	"turingdance.com/turing/internal/types"
 )
 
 // 区域数据库模型

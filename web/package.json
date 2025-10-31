@@ -1,6 +1,6 @@
 {
-  "name": "trainonline",
-  "title": "金属激光切割加工虚拟仿真实训系统",
+  "name": "turing",
+  "title": "图灵互动",
   "version": "2.12.0",
   "private": true,
   "type": "module",

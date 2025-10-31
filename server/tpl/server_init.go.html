@@ -1,0 +1,45 @@
+{{define "./server/internal/app/[prjname]/init.gen.go.tpl"}}
+// gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
+// @author {{.Project.Author}}
+
+package {{.Project.Name|lower}}
+
+import (
+	"os"
+	"{{.Project.Package}}/internal/conf"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/logic"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/model"
+	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/rest"
+	"github.com/turingdance/infra/dbkit"
+	"github.com/turingdance/infra/restkit"
+)
+
+func Initialize(appconf *conf.BootConf) (err error) {
+
+	// 初始化数据库
+	dbconf := appconf.{{.Project.Name|ucfirst}}Conf
+	if dbconf.Dsn == "" {
+		dbconf = appconf.SysConf
+	}
+	_, err = logic.InitializeDataBase(dbconf,
+		dbkit.WithWriter(os.Stdout),
+		dbkit.IgnoreRecordNotFoundError(true),
+		dbkit.ParameterizedQueries(true),
+		dbkit.SetLogLevel(dbconf.Loglevel),
+		dbkit.SingularTable(true),
+		dbkit.SetConnMaxIdleTime(dbconf.ConnMaxIdleTime),
+		dbkit.SetMaxOpenConns(dbconf.ConnMaxOpen),
+		dbkit.SetMaxIdleConns(dbconf.ConnMaxIdle),
+		dbkit.SetConnMaxLifetime(dbconf.ConnMaxLifeTime),
+		dbkit.AutoMigrate(model.AllRegistedModel()...),
+	)
+	// rest.InitContext(appconf)
+	return
+}
+
+func CreateRouter(patern string) *restkit.MuxHandler {
+	result := restkit.NewMuxHandler()
+	result.Router(patern, rest.Routes...)
+	return result
+}
+{{end}}

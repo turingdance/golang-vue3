@@ -3,7 +3,7 @@ package handle
 import (
 	"strings"
 
-	"turingdance.com/reliable/internal/pkg/utils"
+	"turingdance.com/turing/internal/pkg/utils"
 )
 
 type ServiceMeta struct {
