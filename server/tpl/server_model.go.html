@@ -12,6 +12,7 @@ import
 	{{if has .Types "time.Time"}}
 	"time"
 	{{end}}
+	"gorm.io/gorm"
 )
 {{end}}
 const TableName{{.Module|ucfirst}} = "{{.Name}}"
@@ -29,7 +30,25 @@ type {{.Module|ucfirst}} struct{
 func (*{{.Module|ucfirst}}) TableName() string {
 	return TableName{{.Module|ucfirst}}
 }
-
+func (obj *{{.Module|ucfirst}}) BeforeCreate(tx *gorm.DB) (err error) {
+	{{- range $i,$v := .Columns}}
+		{{if eq $v.DataColumn "StartAt"}} 
+			obj.StartAt = types.DateTimeNow()	
+		{{end}}
+		{{if eq $v.DataColumn "Deleted"}} 
+			obj.Deleted = 0
+		{{end}}
+	{{end}}
+	return
+}
+func (obj *{{.Module|ucfirst}}) BeforeUpdate(tx *gorm.DB) (err error) {
+	{{- range $i,$v := .Columns}}
+		{{if eq $v.DataColumn "UpdateAt"}} 
+		obj.UpdateAt = types.DateTimeNow()	
+		{{end}}
+	{{end}}
+	return
+}
 func init() {
 	RegisterModel(&{{.Module|ucfirst}}{})
 }
