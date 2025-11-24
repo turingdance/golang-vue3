@@ -1,10 +1,10 @@
 package conf
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/fsnotify/fsnotify"
+	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/rediskit"
@@ -60,22 +60,32 @@ type BootConf struct {
 	Auth    auth.Conf
 }
 
+var viperinstance *viper.Viper
+var bootConf *BootConf = &BootConf{}
+
 func ParseConf(appfile string) *BootConf {
-	viper.SetConfigFile(appfile)
-	err := viper.ReadInConfig()
-	if err != nil {
+	viperinstance = viper.New()
+	viperinstance.SetConfigFile(appfile)
+	AppConf = bootConf
+	if err := viperinstance.ReadInConfig(); err != nil {
 		panic("read config failed: " + err.Error())
 	}
-	viper.WatchConfig()
-	var c BootConf
-	viper.OnConfigChange(func(in fsnotify.Event) {
-		err = viper.Unmarshal(&c)
-		fmt.Println("refresh config")
+	parseConf(AppConf)
+	viperinstance.WatchConfig()
+	viperinstance.OnConfigChange(func(in fsnotify.Event) {
+		parseConf(AppConf)
 	})
-	err = viper.Unmarshal(&c)
-	if err != nil {
-		fmt.Printf("read config failed: %s\n", err.Error())
+	return bootConf
+}
+
+func parseConf(c *BootConf) {
+	if err := viperinstance.Unmarshal(c); err != nil {
+		logrus.Error("conf.parseConf  ok", err.Error())
+	} else {
+		logrus.Info("conf.parseConf  ok")
 	}
-	AppConf = &c
-	return &c
+}
+
+func Reload() {
+	parseConf(AppConf)
 }

@@ -1,4 +1,3 @@
-{{define "./server/api/api.go.tpl"}}
 package api
 
 import (
@@ -9,7 +8,7 @@ import (
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
 	"github.com/turingdance/infra/ipckit"
-	"turingdance.com/turing/internal/app/{{.Project.Name|lcfirst}}"
+	"turingdance.com/turing/internal/app/smartform"
 	"turingdance.com/turing/internal/app/sys"
 	"turingdance.com/turing/internal/conf"
 	"turingdance.com/turing/internal/pkg/cache"
@@ -66,15 +65,14 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	p.httpserver = httpserver
 	// 中间件,
 	httpserver.UseMiddleWare(middleware.Cros, middleware.AccessLog)
+	// rpc 服务,如果需要,主要考虑分布式
+	// server.Handle("/rpc.api/", handle.NewRpcxHandler("/rpc.api/", appConf.Discover))
 	// api 服务
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
 	// 这里是生成的模板
 	smartform.Initialize(appConf)
-	// 这里是生成的模板
-	{{.Project.Name|lcfirst}}.Initialize(appConf)
-	httpserver.Handle("/{{.Project.Name|lcfirst}}/", {{.Project.Name|lcfirst}}.CreateRouter("/{{.Project.Name|lcfirst}}/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
-
+	httpserver.Handle("/smartform/", smartform.CreateRouter("/smartform/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 	logrus.Info("httpserver.Handle end")
 	// httpserver.Handle
 	// 下面是资源文件服务
@@ -192,4 +190,3 @@ func (p *App) SendStop() error {
 	_, err := ipcservice.WriteLine("stop")
 	return err
 }
-{{end}}

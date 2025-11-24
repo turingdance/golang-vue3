@@ -1,17 +1,28 @@
-BINARY_NAME=etrain.exe
+APPNAME=$(app)
+BINARY_NAME=$(app)
+SYSTEM = LINUX
+ifeq ($(app),)
+APPNAME := smartform
+BINARY_NAME := smartform
+endif
+ifeq ($(OS),Windows_NT)
+    SYSTEM := windows
+    # Windows 可执行文件后缀（.exe）
+    BINARY_NAME := $(BINARY_NAME).exe
+endif
 DATETIME=$(shell date +%Y%m%d%H%M)
+
 .PHONY:build
-buildserver:
+server:
+	@echo "build $(SYSTEM) as $(BINARY_NAME) DATATIME@$(DATETIME)"
 	go mod tidy
-	go build -o ${BINARY_NAME} -ldflags "turingdance.com/turing/internal/conf/conf.Version=${DATETIME} -X turingdance.com/turing/internal/conf/config.Commit=${CI_COMMIT_SHA}"
+	go build -ldflags "-w -s -X turingdance.com/turing/internal/conf.AppName=$(APPNAME) -X turingdance.com/turing/internal/conf.Version=$(DATETIME) -X turingdance.com/turing/internal/config.Commit=$(CI_COMMIT_SHA)" -o $(BINARY_NAME)
 
-buildsite:
-	cd ../console/ && npm run build
+web:
+	cd ../web/ && npm run build
 
-build: buildsite buildserver
+build: web server
 
-menu:
-	go run main.go menu -t cms系统 -n $(app) -o ./internal/app/$(app)/rest
 
 app:
 	codectl reverse
@@ -26,4 +37,4 @@ router:
 .PHONY:clean
 clean:
 	go clean
-	rm ${BINARY_NAME}
+	rm $(BINARY_NAME)

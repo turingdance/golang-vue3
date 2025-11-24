@@ -4,10 +4,12 @@ import "fmt"
 
 var AppConf *BootConf
 
-var Version = "0.0.0.1"
-var Commit = "0.0.0.1"
+//-X 只能注入 包级、未初始化、可导出（首字母大写） 的变量，
+var AppName string
+var Version string
+var Commit string
 var bannerfmt = `
-rpcapi @%s-%s
+%s@%s,commit=%s
 author:winlion
 email:27115188@qq.com
 _               _                                          
@@ -19,4 +21,7 @@ _              (_)               | |
 					   (_____|                                               
 图灵互动,为你链接更多价值
 `
-var Banner = fmt.Sprintf("%s %s", Version, Commit)
+
+func Banner() string {
+	return fmt.Sprintf(bannerfmt, AppName, Version, Commit)
+}
