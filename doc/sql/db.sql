@@ -260,7 +260,7 @@ CREATE TABLE `sys_userinfo`  (
 -- ----------------------------
 -- Records of sys_userinfo
 -- ----------------------------
-INSERT INTO `sys_userinfo` VALUES ('8y9jasdi8uy8933uiuhisdhak', 'admin', '15367151352', '$2a$04$zq79Oq2Szs7RHgcByH3eDeJ9waA89IYh9mfqysJH6bg/XODacuaMq', '创世主', 'mnt/2025/05/28/202505282042311748434560.png', 1, NULL, '1', '2025-05-27 15:31:03', '2025-05-27 15:31:05', 0);
-INSERT INTO `sys_userinfo` VALUES ('212', 'winlion', NULL, '$2a$04$zz50pAbZIwZy0LdDdrPdcuwQuwz5OlphNsk9yxfl9FXxEEpY3PDqG', '胡大力', NULL, 2, NULL, '1', NULL, NULL, 0);
+INSERT INTO `sys_userinfo` VALUES ('8y9jasdi8uy8933uiuhisdhak', 'admin', '15300000000', '$2a$04$zq79Oq2Szs7RHgcByH3eDeJ9waA89IYh9mfqysJH6bg/XODacuaMq', '创世主', 'mnt/2025/05/28/202505282042311748434560.png', 1, NULL, '1', '2025-05-27 15:31:03', '2025-05-27 15:31:05', 0);
+INSERT INTO `sys_userinfo` VALUES ('8y9jasdi8uy8933uiuhisdhab', 'winlion', NULL, '$2a$04$zq79Oq2Szs7RHgcByH3eDeJ9waA89IYh9mfqysJH6bg/XODacuaMq', '用户demo', NULL, 2, NULL, '1', NULL, NULL, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

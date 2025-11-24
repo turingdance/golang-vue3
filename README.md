@@ -11,6 +11,9 @@ codectl init appname -d  /path/to/save
 ```
 # 配置项目
 本项目以farmbase为列子
+## 首先初始化数据库
+导入 doc/db.sql 文件到你的数据库
+## 配置应用
 ```bash
 cd server
 codectl set
