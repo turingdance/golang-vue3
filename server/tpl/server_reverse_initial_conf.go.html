@@ -16,6 +16,7 @@ import (
 	"{{.Project.Package}}/internal/pkg/storage"
 	"{{.Project.Package}}/internal/server"
 	"{{.Project.Package}}/internal/server/auth"
+	"{{.Project.Package}}/internal/server/middleware"
 
 )
 
@@ -64,7 +65,7 @@ type BootConf struct {
 	Oss          osskit.OssConf
 	Storage      []storage.StorageConf
 	Dysms        dysms.DysmsConf
-	Enpryt       Enpryt
+	Enpryt       middleware.Enpryt
 	Auth         auth.Conf
 }
 
@@ -86,5 +87,9 @@ func ParseConf(appfile string) *BootConf {
 	}
 	AppConf = &c
 	return &c
+}
+
+func Reload(){
+	 viper.Unmarshal(AppConf)
 }
 {{end}}

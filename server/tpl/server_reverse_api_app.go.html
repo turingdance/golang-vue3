@@ -70,8 +70,6 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
 	// 这里是生成的模板
-	smartform.Initialize(appConf)
-	// 这里是生成的模板
 	{{.Project.Name|lcfirst}}.Initialize(appConf)
 	httpserver.Handle("/{{.Project.Name|lcfirst}}/", {{.Project.Name|lcfirst}}.CreateRouter("/{{.Project.Name|lcfirst}}/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
