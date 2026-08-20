@@ -1,4 +1,3 @@
-{{define "./web/src/views/[prjname]/[model]/index.vue.tpl"}}
 <template>
 	<div class="app-container">
 		  <TableApp :handlers="handlers" :context="context" :meta="meta"></TableApp>
@@ -7,9 +6,9 @@
   
   <script setup>
   import {ref} from "vue"
-  import {{.Module|camel|js}}Api from "@/api/{{.Project.Name|lower}}/{{.Module|camel}}"
+  import {{.Module|camel|js}}Api from "@/api/{{.App.Name|lower}}/{{.Module|camel}}"
   const context = ref({
-	perm:'{{.Project.Name|camel}}:{{.Module|camel}}',
+	perm:'{{.App.Name|camel}}:{{.Module|camel}}',
 	name:"{{.Module|camel}}",
 	title:"{{.Title}}",
 	primaryKey:"{{.Primary.DataColumn | camel}}",
@@ -22,4 +21,3 @@
   ])
   const handlers = ref({{.Module|camel|js}}Api)
   </script>
-{{end}}

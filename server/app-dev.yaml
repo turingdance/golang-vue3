@@ -1,8 +1,9 @@
+
 engin:
     env: dev
-    pidfile: /etc/turing/engin.pid
+    pidfile: /etc/turing/testapp/engin.pid
 http:
-    name: turing
+    name: testapp
     port: 80
     host:
 redis:
@@ -14,13 +15,13 @@ redis:
 
 log:
   level: 6
-  file: ./log/log.log
+  file: /var/log/turing/testapp/log.log
 
 discover:
   Impl:  
   Addr:  
   updateIntervalSecond: 30
-  basepath:  ecls
+  basepath:  testapp
 auth:
   whiteList:
     -  /sys/captcha/
@@ -40,8 +41,7 @@ auth:
     -  /sys/dict/getOne
 
 sysConf:
-  dsn: mysql://root:rootme@123@tcp(127.0.0.1:3306)/dbturing?charset=utf8mb4&parseTime=true&loc=Local
-  prefix: sys_
+  dsn: mysql://admipa:admipa@1q2w3e4r@tcp(www.techidea8.com:3306)/dbipaonline?charset=utf8mb4&parseTime=true&loc=Local
   engin: InnoDB
   charset: utf8mb4
   loglevel: 6
@@ -68,13 +68,13 @@ oss:
   endpoint: 
   callbackUrl: 
   expireTime: 3360 
-  uploadDir: turing/
+  uploadDir: testapp/
 
 
 storage:
     - driver: local
       bucket: mnt
-      datapath: /data/turing/public
+      datapath: /data/testapp/public
       ssl: false
       host: localhost:3000/dev-api
       funSubDir: YYYY,MM,DD
@@ -83,7 +83,7 @@ storage:
       primary: true
     - driver: local
       bucket: res
-      datapath: /data/turing/private
+      datapath: /data/testapp/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -91,8 +91,8 @@ storage:
       authRequired: true  
       primary: false
     - driver: oss
-      bucket: turingres
-      datapath: /data/turing/private
+      bucket: testapp
+      datapath: /data/testapp/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -105,7 +105,7 @@ admin:
   username: 
   # 加密后的
   password: 
-  nickname: 创世
+  nickname: 
   pic: 
 
 miniapp:
@@ -113,7 +113,7 @@ miniapp:
   secret: 
   httpDebug: true
   log:
-    file: ./log/wxapp.log
+    file: /var/log/turing/testapp/wxapp.log
     level: debug
   cacheConf:
     addr: 

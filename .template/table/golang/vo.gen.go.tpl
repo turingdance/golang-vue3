@@ -1,7 +1,6 @@
 
-{{define "./server/internal/app/[prjname]/vo/[module].vo.gen.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author {{.App.Author}}
 
 package vo
 import 
@@ -23,4 +22,3 @@ type {{.Module|ucfirst}} struct{
 type {{.Module|ucfirst}}KeyBatch struct {
 	{{.Primary.DataColumn|ucfirst}}s {{if eq .Primary.DataType "string"}} []string {{else}}[]int64 {{end}} `json:"{{.Primary.DataColumn|lcfirst}}s"  form:"{{.Primary.DataColumn|lcfirst}}s"  validate:"min=1" errmsg:"缺少{{.Primary.Title}}"`
 }
-{{end}}

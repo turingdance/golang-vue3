@@ -1,10 +1,9 @@
 
-{{define "./server/app-prod.yaml.tpl"}}
 engin:
     env: dev
-    pidfile: /etc/turing/{{.Project.Name}}/engin.pid
+    pidfile: /etc/turing/{{.App.Name}}/engin.pid
 http:
-    name: {{.Project.Name}}
+    name: {{.App.Name}}
     port: 80
     host:
 redis:
@@ -16,13 +15,13 @@ redis:
 
 log:
   level: 6
-  file: /var/log/turing/{{.Project.Name}}/log.log
+  file: /var/log/turing/{{.App.Name}}/log.log
 
 discover:
   Impl:  
   Addr:  
   updateIntervalSecond: 30
-  basepath:  {{.Project.Name}}
+  basepath:  {{.App.Name}}
 auth:
   whiteList:
     -  /sys/captcha/
@@ -42,7 +41,7 @@ auth:
     -  /sys/dict/getOne
 
 sysConf:
-  dsn: {{.Project.Dsn|unescape}}
+  dsn: {{.App.Dsn|unescape}}
   engin: InnoDB
   charset: utf8mb4
   loglevel: 6
@@ -69,13 +68,13 @@ oss:
   endpoint: 
   callbackUrl: 
   expireTime: 3360 
-  uploadDir: {{.Project.name}}/
+  uploadDir: {{.App.Name}}/
 
 
 storage:
     - driver: local
       bucket: mnt
-      datapath: /data/{{.Project.name}}/public
+      datapath: /data/{{.App.Name}}/public
       ssl: false
       host: localhost:3000/dev-api
       funSubDir: YYYY,MM,DD
@@ -84,7 +83,7 @@ storage:
       primary: true
     - driver: local
       bucket: res
-      datapath: /data/{{.Project.name}}/private
+      datapath: /data/{{.App.Name}}/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -92,8 +91,8 @@ storage:
       authRequired: true  
       primary: false
     - driver: oss
-      bucket: {{.Project.name}}
-      datapath: /data/{{.Project.name}}/private
+      bucket: {{.App.Name}}
+      datapath: /data/{{.App.Name}}/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -114,7 +113,7 @@ miniapp:
   secret: 
   httpDebug: true
   log:
-    file: /var/log/turing/{{.Project.name}}/wxapp.log
+    file: /var/log/turing/{{.App.Name}}/wxapp.log
     level: debug
   cacheConf:
     addr: 
@@ -123,4 +122,3 @@ miniapp:
 
 enpryt:
   secret: 
-{{end}}

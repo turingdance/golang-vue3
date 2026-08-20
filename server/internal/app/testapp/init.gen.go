@@ -1,15 +1,14 @@
-{{define "./server/internal/app/[prjname]/init.gen.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author winlion
 
-package {{.Project.Name|lower}}
+package testapp
 
 import (
 	"os"
-	"{{.Project.Package}}/internal/conf"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/logic"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/model"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/rest"
+	"turingdance.com/reliable/internal/conf"
+	"turingdance.com/reliable/internal/app/testapp/logic"
+	"turingdance.com/reliable/internal/app/testapp/model"
+	"turingdance.com/reliable/internal/app/testapp/rest"
 	"github.com/turingdance/infra/dbkit"
 	"github.com/turingdance/infra/restkit"
 )
@@ -17,7 +16,7 @@ import (
 func Initialize(appconf *conf.BootConf) (err error) {
 
 	// 初始化数据库
-	dbconf := appconf.{{.Project.Name|ucfirst}}Conf
+	dbconf := appconf.TestappConf
 	if dbconf.Dsn == "" {
 		dbconf = appconf.SysConf
 	}
@@ -42,4 +41,3 @@ func CreateRouter(patern string) *restkit.MuxHandler {
 	result.Router(patern, rest.Routes...)
 	return result
 }
-{{end}}

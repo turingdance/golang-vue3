@@ -1,6 +1,5 @@
-{{define "./server/internal/app/[prjname]/model/[module].model.gen.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author {{.App.Author}}
 
 package model
 {{if gt (len .Types) 0}}
@@ -53,4 +52,3 @@ func init() {
 	RegisterModel(&{{.Module|ucfirst}}{})
 }
 
-{{end}}

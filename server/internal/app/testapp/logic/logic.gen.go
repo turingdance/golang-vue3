@@ -1,6 +1,5 @@
-{{define "./server/internal/app/[prjname]/logic/logic.gen.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author winlion
 
 package logic
 
@@ -8,7 +7,7 @@ import (
 	"github.com/turingdance/infra/cond"
 	"github.com/turingdance/infra/dbkit"
 	"gorm.io/gorm"
-	"{{.Project.Package}}/internal/conf"
+	"turingdance.com/reliable/internal/conf"
 )
 
 // 数据库连接
@@ -62,4 +61,3 @@ func Take[T any](model *T, wraper cond.CondWraper) (r *T, err error) {
 func TakeByPrimaryKey[T any](model *T) (r *T, err error) {
 	return dbkit.TakeByPrimaryKey(DbEngin, model)
 }
-{{end}}

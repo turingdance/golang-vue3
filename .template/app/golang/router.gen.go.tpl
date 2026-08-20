@@ -1,8 +1,6 @@
 
-{{define "./server/internal/app/[prjname]/rest/router.gen.go.tpl"}}
 package rest
 import (
 	"github.com/turingdance/infra/restkit"
 )
 var Routes []restkit.Route= []restkit.Route{}
-{{end}}

@@ -1,13 +1,12 @@
 
-{{define "./server/internal/app/[prjname]/rest/[module].gen.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author {{.App.Author}}
 package rest
 import (
 	"net/http"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/logic"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/model"
-	"{{.Project.Package}}/internal/app/{{.Project.Name|lower}}/vo"
+	"{{.App.Package}}/internal/app/{{.App.Name|lower}}/logic"
+	"{{.App.Package}}/internal/app/{{.App.Name|lower}}/model"
+	"{{.App.Package}}/internal/app/{{.App.Name|lower}}/vo"
 	"github.com/turingdance/infra/cond"
 	"github.com/turingdance/infra/slicekit"
 	"github.com/turingdance/infra/wraper"
@@ -154,4 +153,3 @@ func (ctrl *{{.Module|ucfirst}}) GetOne(w http.ResponseWriter, req *http.Request
 		wraper.OkData(instance).Encode(w)
 	}
 }
-{{end}}

@@ -1,0 +1,78 @@
+# 模板清单 - 取代旧的 app.yaml / template.yaml
+# codectl 检测到此文件后使用 manifest 模式渲染
+
+meta:
+  name: golang-vue3
+  lang: golang
+  dbtype: mysql
+  author: codectl
+
+# 字段类型映射规则
+# key 格式: 数据库类型-目标语言
+mapper:
+  mysql-golang:
+    TINYINT: int8
+    SMALLINT: int16
+    MEDIUMINT: int32
+    INT: int32
+    INTEGER: int32
+    BIGINT: int64
+    FLOAT: float32
+    DOUBLE: float64
+    DECIMAL: float32
+    DATE: types.Date
+    TIME: types.DateTime
+    YEAR: types.Date
+    DATETIME: types.DateTime
+    TIMESTAMP: types.DateTime
+    CHAR: string
+    VARCHAR: string
+    TINYTEXT: string
+    TEXT: string
+    MEDIUMTEXT: string
+    LONGTEXT: string
+
+# 静态资源(原样复制,不渲染)
+assets:
+  - src: init.sql
+    dst: init.sql
+
+# 项目级模板(每个项目只生成一次)
+# out 路径支持占位符: {app.name} {module} {pkgpath}
+app:
+  - tpl: golang/init.gen.go.tpl
+    out: server/internal/app/{app.name}/init.gen.go
+  - tpl: golang/conf.go.tpl
+    out: server/internal/conf/conf.go
+  - tpl: golang/api.go.tpl
+    out: server/api/api.go
+  - tpl: golang/app-dev.yaml.tpl
+    out: server/app-dev.yaml
+  - tpl: golang/app-prod.yaml.tpl
+    out: server/app-prod.yaml
+  - tpl: golang/logic.gen.go.tpl
+    out: server/internal/app/{app.name}/logic/logic.gen.go
+  - tpl: golang/vars.gen.go.tpl
+    out: server/internal/app/{app.name}/model/vars.gen.go
+  - tpl: golang/router.gen.go.tpl
+    out: server/internal/app/{app.name}/rest/router.gen.go
+  - tpl: web/index.ts.tpl
+    out: web/src/api/{app.name}/index.ts
+  - tpl: web/types.ts.tpl
+    out: web/src/api/types.ts
+
+# 表级模板(每张表生成一份)
+# out 路径支持占位符: {app.name} {module} {pkgpath}
+table:
+  - tpl: golang/model.gen.go.tpl
+    out: server/internal/app/{app.name}/model/{module}.model.gen.go
+  - tpl: golang/rest.gen.go.tpl
+    out: server/internal/app/{app.name}/rest/{module}.gen.go
+  - tpl: golang/vo.gen.go.tpl
+    out: server/internal/app/{app.name}/vo/{module}.vo.gen.go
+  - tpl: sql/rights.sql.tpl
+    out: sql/{app.name}/{module}.sql
+  - tpl: web/api.ts.tpl
+    out: web/src/api/{app.name}/{module}.ts
+  - tpl: web/model.vue.tpl
+    out: web/src/views/{app.name}/{module}/index.vue

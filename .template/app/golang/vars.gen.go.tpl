@@ -1,4 +1,3 @@
-{{define "./server/internal/app/[prjname]/model/vars.gen.go.tpl"}}
 package model
 
 var modelArray []interface{} = make([]interface{}, 0)
@@ -9,4 +8,3 @@ func RegisterModel(m interface{}) {
 func AllRegistedModel() []interface{} {
 	return modelArray
 }
-{{end}}

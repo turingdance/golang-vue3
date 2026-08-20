@@ -1,24 +1,31 @@
+// gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
+// @author winlion
+
 package conf
 
 import (
+	"fmt"
 	"time"
-
 	"github.com/fsnotify/fsnotify"
-	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/rediskit"
-	"turingdance.com/turing/internal/pkg/dysms"
-	"turingdance.com/turing/internal/pkg/log"
-	"turingdance.com/turing/internal/pkg/storage"
-	"turingdance.com/turing/internal/server"
-	"turingdance.com/turing/internal/server/auth"
-	"turingdance.com/turing/internal/server/middleware"
+	"turingdance.com/reliable/internal/pkg/dysms"
+	"turingdance.com/reliable/internal/pkg/log"
+	"turingdance.com/reliable/internal/pkg/storage"
+	"turingdance.com/reliable/internal/server"
+	"turingdance.com/reliable/internal/server/auth"
+	"turingdance.com/reliable/internal/server/middleware"
+
 )
 
 type Engin struct {
 	Env     string
 	Pidfile string
+}
+type Enpryt struct {
+	Secret string
+	Method string
 }
 type Attach struct {
 	Datadir    string
@@ -44,48 +51,43 @@ type DbConf struct {
 	ConnMaxIdle     int
 }
 
+
 // oss://[bucket]/[filekey]
-
 type BootConf struct {
-	Engin   Engin
-	Http    server.HttpConf
-	Log     log.LogConf
-	Local   Local
-	SysConf DbConf
-	Redis   rediskit.RedisConf
-	Oss     osskit.OssConf
-	Storage []storage.StorageConf
-	Dysms   dysms.DysmsConf
-	Enpryt  middleware.Enpryt
-	Auth    auth.Conf
+	Engin        Engin
+	Http         server.HttpConf
+	Log          log.LogConf
+	Local        Local
+	SysConf      DbConf
+	TestappConf DbConf
+	Redis        rediskit.RedisConf
+	Oss          osskit.OssConf
+	Storage      []storage.StorageConf
+	Dysms        dysms.DysmsConf
+	Enpryt       middleware.Enpryt
+	Auth         auth.Conf
 }
-
-var viperinstance *viper.Viper
-var bootConf *BootConf = &BootConf{}
 
 func ParseConf(appfile string) *BootConf {
-	viperinstance = viper.New()
-	viperinstance.SetConfigFile(appfile)
-	AppConf = bootConf
-	if err := viperinstance.ReadInConfig(); err != nil {
+	viper.SetConfigFile(appfile)
+	err := viper.ReadInConfig()
+	if err != nil {
 		panic("read config failed: " + err.Error())
 	}
-	parseConf(AppConf)
-	viperinstance.WatchConfig()
-	viperinstance.OnConfigChange(func(in fsnotify.Event) {
-		parseConf(AppConf)
+	viper.WatchConfig()
+	var c BootConf
+	viper.OnConfigChange(func(in fsnotify.Event) {
+		err = viper.Unmarshal(&c)
+		fmt.Println("refresh config")
 	})
-	return bootConf
-}
-
-func parseConf(c *BootConf) {
-	if err := viperinstance.Unmarshal(c); err != nil {
-		logrus.Error("conf.parseConf  ok", err.Error())
-	} else {
-		logrus.Info("conf.parseConf  ok")
+	err = viper.Unmarshal(&c)
+	if err != nil {
+		fmt.Println("read config failed: ", err.Error())
 	}
+	AppConf = &c
+	return &c
 }
 
-func Reload() {
-	parseConf(AppConf)
+func Reload(){
+	 viper.Unmarshal(AppConf)
 }

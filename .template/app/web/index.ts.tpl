@@ -1,7 +1,5 @@
-{{define "./web/src/api/[prjname]/index.ts.tpl"}}
 import {createService,createRequestFunction} from "@/utils/request"
 /** 用于网络请求的实例 */
 const service = createService()
-export const request = createRequestFunction(service, "/{{.Project.Name|lcfirst}}")
+export const request = createRequestFunction(service, "/{{.App.Name|lcfirst}}")
 export default request
-{{end}}

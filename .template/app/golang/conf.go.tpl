@@ -1,6 +1,5 @@
-{{define "./server/internal/conf/conf.go.tpl"}}
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.Project.Author}}
+// @author {{.App.Author}}
 
 package conf
 
@@ -11,12 +10,12 @@ import (
 	"github.com/spf13/viper"
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/rediskit"
-	"{{.Project.Package}}/internal/pkg/dysms"
-	"{{.Project.Package}}/internal/pkg/log"
-	"{{.Project.Package}}/internal/pkg/storage"
-	"{{.Project.Package}}/internal/server"
-	"{{.Project.Package}}/internal/server/auth"
-	"{{.Project.Package}}/internal/server/middleware"
+	"{{.App.Package}}/internal/pkg/dysms"
+	"{{.App.Package}}/internal/pkg/log"
+	"{{.App.Package}}/internal/pkg/storage"
+	"{{.App.Package}}/internal/server"
+	"{{.App.Package}}/internal/server/auth"
+	"{{.App.Package}}/internal/server/middleware"
 
 )
 
@@ -60,7 +59,7 @@ type BootConf struct {
 	Log          log.LogConf
 	Local        Local
 	SysConf      DbConf
-	{{.Project.Name|ucfirst}}Conf DbConf
+	{{.App.Name|ucfirst}}Conf DbConf
 	Redis        rediskit.RedisConf
 	Oss          osskit.OssConf
 	Storage      []storage.StorageConf
@@ -92,4 +91,3 @@ func ParseConf(appfile string) *BootConf {
 func Reload(){
 	 viper.Unmarshal(AppConf)
 }
-{{end}}

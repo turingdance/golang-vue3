@@ -1,4 +1,3 @@
-{{define "./web/src/api/types.ts.tpl"}}
 // 分页
 export type Pager={
   pagefrom :number      
@@ -29,4 +28,3 @@ export interface IResponse<T>{
     msg?:string
     total?:number
 }
-{{end}}

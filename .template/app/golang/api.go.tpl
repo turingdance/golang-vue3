@@ -1,4 +1,3 @@
-{{define "./server/api/api.go.tpl"}}
 package api
 
 import (
@@ -9,7 +8,7 @@ import (
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
 	"github.com/turingdance/infra/ipckit"
-	"turingdance.com/turing/internal/app/{{.Project.Name|lcfirst}}"
+	"turingdance.com/turing/internal/app/{{.App.Name|lcfirst}}"
 	"turingdance.com/turing/internal/app/sys"
 	"turingdance.com/turing/internal/conf"
 	"turingdance.com/turing/internal/pkg/cache"
@@ -70,8 +69,8 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
 	// 这里是生成的模板
-	{{.Project.Name|lcfirst}}.Initialize(appConf)
-	httpserver.Handle("/{{.Project.Name|lcfirst}}/", {{.Project.Name|lcfirst}}.CreateRouter("/{{.Project.Name|lcfirst}}/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
+	{{.App.Name|lcfirst}}.Initialize(appConf)
+	httpserver.Handle("/{{.App.Name|lcfirst}}/", {{.App.Name|lcfirst}}.CreateRouter("/{{.App.Name|lcfirst}}/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
 	logrus.Info("httpserver.Handle end")
 	// httpserver.Handle
@@ -190,4 +189,3 @@ func (p *App) SendStop() error {
 	_, err := ipcservice.WriteLine("stop")
 	return err
 }
-{{end}}

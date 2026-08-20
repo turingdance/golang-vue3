@@ -1,4 +1,3 @@
-{{define "./web/src/api/[prjname]/[model].ts.tpl"}}
 import  request  from "./index"
 import {ICond} from "../types"
 const prefix = "/{{.Module|lcfirst}}"
@@ -75,4 +74,3 @@ export function exportxls(cond:any) {
 
 //默认导出全部API
 export default {search,create,update,deleteIt,deleteIts,getOne,exportxls}
-{{end}}
