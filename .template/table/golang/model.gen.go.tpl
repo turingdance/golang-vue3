@@ -21,7 +21,7 @@ var {{.Module}}Keys []string= []string{ {{- range $i,$v := .Columns}}"{{ $v.Data
 //{{.Title}}数据库模型
 type {{.Module|ucfirst}} struct{
 	{{- range $i,$v := .Columns}}
-        {{ $v.DataColumn | upercamel }} {{ $v.DataType }} `json:"{{ $v.DataColumn | camel }}" form:"{{ $v.DataColumn | camel }}" gorm:"type:{{$v.RawData.DataType|mysqltogorm}};{{if gt $v.DataSize 0}}size:{{$v.DataSize}};{{end}}{{if eq $v.IsPrimaryKey true}}primaryKey;{{end}}{{if eq $v.IsIndex true}}index;{{end}}{{if eq $v.AutoIncrement true}}autoIncrement;{{end}}{{if eq $v.DataType "types.Date"}}time_format:2006-01-02;time_utc:1;{{end}}{{if or (eq $v.DataType "types.DateTime") (eq $v.DataType "time.Time")}}time_format:2006-01-02 15:04:05;time_utc:1;{{end}}{{if not $v.Title }}{{else}}comment:{{$v.Title}};{{end}}"`
+        {{ $v.DataColumn | upercamel }} {{ $v.DataType }} `json:"{{ $v.DataColumn | camel }}" form:"{{ $v.DataColumn | camel }}" gorm:"type:{{gormtagtype $v.RawData.DataType $v.DataSize}};{{if eq $v.IsPrimaryKey true}}primaryKey;{{end}}{{if eq $v.IsIndex true}}index;{{end}}{{if eq $v.AutoIncrement true}}autoIncrement;{{end}}{{if eq $v.DataType "types.Date"}}time_format:2006-01-02;time_utc:1;{{end}}{{if or (eq $v.DataType "types.DateTime") (eq $v.DataType "time.Time")}}time_format:2006-01-02 15:04:05;time_utc:1;{{end}}{{if not $v.Title }}{{else}}comment:{{$v.Title}};{{end}}"`
     {{end}}
 }
 

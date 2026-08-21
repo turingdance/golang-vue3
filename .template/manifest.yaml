@@ -31,6 +31,7 @@ mapper:
     TEXT: string
     MEDIUMTEXT: string
     LONGTEXT: string
+    JSON: string
 
 # 静态资源(原样复制,不渲染)
 assets:
