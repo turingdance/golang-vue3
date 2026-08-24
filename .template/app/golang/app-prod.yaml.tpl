@@ -40,7 +40,7 @@ auth:
     -  /sys/storage/config
     -  /sys/dict/getOne
 
-dbConf:
+database:
   dsn: {{.App.Dsn|unescape}}
   engin: InnoDB
   charset: utf8mb4

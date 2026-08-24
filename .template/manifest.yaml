@@ -1,13 +1,145 @@
-# 模板清单 - 取代旧的 app.yaml / template.yaml
-# codectl 检测到此文件后使用 manifest 模式渲染
+# =====================================================================
+# 模板清单 manifest.yaml (V2 — 按作用域 scoped 组织)
+#
+# 三段式结构：
+#   project   — 创建项目时一次性执行 (codectl create)
+#   app       — 每个项目每次 gen 之前都会重新触发一次 (codectl create + codectl gen)
+#   table     — 每次 gen 批量渲染表前后触发 (codectl gen)
+#
+# 每个作用域都有相同的生命周期钩子：
+#   pre_create:  # 该 scope 的 templates/assets 处理**之前** 执行
+#       replace: [{from,to,exts?,dirs?}]      # 通用搜索替换
+#       runsql:  [ file1, file2, ... ]        # 执行 SQL（DSN 未配时暂存到 sql/，下次 gen 自动补跑）
+#       exec:    [ "cmd1", "cmd2", ... ]      # 命令行执行 (项目目录作为 cwd)
+#
+#   templates:   # 模板文件清单 {tpl -> out}，app/table 两段含义不变
+#   assets:      # 原样拷贝的静态资源
+#
+#   post_create: # 该 scope 的 templates/assets 处理**之后** 执行，结构同 pre_create
+# =====================================================================
 
 meta:
-  name: golang-vue3
-  lang: golang
+  name:   golang-vue3
+  lang:   golang
   dbtype: mysql
   author: codectl
+  version: 1.0.0.20260824
 
-# 字段类型映射规则
+# ---- 全局默认（作用于所有 replace 规则；单条规则可覆盖）----
+# 语言无关：引擎内置不再写死任何扩展名白名单；这里模板作者可按需收紧。
+#   exts      : 空 = 不做扩展名过滤（所有非二进制/≤8MB 文件都会被扫描）
+#   dirs      : 空 = 不限子目录（整个项目扫描）
+#   skip_dirs : 追加到 Go 内置基础跳过目录（.git/.idea/vendor/node_modules 等）
+defaults:
+  replace:
+    exts:      [".go", ".mod", ".sum", ".ts", ".tsx", ".js", ".vue", ".yaml", ".yml", ".json", ".html", ".md"]
+    # dirs:    []
+    skip_dirs: [".turbo"]
+
+# ---- 项目级 (create 一次性) ----
+# 仅放与具体 {app.name} 无关的"仓库级"产物：.gitignore / README / Makefile /
+# docker-compose.yaml / go.work / monorepo 配置等。
+# App 级别的 init.gen.go / conf.go / app-*.yaml / router / types 等 → 看下方 app: 段。
+project:
+  pre_create: []
+
+  templates: []
+  # 示例（模板作者按需补充，占位保持空 list 也完全合法）：
+  # - tpl: project/gitignore.tpl
+  #   out: .gitignore
+  # - tpl: project/README.md.tpl
+  #   out: README.md
+  # - tpl: project/Makefile.tpl
+  #   out: Makefile
+
+  assets: []
+
+  post_create:
+    # (A) 通用文本替换：把模板中 "turingdance.com/turing" → 用户指定的包名
+    replace:
+      - from: turingdance.com/turing
+        to:   "{{.App.Package}}"
+
+    # (B) 通用 SQL 脚本（多文件）。DSN 未配置时只暂存到 outDir/sql/ 不执行，
+    #     下次 codectl gen 前若 DSN 已就绪会自动补跑并写 .done 幂等标记。
+    runsql:
+      - init.sql
+
+    # (C) 通用命令行执行（在项目目录 cwd）。跨平台自动 cmd/sh 适配。
+    # exec:
+    #   - go mod tidy
+
+# ---- 应用级 (create 后 + 每次 gen 前) ----
+# 与 {app.name} 语义绑定的"App 骨架"模板放这里：server 内部模块 wiring、全局
+# 路由骨架、YAML 配置、前端 api/types 入口点等。这些在每次 gen 前都会被
+# 重新渲染一次（配合 project.post_create 的 package 替换）。
+app:
+  pre_create: []
+
+  templates:
+    # —— Go 后端应用级 wiring ——
+    - tpl: golang/init.gen.go.tpl
+      out: server/internal/app/{app.name}/init.gen.go
+    - tpl: golang/conf.go.tpl
+      out: server/internal/conf/conf.go
+    - tpl: golang/api.go.tpl
+      out: server/api/api.go
+    - tpl: golang/api.vars.go.tpl
+      out: server/api/vars.go
+    - tpl: golang/app-dev.yaml.tpl
+      out: server/app-dev.yaml
+    - tpl: golang/app-prod.yaml.tpl
+      out: server/app-prod.yaml
+    - tpl: golang/makefile.tpl
+      out: server/Makefile-{app.name}
+
+    # —— 按应用拆分的通用逻辑/模型/REST 入口 ——
+    - tpl: golang/logic.gen.go.tpl
+      out: server/internal/app/{app.name}/logic/logic.gen.go
+    - tpl: golang/vars.gen.go.tpl
+      out: server/internal/app/{app.name}/model/vars.gen.go
+    - tpl: golang/router.gen.go.tpl
+      out: server/internal/app/{app.name}/rest/router.gen.go
+
+    # —— 前端（vue3）按应用拆分的 api 入口 ——
+    - tpl: web/index.ts.tpl
+      out: web/src/api/{app.name}/index.ts
+    - tpl: web/types.ts.tpl
+      out: web/src/api/types.ts
+
+  assets: []
+  post_create:
+    exec:
+# ---- 表级 (每次 gen 批处理) ----
+table:
+  pre_create: []
+  # 典型用法示例：
+  # runsql:
+  #   - bootstrap.sql        # 在渲染所有表之前先确保权限/字典表存在
+
+  templates:
+    - tpl: golang/model.gen.go.tpl
+      out: server/internal/app/{app.name}/model/{module}.model.gen.go
+    - tpl: golang/rest.gen.go.tpl
+      out: server/internal/app/{app.name}/rest/{module}.gen.go
+    - tpl: golang/vo.gen.go.tpl
+      out: server/internal/app/{app.name}/vo/{module}.vo.gen.go
+    - tpl: sql/rights.sql.tpl
+      out: sql/{app.name}/{module}.sql
+    - tpl: web/api.ts.tpl
+      out: web/src/api/{app.name}/{module}.ts
+    - tpl: web/model.vue.tpl
+      out: web/src/views/{app.name}/{module}/index.vue
+
+  assets: []
+
+  post_create:
+  # 典型用法示例：
+    exec:
+      - codectl router -s server/internal/app/{app.name}/rest
+      - codectl runsql --dir sql/{app.name}/
+
+# ---- 字段类型映射规则（保持不变）----
 # key 格式: 数据库类型-目标语言
 mapper:
   mysql-golang:
@@ -32,50 +164,3 @@ mapper:
     MEDIUMTEXT: string
     LONGTEXT: string
     JSON: string
-
-# 静态资源(原样复制,不渲染)
-assets:
-  - src: init.sql
-    dst: init.sql
-
-# 项目级模板(每个项目只生成一次)
-# out 路径支持占位符: {app.name} {module} {pkgpath}
-app:
-  - tpl: golang/init.gen.go.tpl
-    out: server/internal/app/{app.name}/init.gen.go
-  - tpl: golang/conf.go.tpl
-    out: server/internal/conf/conf.go
-  - tpl: golang/api.go.tpl
-    out: server/api/api.go
-  - tpl: golang/api.vars.go.tpl
-    out: server/api/vars.go
-  - tpl: golang/app-dev.yaml.tpl
-    out: server/app-dev.yaml
-  - tpl: golang/app-prod.yaml.tpl
-    out: server/app-prod.yaml
-  - tpl: golang/logic.gen.go.tpl
-    out: server/internal/app/{app.name}/logic/logic.gen.go
-  - tpl: golang/vars.gen.go.tpl
-    out: server/internal/app/{app.name}/model/vars.gen.go
-  - tpl: golang/router.gen.go.tpl
-    out: server/internal/app/{app.name}/rest/router.gen.go
-  - tpl: web/index.ts.tpl
-    out: web/src/api/{app.name}/index.ts
-  - tpl: web/types.ts.tpl
-    out: web/src/api/types.ts
-
-# 表级模板(每张表生成一份)
-# out 路径支持占位符: {app.name} {module} {pkgpath}
-table:
-  - tpl: golang/model.gen.go.tpl
-    out: server/internal/app/{app.name}/model/{module}.model.gen.go
-  - tpl: golang/rest.gen.go.tpl
-    out: server/internal/app/{app.name}/rest/{module}.gen.go
-  - tpl: golang/vo.gen.go.tpl
-    out: server/internal/app/{app.name}/vo/{module}.vo.gen.go
-  - tpl: sql/rights.sql.tpl
-    out: sql/{app.name}/{module}.sql
-  - tpl: web/api.ts.tpl
-    out: web/src/api/{app.name}/{module}.ts
-  - tpl: web/model.vue.tpl
-    out: web/src/views/{app.name}/{module}/index.vue

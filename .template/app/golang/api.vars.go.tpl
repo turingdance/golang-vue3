@@ -2,6 +2,6 @@ package api
 
 var (
 	AppName   = "{{.App.Name}}"
-	AppMemo   = "{{.App.Memo}}"
+	AppMemo   = "{{.App.Title}}"
 	AppConfig = "app-prod.yaml"
 )
