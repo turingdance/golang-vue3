@@ -1,0 +1,85 @@
+.login-card {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 5px 5px 5px 5px;
+    .content {
+      display: flex;
+      flex-direction: column;
+      margin: 5px 5px 5px 5px;
+  
+      .fm-field {
+        margin: 5px 10px 5px 10px;
+        flex: 1;
+        height: 35px;
+        input {
+          flex: 1;
+          width: 100%;
+        }
+      }
+      .qrcode {
+        width: 120px;
+        height: 120px;
+      }
+    }
+    .title{
+            font-size: 1.875rem;
+            line-height: 2.25rem;
+            text-align: left;
+        
+    }
+  }
+  .line-input {
+    border: none;
+    margin-top: 0;
+    box-shadow: none;
+    border: none;
+    font-size: 14px;
+    background-color: #ffffff;
+    border-radius: 0.375rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.60rem;
+    padding-bottom: 0.60rem;
+    --tw-text-opacity: 1;
+    outline-style: none;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+ .box-card{
+    flex:1;
+    max-width: 360px;
+ }
+  .btn-wraper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+  }
+  .tip {
+    font-size: 12px;
+    color: #b3b3b3;
+  }
+  .row{
+    display: flex;
+    flex-direction: row;
+  }
+
+  .btn-sms{
+    background-color: var(--el-color-primary);
+    border-radius: 0.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 13px;
+    padding-left: 6px;
+    padding-right: 6px;
+    color:white;
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+  }

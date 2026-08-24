@@ -7,7 +7,7 @@ import { RouteRecordRaw } from "vue-router";
 
 export function setupPermission() {
   // 白名单路由
-  const whiteList = ["/login", "/index","/resetpwd"];
+  const whiteList = ["/login", "/index","/resetpwd","/register"];
 
   router.beforeEach(async (to, from, next) => {
     NProgress.start();

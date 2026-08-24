@@ -1,7 +1,7 @@
 
 engin:
     env: dev
-    pidfile: /etc/turing/{{.App.Name}}/engin.pid
+    pidfile: /etc/{{.App.Name}}.pid
 http:
     name: {{.App.Name}}
     port: 80
@@ -15,7 +15,7 @@ redis:
 
 log:
   level: 6
-  file: /var/log/turing/{{.App.Name}}/log.log
+  file: /var/logs/{{.App.Name}}/{{.App.Name}}.log
 
 discover:
   Impl:  
@@ -40,7 +40,7 @@ auth:
     -  /sys/storage/config
     -  /sys/dict/getOne
 
-sysConf:
+dbConf:
   dsn: {{.App.Dsn|unescape}}
   engin: InnoDB
   charset: utf8mb4
@@ -113,7 +113,7 @@ miniapp:
   secret: 
   httpDebug: true
   log:
-    file: /var/log/turing/{{.App.Name}}/wxapp.log
+    file: /var/logs/{{.App.Name}}/wxapp.log
     level: debug
   cacheConf:
     addr: 

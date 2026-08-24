@@ -21,7 +21,7 @@
         <div class="col">
           <p class="code">
             <AuthImage :src="configStore.sitemap['site.qrcodewx']" v-if="configStore.sitemap['site.qrcodewx']" class="qrcode kefu" alt="二维码" />
-            <img src="../../../../assets/common/kefu.jpg" v-else class="qrcode kefu" alt="二维码" />
+            <img src="@/assets/images/kefu.png" v-else class="qrcode kefu" alt="二维码" />
           </p>
           <p class="small">扫一扫 加客服</p>
         </div>

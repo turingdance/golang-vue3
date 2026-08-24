@@ -6,10 +6,6 @@ import (
 	"turingdance.com/turing/api"
 )
 
-// @title 环境上报系统
-// @version 1.0
-// @description golang 编程
-//
 //go:generate  codectl router  -s ./internal/app/$(app)/rest
 var (
 	version   bool
@@ -17,11 +13,14 @@ var (
 )
 
 func main() {
-	flag.StringVar(&api.AppName, "n", "turing", "应用名称,安装|卸载服务时需要")
-	flag.StringVar(&api.AppMemo, "m", "turing", "应用描述,安装服务时需要")
-	flag.StringVar(&api.AppConfig, "c", "app-prod.yaml", "配置文件路径")
-	flag.BoolVar(&version, "v", false, "应用程序版本")
-	flag.StringVar(&signalstr, "s", "start", "系统运行指令,取值如下:\nstart:启动应用 stop:结束应用 install:安装服务 uninstall:卸载服务\n")
+	flag.StringVar(&api.AppConfig, "c", "app-prod.yaml", "/path/to/configfile,only yaml/yml(app-prod.yaml)")
+	flag.BoolVar(&version, "v", false, "version of app")
+	flag.StringVar(&signalstr, "s", "start", `
+	start:   run app 
+	stop:    stop app
+	install: install a service 
+	uninstall:  uninstall the service
+	`)
 	flag.Parse()
 	// 如果为0
 	app := api.NewApp(api.AppName)

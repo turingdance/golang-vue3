@@ -45,13 +45,15 @@
       <el-table-column label="标题" prop="label"></el-table-column>
   </el-table>
    
-  <el-row class="flex-x-end m-2">
-    <el-button type="primary"  @click="confirm">导出</el-button>
+  <el-row class="flex justify-end">
+    <el-button @click="close" >取消</el-button>
+    <el-button type="primary" @click="confirm" >导出</el-button>
   </el-row>
 </template>
 <script setup>
 import { ElMessage } from 'element-plus'
-
+import { inject } from 'vue'
+const close = inject('close')
 const appprops = defineProps({
   context:{
     type:Object,

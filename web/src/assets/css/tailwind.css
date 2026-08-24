@@ -1,6 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0A3D91;
+  --color-secondary: #FF7A00;
+  --color-darkblue: #052B6C;
+  --color-lightblue: #E8F0FF;
+  --color-neutral: #F5F7FA;
+  /* 新增深色科技色系 */
+  --color-tech-bg: #05070c;
+  --color-tech-dark: #080b12;
+  --color-tech-card: #0e131d;
+  --color-tech-border: #1c2535;
+  --color-tech-primary: #2492ff;
+  --color-tech-light: #54b8ff;
+  --color-tech-gray: #909cb3;
+  --color-techBg: #05070c;
+  --color-techDark: #080b12;
+  --color-techCard: #0e131d;
+  --color-techBorder: #1c2535;
+  --color-techPrimary: #2492ff;
+  --color-techLight: #54b8ff;
+  --color-techGray: #909cb3;
+}
+
 @layer utilities {
     .content-auto {
         content-visibility: auto;
@@ -18,19 +40,6 @@
         transform: translateY(-5px);
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
-    .py-1{
-      padding-top: 10rem;
-      padding-bottom: 10rem;
-    }
-}
-
-@theme {
-  --color-*: initial;
-  --color-primary: #0A3D91;
-  --color-secondary: #FF7A00;
-  --color-darkblue: #052B6C;
-  --color-lightblue: #E8F0FF;
-  --color-neutral: #F5F7FA;
 }
 html,
 body,
@@ -38,10 +47,11 @@ body,
   position: relative;
   width: 100%;
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 .loader {
   --d: 22px;
-
   width: 4px;
   height: 4px;
   /* color: #25b09b; */

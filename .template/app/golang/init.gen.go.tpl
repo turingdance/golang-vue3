@@ -16,10 +16,7 @@ import (
 func Initialize(appconf *conf.BootConf) (err error) {
 
 	// 初始化数据库
-	dbconf := appconf.{{.App.Name|ucfirst}}Conf
-	if dbconf.Dsn == "" {
-		dbconf = appconf.SysConf
-	}
+	dbconf := appconf.Database
 	_, err = logic.InitializeDataBase(dbconf,
 		dbkit.WithWriter(os.Stdout),
 		dbkit.IgnoreRecordNotFoundError(true),

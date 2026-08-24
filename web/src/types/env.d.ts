@@ -39,3 +39,13 @@ declare const __APP_INFO__: {
   };
   buildTimestamp: number;
 };
+
+declare module '*.md?raw' {
+  const content: string
+  export default content
+}
+
+declare module 'markdown-it' {
+  const content: string
+  export default content
+}

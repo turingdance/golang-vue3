@@ -2,11 +2,13 @@
   <div class="logo-container">
     <transition enter-active-class="animate__animated animate__fadeInLeft">
       <router-link v-if="collapse" class="wh-full flex-center" to="/">
-        <img v-if="settingsStore.sidebarLogo" :src="logo" class="logo-image" />
+        <div class="p-1">
+          <img v-if="settingsStore.sidebarLogo" src="@/assets/images/logo.png" class="logo-image  blur-edge-img" />
+        </div>
       </router-link>
 
       <router-link v-else class="wh-full flex-center" to="/">
-        <img v-if="settingsStore.sidebarLogo" :src="logo" class="logo-image" />
+        <img v-if="settingsStore.sidebarLogo" src="@/assets/images/logo.png" class="logo-image" />
         <span class="logo-title"> {{ defaultSettings.title }}</span>
       </router-link>
     </transition>
@@ -25,8 +27,6 @@ defineProps({
     required: true,
   },
 });
-
-const logo = ref(new URL(`../../../../assets/logo.png`, import.meta.url).href);
 </script>
 
 <style lang="scss" scoped>
@@ -36,8 +36,7 @@ const logo = ref(new URL(`../../../../assets/logo.png`, import.meta.url).href);
   background-color: $sidebar-logo-background;
 
   .logo-image {
-    width: 20px;
-    height: 20px;
+    height: 100%;
   }
 
   .logo-title {
@@ -47,6 +46,11 @@ const logo = ref(new URL(`../../../../assets/logo.png`, import.meta.url).href);
     font-weight: bold;
     color: white;
   }
+}
+
+.blur-edge-img {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 70%, transparent 100%);
+  mask-image: radial-gradient(ellipse at center, black 70%, transparent 100%);
 }
 
 .layout-top,

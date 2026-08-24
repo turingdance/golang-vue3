@@ -3,7 +3,7 @@
     <div class="header-container">
       <div class="left">
         <AuthImage class="logo" v-if="configStore.sitemap['site.logo0']" :src="configStore.sitemap['site.logo0']"></AuthImage>
-        <img class="logo" v-else src="@/assets/common/logo.png">
+        <img class="logo" v-else src="@/assets/images/logo.png" />
         <H1 class="logo">{{configStore.sitemap['site.title']}}</H1>
         <h3 class="slogo">{{configStore.sitemap['site.memo']}}</h3>
       </div>

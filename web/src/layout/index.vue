@@ -1,5 +1,5 @@
 <template>
-  <div class="wh-full" :class="classObj">
+  <div class="wh-full " :class="classObj">
     <!-- 遮罩层 -->
     <div
       v-if="isMobile && isOpenSidebar"

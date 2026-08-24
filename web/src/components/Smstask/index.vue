@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <el-popover
         :width="400"
         placement="left"

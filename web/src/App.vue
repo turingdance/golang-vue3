@@ -6,7 +6,7 @@
       :font="{ color: fontColor }"
       :content="defaultSettings.watermarkContent"
       :z-index="9999"
-      class="wh-full"
+      class="wh-full flex flex-col flex-1"
     >
       <router-view />
     </el-watermark>

@@ -58,8 +58,7 @@ type BootConf struct {
 	Http         server.HttpConf
 	Log          log.LogConf
 	Local        Local
-	SysConf      DbConf
-	{{.App.Name|ucfirst}}Conf DbConf
+	Database      DbConf
 	Redis        rediskit.RedisConf
 	Oss          osskit.OssConf
 	Storage      []storage.StorageConf

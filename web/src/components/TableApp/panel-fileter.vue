@@ -2,8 +2,8 @@
   <el-form :model="form" label-width="auto">
     
     <el-form-item  v-for="(item,index) in conds" :key="index" >
-      <div class="row" style="width:80%;display:flex;flex-direction:row;justify-content:space-between">
-        <div style="width:80%;display:flex;flex-direction:row;">
+      <div class="row" style="flex:1;display:flex;flex-direction:row;justify-content:space-between;gap:10px">
+        <div style="flex:1;display:flex;flex-direction:row;gap:5px">
               <el-select v-model.underline="item.field" style="width:30%" @change="chosecurrentfield(item,index)" >
                 <template v-for="f,i in meta" :key="i" >
                 <el-option 
@@ -17,7 +17,7 @@
               <el-select v-model="item.op" style="width:30%">
                 <el-option v-for="op in ops" :key="op.value" :label="op.label" :value="op.value"></el-option>
               </el-select>
-              <div  style="max-width:40%">  
+              <div  style="max-width:40%;margin-top: -2px;">  
               <el-input  v-model="item.value" v-if="item.meta.domType=='text'" />
               <el-input v-model.number="item.value" v-else-if="item.meta.domType=='number'" />
               <el-date-picker type="datetime" format="YYYY-MM-DD hh:mm:ss" v-model="item.value" v-else-if="item.meta.domType=='datetime'" />
@@ -29,7 +29,7 @@
               <el-input v-model="item.value" v-else/>
             </div>
       </div>
-      <div class="row" style="width:20%">
+      <div class="row">
         <el-button icon="delete" @click="deleteit(index)" cirlce></el-button>
         <el-button @click="add" icon="plus" cirlce></el-button>
       </div>
@@ -39,7 +39,7 @@
     
 
   </el-form>
-  <el-row class="flex-x-end m-2">
+  <el-row class="flex justify-end">
     <el-button type="primary" @click="confirm" >搜索</el-button>
   </el-row>
 </template>

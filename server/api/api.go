@@ -8,7 +8,6 @@ import (
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
 	"github.com/turingdance/infra/ipckit"
-	"turingdance.com/turing/internal/app/testapp"
 	"turingdance.com/turing/internal/app/sys"
 	"turingdance.com/turing/internal/conf"
 	"turingdance.com/turing/internal/pkg/cache"
@@ -57,10 +56,8 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 
 	// 初始化缓存
 	cache.Initialize(appConf.Redis)
-	logrus.Info("cache.Initialize end")
 	// 初始化应用
 	sys.Initialize(appConf)
-	logrus.Info("sys.Initialize end")
 	httpserver := server.NewHttpServer(appConf.Http, server.UseBanner(conf.Banner()))
 	p.httpserver = httpserver
 	// 中间件,
@@ -69,11 +66,9 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
 	// 这里是生成的模板
-	testapp.Initialize(appConf)
-	httpserver.Handle("/testapp/", testapp.CreateRouter("/testapp/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
+	//testapp.Initialize(appConf)
+	//httpserver.Handle("/testapp/", testapp.CreateRouter("/testapp/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
-	logrus.Info("httpserver.Handle end")
-	// httpserver.Handle
 	// 下面是资源文件服务
 	for _, config := range appConf.Storage {
 		if config.Driver == storage.DriverLocal {
@@ -91,9 +86,6 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 
 	// 静态资源服务,该目录是console 项目下 npm run build:prod 指令编译后生成
 	httpserver.Handle("/", http.FileServer(http.FS(site.Assets)))
-
-	//ecls
-	//httpserver.Handle("/ecls/", cls.CreateRouter("/ecls/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 	err = httpserver.Start()
 	logrus.Info("httpserver.Start end")
 	return httpserver, err

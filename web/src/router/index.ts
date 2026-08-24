@@ -2,7 +2,7 @@ import type { App } from "vue";
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
 export const Layout = () => import("@/layout/index.vue");
-export const Learn = () => import("@/layout/learn.vue");
+export const Applet = () => import("@/layout/applet.vue");
 // 静态路由
 export const constantRoutes: RouteRecordRaw[] = [
   {
@@ -17,10 +17,10 @@ export const constantRoutes: RouteRecordRaw[] = [
     ],
   },{
     path: "/",
-    name: "/",
-    component: Learn,
+    name: "home",
+    component: Applet,
     meta: { hidden: true },
-    redirect: "/index",
+    redirect: "/dashboard",
     children: [
       {
         path:"/index",
@@ -28,10 +28,19 @@ export const constantRoutes: RouteRecordRaw[] = [
         component:()=>import('@/views/www/index/index.vue'),
       },
       {
-          path:"/learn",
-          name:"learn",
-          component:()=>import('@/views/www/learn/index.vue'),
-          meta:{auth:true} 
+        path:"/login",
+        name:"login",
+        component:()=>import('@/views/account/index.vue'),
+      },
+      {
+        path:"/register",
+        name:"register",
+        component:()=>import('@/views/account/index.vue'),
+      },
+      {
+        path:"/resetpwd",
+        name:"resetpwd",
+        component:()=>import('@/views/account/index.vue'),
       },
       {
         path: "401",
@@ -44,7 +53,7 @@ export const constantRoutes: RouteRecordRaw[] = [
         meta: { hidden: true },
       },
     ],
-  },
+  }
 ];
 
 /**

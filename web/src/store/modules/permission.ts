@@ -14,23 +14,25 @@ const Layout = () => import("@/layout/index.vue");
  */
 const hasPermission = (roles: string[], route: RouteRecordRaw) => {
   if(route){
-    return true
+    // return true
   }
-  console.log('route',route)
   if (roles.includes("admin")) {
     return true;
   }
-  //console.log('route',route)
-  /*if (route.meta && route.meta.roles) {
+  if(!route.meta){
+    return true
+  }
+  if (route.meta.roles) {
     // 角色【超级管理员】拥有所有权限，忽略校验
     return roles.some((role) => {
       if (route.meta?.roles) {
         return route.meta.roles.includes(role);
+      }else{
+        return false;
       }
     });
   }
   return false;
-  */
 };
 
 /**
@@ -94,7 +96,6 @@ export const usePermissionStore = defineStore("permission", () => {
          
           // 过滤有权限的动态路由
           const accessedRoutes = filterAsyncRoutes(routes, roles);
-          console.log('accessedRoutes',accessedRoutes)
           setRoutes(accessedRoutes);
           resolve(accessedRoutes);
         })

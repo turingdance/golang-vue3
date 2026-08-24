@@ -40,7 +40,7 @@ auth:
     -  /sys/storage/config
     -  /sys/dict/getOne
 
-sysConf:
+database:
   dsn: mysql://admipa:admipa@1q2w3e4r@tcp(www.techidea8.com:3306)/dbipaonline?charset=utf8mb4&parseTime=true&loc=Local
   engin: InnoDB
   charset: utf8mb4

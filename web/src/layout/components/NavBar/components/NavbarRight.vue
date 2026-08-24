@@ -29,10 +29,10 @@
       </div>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="$router.push('/system/accpro')">
+          <el-dropdown-item @click="routeto('/system/accpro')">
             {{ $t("navbar.accprofile") }}
           </el-dropdown-item>
-          <el-dropdown-item @click="$router.push('/system/teampro')" v-if="false" v-perm="['sys:team:profile']">
+          <el-dropdown-item @click="routeto('/system/teampro')" v-if="false" v-perm="['sys:team:profile']">
             {{ $t("navbar.teamprofile") }}
           </el-dropdown-item>
           <el-dropdown-item divided @click="logout">
@@ -60,6 +60,9 @@ import {
 import defaultSettings from "@/settings";
 import { DeviceEnum } from "@/enums/DeviceEnum";
 
+
+
+
 const appStore = useAppStore();
 const tagsViewStore = useTagsViewStore();
 const userStore = useUserStore();
@@ -67,6 +70,10 @@ const settingStore = useSettingsStore();
 
 const route = useRoute();
 const router = useRouter();
+
+function routeto(uri){
+  router.push(uri)
+}
 
 const isMobile = computed(() => appStore.device === DeviceEnum.MOBILE);
 

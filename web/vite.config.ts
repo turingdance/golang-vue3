@@ -8,8 +8,7 @@ import Icons from "unplugin-icons/vite";
 import IconsResolver from "unplugin-icons/resolver";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import mockDevServerPlugin from "vite-plugin-mock-dev-server";
-import UnoCSS from "unocss/vite";
-import "@tailwindcss/postcss"
+import tailwindcss from "@tailwindcss/vite"
 import { resolve } from "path";
 import {
   name,
@@ -77,9 +76,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       vueJsx(),
       // MOCK 服务
       env.VITE_MOCK_DEV_SERVER === "true" ? mockDevServerPlugin() : null,
-      UnoCSS({
-        hmrTopLevelAwait: false,
-      }),
+      tailwindcss(),
       // 自动导入参考： https://github.com/sxzz/element-plus-best-practices/blob/main/vite.config.ts
       AutoImport({
         // 自动导入 Vue 相关函数，如：ref, reactive, toRef 等

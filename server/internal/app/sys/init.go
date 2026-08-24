@@ -12,7 +12,7 @@ import (
 )
 
 func Initialize(appconf *conf.BootConf) (err error) {
-	dbconf := appconf.SysConf
+	dbconf := appconf.Database
 	// 初始化数据库
 	_, err = logic.InitializeDataBase(dbconf,
 		dbkit.WithWriter(os.Stdout),

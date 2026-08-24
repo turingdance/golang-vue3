@@ -4,6 +4,8 @@
     <el-card shadow="hover" style="min-height: calc(100vh - 120px)">
     <template #header>
       <div class="card-header" v-if="model!='chose'">
+        <div class="flex flex-row justify-between">
+          <div>
         <el-button v-perm="context.perm+':search'" @click="_filter=true" icon="filter">筛选</el-button>
         <el-button v-perm="context.perm+':search'" @click="handlesearch" icon="Refresh">刷新</el-button>
         <el-button type="primary" v-perm="context.perm+':create'" @click="showcreate" icon="plus">添加</el-button>
@@ -17,9 +19,28 @@
               </el-popconfirm>
         <el-button type="warning" v-perm="context.perm+':update'" @click="updateOne" icon="edit">修改</el-button>
         <el-button type="primary" v-perm="context.perm+':export'" @click="_export=true" icon="download">导出</el-button>
+      </div>
+      <div>
         <slot name="toolbar" :selected="selected" :tabledata="tabledata">
-
+          <el-popover
+          title="显示数据项"
+          placement="left"
+          :width="320"
+        >
+        <template #reference>
+          <el-button icon="setting" circle></el-button>
+        </template>
+        
+        <div>
+          <el-checkbox-group v-model="checkedList" @change="onUpdateCheckedList">
+            <el-checkbox :label="item.label||item.title" :value="item.prop" v-for="item,index in meta"/>
+          </el-checkbox-group>
+        </div>
+      </el-popover>
+            
         </slot>
+      </div>
+      </div>
       </div>
     </template>
       <el-table
@@ -33,8 +54,7 @@
       :row-key="context.primaryKey"
       >
           <slot>
-            <template v-for="item,index in meta.filter(oo=>!oo.hidden)" :key="index">
-              item.domType={{ item.domType }}
+            <template v-for="item,index in meta.filter(oo=>!oo.hidden).filter(oo=>checkedList.includes(oo.prop))" :key="index">
             <el-table-column  v-if="item.domType=='dict'" :label="item.label">
                 <template #default="scope">
                   <DictItem :dictname="item.option" :value="scope.row[`${item.prop}`]"></DictItem>
@@ -69,7 +89,6 @@
               <el-button type="primary" v-perm="context.perm+':search'" circle icon="view" @click="showview(scope.row)" ></el-button>
                 <el-button type="primary" v-perm="context.perm+':search'" v-if="model=='chose'" @click="handleemit('data',scope.row)" icon="edit">选择</el-button>
                 <slot name="action" :row="scope.row" :$index="scope.$index" :column="scope.column">
-
                 </slot>  
             </el-button-group>
               
@@ -95,7 +114,8 @@
   <template #header="{ close, titleId, titleClass }">
       <div class="header">
         <div :id="titleId" :class="titleClass">请配置筛选条件</div>
-        <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button>
+        <!-- <el-button type="danger" circle icon="CircleCloseFilled" link @click="close"></el-button> -->
+        <el-icon :size="24"><Close @click="close"></Close></el-icon>
       </div>
     </template>
     <slot name="filter" :meta="meta" :context="context" :condarr="condarr" :confirm="handlefilterconfirm">
@@ -106,7 +126,8 @@
   <template #header="{ close, titleId, titleClass }">
       <div class="header">
         <div :id="titleId" :class="titleClass">请配置导出参数</div>
-        <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button>
+        <!-- <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button> -->
+        <el-icon :size="24"><Close @click="close"></Close></el-icon>
       </div>
     </template>
     <slot name="export" :meta="meta" :context="context" :formdata="formdata" :action="actionfunc">
@@ -119,7 +140,8 @@
   <template #header="{ close, titleId, titleClass }">
       <div class="header">
         <div :id="titleId" :class="titleClass">请配置{{context.title}}</div>
-        <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button>
+        <!-- <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button> -->
+        <el-icon :size="24"><Close @click="close"></Close></el-icon>
       </div>
     </template>
     <slot name="update" :meta="meta" :tabledata="tabledata" :context="context" :formdata="formdata" :action="actionfunc">
@@ -136,7 +158,8 @@
   <template #header="{ close, titleId, titleClass }">
       <div class="header">
         <div :id="titleId" :class="titleClass">请配置{{context.title}}</div>
-        <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button>
+        <!-- <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button> -->
+        <el-icon :size="24"><Close @click="close"></Close></el-icon>
       </div>
     </template>
     <slot name="create" 
@@ -163,7 +186,7 @@
   <template #header="{ close, titleId, titleClass }">
       <div class="header">
         <div :id="titleId" :class="titleClass">{{context.title}}</div>
-        <el-button type="danger" circle icon="CircleCloseFilled" @click="close"></el-button>
+        <el-icon :size="24"><Close @click="close"></Close></el-icon>
       </div>
     </template>
     <slot name="view" :meta="meta" :context="context" :formdata="formdata" :action="actionfunc">
@@ -172,7 +195,7 @@
 </el-dialog>
 </template>
 <script setup>
-import {ref,onMounted} from "vue"
+import {ref,onMounted,provide} from "vue"
 import {camelToUnderscore} from "@/utils/index"
 import PanelFilter from "./panel-fileter.vue"
 import PanelCreate from "./panel-create.vue"
@@ -180,6 +203,7 @@ import PanelUpdate from "./panel-update.vue"
 import PanelExport from "./panel-export.vue"
 import PanelView from "./panel-view.vue"
 import FileSaver from "file-saver"
+import {localStore} from "@/utils/storage"
 const model = ref('')
 // 筛选
 const condarr = ref([])
@@ -194,6 +218,7 @@ const onselectionchange = (value)=>{
   //console.log(value)
   selected.value=value
 }
+
 const appprops=defineProps({
   context:{
     type:Object,
@@ -246,7 +271,6 @@ const appprops=defineProps({
     }
   }
 })
-
 const deletebatch = ()=>{
    let rows = reftable.value.getSelectionRows()
     if(rows.length==0){
@@ -259,7 +283,18 @@ const deletebatch = ()=>{
     postdata[`${key}s`] = value
     appprops.handlers.deleteIts(postdata)
 }
-
+const closeit = ()=>{
+  if(_update.value){
+    _update.value = false
+  }
+  if(_create.value){
+    _create.value = false
+  }
+  if(_export.value){
+    _export.value = false
+  }
+}
+provide('close', closeit)
 const loading = ref(false)
 const _export = ref(false)
 const handleexportconfirm = (data)=>{
@@ -416,8 +451,27 @@ const handleexport =(cond)=>{
       FileSaver.saveAs(res)
   })
 }
+
+const checkedList = ref([])
+const initchecked = ()=>{
+  let key = "field:"+appprops.context.perm
+  const value = localStore.get(key)||[]
+  if(value.length>0){
+    checkedList.value = value
+  }else{
+    checkedList.value = appprops.meta.map(oo=>oo.prop)
+  }
+}
+const onUpdateCheckedList = (value)=>{
+  let key = "field:"+appprops.context.perm
+  localStore.set(key,value)
+}
+
+
+
 onMounted(()=>{
   handlesearch()
+  initchecked()
 })
 
 
