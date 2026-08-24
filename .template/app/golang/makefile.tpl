@@ -2,8 +2,8 @@ APPNAME=$(app)
 BINARY_NAME=$(app)
 SYSTEM = LINUX
 ifeq ($(app),)
-APPNAME := smartform
-BINARY_NAME := smartform
+APPNAME := {{.App.Name}}
+BINARY_NAME := {{.App.Name}}
 endif
 ifeq ($(OS),Windows_NT)
     SYSTEM := windows

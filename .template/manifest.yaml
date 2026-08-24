@@ -90,6 +90,8 @@ app:
       out: server/app-dev.yaml
     - tpl: golang/app-prod.yaml.tpl
       out: server/app-prod.yaml
+    - tpl: golang/makefile.tpl
+      out: server/Makefile
 
     # —— 按应用拆分的通用逻辑/模型/REST 入口 ——
     - tpl: golang/logic.gen.go.tpl
