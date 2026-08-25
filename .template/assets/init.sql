@@ -64,14 +64,14 @@ INSERT INTO `sys_config` VALUES (1, 'site.title', '站点名称', '湖南云立�
 INSERT INTO `sys_config` VALUES (2, 'site.memo', '站点描述', '明德、精业、求实、创新', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (3, 'site.orgname', '公司名称', '湖南云立方智能科技有限公司', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (4, 'site.orgno', '营业执照', '91430111MA4R1P7M7B', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
-INSERT INTO `sys_config` VALUES (5, 'site.orgaddr', '公司地址', '湖南省长沙市岳麓区岳麓街道后湖艺术园D区62栋210号', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
-INSERT INTO `sys_config` VALUES (6, 'site.linkname', '联系人', '胡文林', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
+INSERT INTO `sys_config` VALUES (5, 'site.orgaddr', '公司地址', '湖南省长沙市岳麓区岳麓街道后湖艺术园', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
+INSERT INTO `sys_config` VALUES (6, 'site.linkname', '联系人', '胡先生', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (7, 'site.linkphone', '联系电话', '15367151352', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (8, 'site.linkemail', '邮箱地址', 'winlion@turingdance.com', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (9, 'site.linkqq', 'qq地址', '271151388', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
-INSERT INTO `sys_config` VALUES (10, 'site.qrcodewx', '二维码', 'https://www.turingdance.com/assets/images/winlion.jpg', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
-INSERT INTO `sys_config` VALUES (11, 'site.logo0', '128*128logo', 'https://www.turingdance.com/assets/images/logo.png', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
-INSERT INTO `sys_config` VALUES (12, 'site.logo1', '128*320logo', 'https://www.turingdance.com/assets/images/logo.png', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
+INSERT INTO `sys_config` VALUES (10, 'site.qrcodewx', '二维码', 'https://picsum.photos/id/10/600/600', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
+INSERT INTO `sys_config` VALUES (11, 'site.logo0', '128*128logo', 'https://picsum.photos/id/10/128/128', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
+INSERT INTO `sys_config` VALUES (12, 'site.logo1', '128*320logo', 'https://picsum.photos/id/10/128/320', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 INSERT INTO `sys_config` VALUES (13, 'site.beianno', '备案号', '湘ICP备16002978号-4', 1, '2025-05-29 14:12:22', '2025-05-29 14:12:22', 0);
 
 -- ----------------------------
@@ -112,15 +112,11 @@ CREATE TABLE `sys_dict`  (
 -- ----------------------------
 -- Records of sys_dict
 -- ----------------------------
-INSERT INTO `sys_dict` VALUES (1, 'status_problem', '问题状态', '[{\"value\":\"idle\",\"label\":\"草稿\",\"score\":0},{\"value\":\"confirmed\",\"label\":\"待处理\",\"score\":0},{\"value\":\"progress\",\"label\":\"整改中\",\"score\":0},{\"value\":\"complete\",\"label\":\"已完成\",\"score\":0}]', '2023-09-05 15:18:09', '2025-05-29 15:17:08', 1);
 INSERT INTO `sys_dict` VALUES (2, 'trade', '行业', '[{\"value\":\"5\",\"label\":\"批发和零售业\",\"score\":0},{\"value\":\"10\",\"label\":\"租赁和商务服务业\",\"score\":0}]', '2024-05-26 21:14:14', '2025-05-29 15:32:34', 1);
 INSERT INTO `sys_dict` VALUES (3, 'category', '分类', '[{\"value\":\"1\",\"label\":\"水\",\"score\":0},{\"value\":\"2\",\"label\":\"土\",\"score\":0},{\"value\":\"3\",\"label\":\"气\",\"score\":0}]', '2024-05-27 16:31:26', '2025-05-29 15:30:48', 1);
-INSERT INTO `sys_dict` VALUES (4, 'flow_status', '流程状态', '[{\"value\":\"idle\",\"label\":\"待处理\",\"score\":0},{\"value\":\"stop\",\"label\":\"已停止\",\"score\":0},{\"value\":\"approvaling\",\"label\":\"审批中\",\"score\":0},{\"value\":\"ok\",\"label\":\"已完成\",\"score\":0}]', '2024-06-02 17:46:12', '2025-05-29 15:16:55', 1);
 INSERT INTO `sys_dict` VALUES (5, 'sys_rights_type', '权限类型', '[{\"value\":\"group\",\"label\":\"业务分组\",\"score\":0},{\"value\":\"view\",\"label\":\"页面菜单\",\"score\":0},{\"value\":\"widget\",\"label\":\"按钮操作\",\"score\":0},{\"value\":\"api\",\"label\":\"服务接口\",\"score\":0}]', '2024-11-03 08:40:10', '2024-11-03 08:40:10', 0);
 INSERT INTO `sys_dict` VALUES (6, 'state_status', '审核状态', '[{\"value\":\"idle\",\"label\":\"待处理\",\"score\":0},{\"value\":\"rejected\",\"label\":\"已拒绝\",\"score\":0},{\"value\":\"resolved\",\"label\":\"已同意\",\"score\":0}]', '2024-11-05 12:22:10', '2025-05-29 15:33:42', 1);
 INSERT INTO `sys_dict` VALUES (7, 'sys_enable', '使能状态', '[{\"value\":\"1\",\"label\":\"启用\",\"score\":0},{\"value\":\"0\",\"label\":\"停用\",\"score\":0}]', '2025-05-29 15:37:41', '2025-05-29 15:37:41', 0);
-INSERT INTO `sys_dict` VALUES (8, 'sys_media_type', '资源类型', '[{\"value\":\"video\",\"label\":\"视频资源\",\"score\":0},{\"value\":\"image\",\"label\":\"图片资源\",\"score\":0},{\"value\":\"pdf\",\"label\":\"PDF资源\",\"score\":0},{\"value\":\"docx\",\"label\":\"word资源\",\"score\":0},{\"value\":\"pptx\",\"label\":\"演示文档\",\"score\":0},{\"value\":\"zip\",\"label\":\"压缩文件\",\"score\":0},{\"value\":\"audio\",\"label\":\"音频文件\",\"score\":0},{\"value\":\"exe\",\"label\":\"可执行文件\",\"score\":0},{\"value\":\"url\",\"label\":\"外链资源\",\"score\":0},{\"value\":\"unkown\",\"label\":\"未知文件\",\"score\":0}]', '2025-06-01 10:06:52', '2025-06-01 10:06:52', 0);
-INSERT INTO `sys_dict` VALUES (9, 'sys_lesson_cate', '课程分类', '[{\"value\":\"metal\",\"label\":\"虚拟仿真实训系统\",\"score\":0},{\"value\":\"acrylic\",\"label\":\"3D打印和装配过程\",\"score\":0},{\"value\":\"soft\",\"label\":\"教学公开课\",\"score\":0}]', '2025-06-10 21:47:43', '2025-06-10 21:47:43', 0);
 
 -- ----------------------------
 -- Table structure for sys_org
@@ -209,10 +205,8 @@ CREATE TABLE `sys_role`  (
 -- Records of sys_role
 -- ----------------------------
 INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', NULL, '[1,2,3,4,5,21,6,7,8,9,39,45,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,46]', 1);
-INSERT INTO `sys_role` VALUES (2, '学生', 'member', NULL, '[1,2,3,8,22,46]', 1);
 INSERT INTO `sys_role` VALUES (3, '注册租户', 'tenant', NULL, '[3,8,22,46]', 1);
 INSERT INTO `sys_role` VALUES (4, '普通访客', 'guest', NULL, '[3]', 1);
-
 -- ----------------------------
 -- Table structure for sys_smstask
 -- ----------------------------
