@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-//go:embed index.html favicon.ico img/* images/* fonts/* css/* js/*
+//go:embed *
 var Assets embed.FS
 
 type tryFileHandler struct {
