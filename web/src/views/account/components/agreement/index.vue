@@ -23,7 +23,7 @@ import MarkdownIt from "markdown-it"
 const _show = ref(false)
 const md = new (MarkdownIt as any)();
 const html = ref('')
-const renderuser = (str)=>{
+const renderuser = ()=>{
     html.value = md.render(userMdText)
     _show.value = true
 }
