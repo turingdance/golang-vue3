@@ -1,14 +1,16 @@
 /** 统一处理 Cookie */
 
 import {TOKEN_KEY} from "@/enums/CacheEnum"
- const getToken = () => {
-  return sessionStorage.getItem(TOKEN_KEY)
+import store from "./storage"
+
+const getToken = () => {
+  return store.get(TOKEN_KEY)
 }
  const setToken = (token: string) => {
-  sessionStorage.setItem(TOKEN_KEY, token)
+  store.set(TOKEN_KEY, token)
 }
  const removeToken = () => {
-  sessionStorage.removeItem(TOKEN_KEY)
+  store.remove(TOKEN_KEY)
 }
 
 export default {

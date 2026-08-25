@@ -1,10 +1,14 @@
 <template>
-<img :src="pic"/>
+<img 
+:src="pic"
+@error="handleImageError"
+/>
 </template>
 
 <script setup>
 import {useStorageStore} from "@/store"
 import { watch } from "vue";
+import fallbackImage from '@/assets/images/logo.png'
 const storageStore = useStorageStore()
 const appprops = defineProps({
     src:{
@@ -20,4 +24,10 @@ watch(()=>appprops.src,async (v)=>{
 onMounted(async ()=>{
     pic.value = await storageStore.shareUrl(appprops.src)
 })
+const handleImageError = (e) => {
+  // 防止死循环：如果已经是兜底图就不再赋值
+  if (e.target.src !== fallbackImage) {
+    e.target.src = fallbackImage
+  }
+}
 </script>

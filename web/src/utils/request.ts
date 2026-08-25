@@ -19,7 +19,6 @@ function getBaseURL(prefix){
   if(!protocal){
     protocal = location.protocol
   }
-  console.log('obj',obj, protocal +"//"+ host + pathname )
   return protocal +"//"+ host + pathname 
 }
 // 传入泛型约束返回数据类型
@@ -49,7 +48,6 @@ export  function createService() {
   // 响应拦截（可根据具体业务作出相应的调整）
   service.interceptors.response.use(
     (response) => {
-      ////console.log("response",response)
       // apiData 是 API 返回的数据
       const apiData = response.data as any
       if (response.status == 200 && (apiData == "" || response.config.responseType == "blob")) {

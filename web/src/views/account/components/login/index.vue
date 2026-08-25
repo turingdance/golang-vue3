@@ -130,10 +130,9 @@ const handleLogin = () => {
   useUserStore()
     .login(loginForm as ILoginData)
     .then(() => {
-     
+      console.log("login",parseRedirect())
       const { path, queryParams } = parseRedirect();
       router.push({ path: path, query: queryParams });
-      //console.log("login.then",{ path, queryParams })
     })
     .catch((err:Error) => {
       ElMessage.error(err.message)
@@ -149,7 +148,6 @@ const handleclose = () => {
   outerVisible.value = false
 }
 const handleconfirm = (params: any) => {
-  //console.log("params", params)
   const dotsA = [] as any[]
   params.forEach(function (value: any) {
     const tmp = [value.x, value.y]
@@ -183,16 +181,14 @@ function parseRedirect(): {
   queryParams: Record<string, string>;
 } {
   const query: LocationQuery = route.query;
-  const redirect = (query.redirect as string) ?? "/";
-
+  const redirect = (query.redirect as string) ?? "/dashboard";
   const url = new URL(redirect, window.location.origin);
-  const path = url.pathname;
+  const path = redirect;
   const queryParams: Record<string, string> = {};
-
   url.searchParams.forEach((value, key) => {
     queryParams[key] = value;
   });
-
+  console.log('{ path, queryParams }',{ path, queryParams })
   return { path, queryParams };
 }
 
@@ -200,10 +196,6 @@ function parseRedirect(): {
 interface IData {
   scene: string
   token: string
-}
-interface IMessage {
-  code: number
-  data: IData
 }
 </script>
 

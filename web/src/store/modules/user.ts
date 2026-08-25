@@ -17,7 +17,6 @@ export const useUserStore = defineStore("user", () => {
     mobile:"",
     email:"",
   });
-
   const haslogin = ref(false)
 
   /**
@@ -31,7 +30,7 @@ export const useUserStore = defineStore("user", () => {
       authAPI.loginApi(loginData)
         .then((res) => {
           const { data }= res
-          tokenmgr.setToken(data); // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+          tokenmgr.setToken(data);
           haslogin.value = true
           resolve();
         })
@@ -44,6 +43,10 @@ export const useUserStore = defineStore("user", () => {
   // 获取信息(用户昵称、头像、角色集合、权限集合)
   function getUserInfo() {
     return new Promise<IUserInfo>((resolve, reject) => {
+      if(!tokenmgr.getToken()){
+        reject('请先登陆');
+        return
+      }
       authAPI.getInfoApi()
         .then(({data}) => {
            
@@ -82,7 +85,7 @@ export const useUserStore = defineStore("user", () => {
     return new Promise<void>((resolve, reject) => {
       authAPI.logoutApi()
         .then(() => {
-          tokenmgr.removeToken()
+          tokenmgr.setToken('')
           haslogin.value = false 
           location.reload(); // 清空路由
           resolve();

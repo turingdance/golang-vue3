@@ -24,7 +24,7 @@
     <!-- 用户头像 -->
     <el-dropdown class="setting-item" trigger="click">
       <div class="flex-center h100% p10px">
-        <AuthImage :src="userStore.user.pic" class="rounded-full mr-10px w24px w24px"></AuthImage>
+        <AuthImage :src="userStore.user.pic" class="rounded-full mr-10px w-[24px] h-[24px]"></AuthImage>
         <span>{{ userStore.user.nickname }}</span>
       </div>
       <template #dropdown>

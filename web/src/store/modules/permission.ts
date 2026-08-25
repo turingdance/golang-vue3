@@ -13,26 +13,16 @@ const Layout = () => import("@/layout/index.vue");
  * @returns
  */
 const hasPermission = (roles: string[], route: RouteRecordRaw) => {
-  if(route){
-    // return true
-  }
   if (roles.includes("admin")) {
     return true;
   }
-  if(!route.meta){
+  if(!route.meta || !route.meta.roles){
     return true
-  }
-  if (route.meta.roles) {
-    // 角色【超级管理员】拥有所有权限，忽略校验
+  }else{
     return roles.some((role) => {
-      if (route.meta?.roles) {
-        return route.meta.roles.includes(role);
-      }else{
-        return false;
-      }
+        return route.meta?.roles?.includes(role);
     });
   }
-  return false;
 };
 
 /**

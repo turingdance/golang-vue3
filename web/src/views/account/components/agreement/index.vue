@@ -3,7 +3,7 @@
         <label>
             <el-checkbox v-model="modelvalue" label="注册即视同意" checked disabled value="true" size="small" />
         </label>
-        <el-button type="primary" @click="renderuser()" link>洞见用户服务条款</el-button>
+        <el-button type="primary" @click="renderuser()" link>《洞见用户服务条款》</el-button>
         <!-- <el-button type="primary" link>用户隐私政策</el-button> -->
     </div>
     <el-dialog title="请查看协议" v-model="_show" append-to-body :width="960">

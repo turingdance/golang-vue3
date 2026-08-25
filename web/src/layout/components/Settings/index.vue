@@ -2,6 +2,7 @@
   <el-drawer
     v-model="settingsVisible"
     size="300"
+    class="drawer-container"
     :title="$t('settings.project')"
   >
     <!-- <el-divider>{{ $t("settings.theme") }}</el-divider>
@@ -14,7 +15,9 @@
         @change="changeTheme"
       />
     </div> -->
-
+    <template #header>
+      <div></div>
+    </template>
     <el-divider>{{ $t("settings.interface") }}</el-divider>
 
     <div class="settings-option">
@@ -137,6 +140,15 @@ function findOutermostParent(tree: any[], findName: string) {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.settings-option{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.el-drawer__header{
+    display: none;
+  }
 
 </style>

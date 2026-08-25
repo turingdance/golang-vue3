@@ -129,7 +129,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
       viteCompression(
         {
           algorithm: 'gzip',
-          threshold: 512*1024,
+          threshold: 256*1024,
           verbose: false,
           deleteOriginFile: false
         }
@@ -137,73 +137,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
     ],
     // 预加载项目必需的组件
     optimizeDeps: {
-      include: [
-        "vue",
-        "vue-router",
-        "pinia",
-        "axios",
-        "@vueuse/core",
-        "sortablejs",
-        "path-to-regexp",
-        "echarts",
-        "@wangeditor/editor",
-        "@wangeditor/editor-for-vue",
-        "vue-i18n",
-        "path-browserify",
-        "element-plus/es/components/form/style/css",
-        "element-plus/es/components/form-item/style/css",
-        "element-plus/es/components/button/style/css",
-        "element-plus/es/components/input/style/css",
-        "element-plus/es/components/input-number/style/css",
-        "element-plus/es/components/switch/style/css",
-        "element-plus/es/components/upload/style/css",
-        "element-plus/es/components/menu/style/css",
-        "element-plus/es/components/col/style/css",
-        "element-plus/es/components/icon/style/css",
-        "element-plus/es/components/row/style/css",
-        "element-plus/es/components/tag/style/css",
-        "element-plus/es/components/dialog/style/css",
-        "element-plus/es/components/loading/style/css",
-        "element-plus/es/components/radio/style/css",
-        "element-plus/es/components/radio-group/style/css",
-        "element-plus/es/components/popover/style/css",
-        "element-plus/es/components/scrollbar/style/css",
-        "element-plus/es/components/tooltip/style/css",
-        "element-plus/es/components/dropdown/style/css",
-        "element-plus/es/components/dropdown-menu/style/css",
-        "element-plus/es/components/dropdown-item/style/css",
-        "element-plus/es/components/sub-menu/style/css",
-        "element-plus/es/components/menu-item/style/css",
-        "element-plus/es/components/divider/style/css",
-        "element-plus/es/components/card/style/css",
-        "element-plus/es/components/link/style/css",
-        "element-plus/es/components/breadcrumb/style/css",
-        "element-plus/es/components/breadcrumb-item/style/css",
-        "element-plus/es/components/table/style/css",
-        "element-plus/es/components/tree-select/style/css",
-        "element-plus/es/components/table-column/style/css",
-        "element-plus/es/components/select/style/css",
-        "element-plus/es/components/option/style/css",
-        "element-plus/es/components/pagination/style/css",
-        "element-plus/es/components/tree/style/css",
-        "element-plus/es/components/alert/style/css",
-        "element-plus/es/components/radio-button/style/css",
-        "element-plus/es/components/checkbox-group/style/css",
-        "element-plus/es/components/checkbox/style/css",
-        "element-plus/es/components/tabs/style/css",
-        "element-plus/es/components/tab-pane/style/css",
-        "element-plus/es/components/rate/style/css",
-        "element-plus/es/components/date-picker/style/css",
-        "element-plus/es/components/notification/style/css",
-        "element-plus/es/components/image/style/css",
-        "element-plus/es/components/statistic/style/css",
-        "element-plus/es/components/watermark/style/css",
-        "element-plus/es/components/config-provider/style/css",
-        "element-plus/es/components/text/style/css",
-        "element-plus/es/components/drawer/style/css",
-        "element-plus/es/components/color-picker/style/css",
-        "element-plus/es/components/backtop/style/css",
-      ],
+      include: [],
     },
     // 构建配置
     build: {
@@ -226,9 +160,9 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
           //   "vue-i18n": ["vue-i18n"],
           // },
           // 用于从入口点创建的块的打包输出格式[name]表示文件名,[hash]表示该文件内容hash值
-          entryFileNames: "js/[name].[hash].js",
+          entryFileNames: "js/entry-[name].[hash].js",
           // 用于命名代码拆分时创建的共享块的输出命名
-          chunkFileNames: "js/[name].[hash].js",
+          chunkFileNames: "js/com[name].[hash].js",
           // 用于输出静态资源的命名，[ext]表示文件扩展名
           assetFileNames: (assetInfo: any) => {
             const info = assetInfo.name.split(".");
@@ -239,7 +173,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             ) {
               extType = "media";
             } else if (/\.(png|jpe?g|gif|svg)(\?.*)?$/.test(assetInfo.name)) {
-              extType = "img";
+              extType = "image";
             } else if (/\.(woff2?|eot|ttf|otf)(\?.*)?$/i.test(assetInfo.name)) {
               extType = "fonts";
             }

@@ -203,6 +203,7 @@ watch(
             border: 1px solid rgba(14,165,233,0.15);
             display: flex;
             flex-direction: column;
+            justify-content: flex-start;
         }
         ::v-deep(.login-card){
           h2,h3,h4,h1{
@@ -210,8 +211,7 @@ watch(
             color:#fff;
           }
           .box-card{
-            display: flex;
-            gap: 5px;
+            gap: 10px;
             width: 100%;
           }
         }

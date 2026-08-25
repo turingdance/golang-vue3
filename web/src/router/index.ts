@@ -20,7 +20,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "home",
     component: Applet,
     meta: { hidden: true },
-    redirect: "/dashboard",
+    redirect: "/index",
     children: [
       {
         path:"/index",

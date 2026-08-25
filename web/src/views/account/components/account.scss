@@ -1,7 +1,6 @@
 .login-card {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     background-color: #ffffff;
     padding: 5px 5px 5px 5px;
@@ -49,8 +48,8 @@
     outline-offset: 2px;
   }
  .box-card{
-    flex:1;
     max-width: 360px;
+    gap:5px;
  }
   .btn-wraper {
     display: flex;

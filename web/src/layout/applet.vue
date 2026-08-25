@@ -11,17 +11,14 @@
                 </div>
                 
                 <nav class="md:flex items-center space-x-6">
-                    <!-- <BtnLogin class="text-gray-600 hover:text-primary transition-colors"></BtnLogin> -->
-                    <router-link to="/login">
+
+                    <router-link to="/login" v-if="!userStore.haslogin">
                         <el-button link>登陆</el-button>
                     </router-link>
+                    <router-link to="/login" v-else>
+                        <el-button link>管理后台</el-button>
+                    </router-link>
                 </nav>
-                
-                <!-- <div class="md:hidden">
-                    <button type="button" class="text-gray-600 hover:text-primary">
-                        <i class="fa fa-bars text-xl"></i>
-                    </button>
-                </div> -->
             </div>
         </div>
     </header>
@@ -54,3 +51,7 @@
 </footer>
 
       </template>
+<script setup lang="ts">
+import { useUserStore } from '@/store';
+const userStore = useUserStore()
+</script>

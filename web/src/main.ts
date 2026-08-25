@@ -9,8 +9,7 @@ import "element-plus/theme-chalk/dark/css-vars.css";
 import "@/styles/index.scss";
 import './assets/css/tailwind.css' // 引入包含 Tailwind 指令的 CSS
 import "animate.css";
-//import AutoCom from "@/components/index";
 const app = createApp(App);
-//app.use(AutoCom)
+
 app.use(setupPlugins);
 app.mount("#app");

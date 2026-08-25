@@ -20,6 +20,7 @@ class AppStorage {
 
   get = <T>(key: string): T => {
     const resp = this.storage.getItem(key);
+    console.log("get1",key,resp)
     if (!resp) return {} as T;
     try {
       const r = JSON.parse(resp) as StorageWrapper;
@@ -28,6 +29,7 @@ class AppStorage {
         return {} as T;
       }
       if (r.data !== undefined) {
+        console.log("get2",key,r.data)
         return r.data as T;
       }
       return {} as T;
@@ -45,10 +47,12 @@ class AppStorage {
       payload.expire = Date.now() + expireSecond * 1000;
     }
     this.storage.setItem(key, JSON.stringify(payload));
+    console.log("set",key)
   };
 
   remove = (key: string): void => {
     this.storage.removeItem(key);
+    console.log("remove",key)
   };
 
   clearAll = (): void => {
