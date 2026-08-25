@@ -43,7 +43,7 @@ var Routes []Route= []Route{
 }
 
 var DefaultRouter *restkit.Router = restkit.NewRouter().PathPrefix("/")
-// 初始化路由
+// initialize router
 func InitRouter(router *restkit.Router) {
 	{{- range $k,$v := . }}
 	{{$module := $v.Module|camel}}

@@ -2,7 +2,7 @@
 // create at 2024-11-22 15:45:08
 // creeate by winlion
 //
-//go:generate  codectl router -t ./router.tpl -a winlion -s . -d . -n router.go
+//go:generate  codectl router -a winlion -s . -d . -n router.go
 package rest
 
 import (
