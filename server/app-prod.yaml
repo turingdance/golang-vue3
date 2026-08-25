@@ -41,7 +41,7 @@ auth:
     -  /sys/dict/getOne
 
 database:
-  dsn: mysql://admipa:admipa@1q2w3e4r@tcp(www.techidea8.com:3306)/dbipaonline?charset=utf8mb4&parseTime=true&loc=Local
+  dsn: mysql://root:root@tcp(127.0.0.1:3306)/dbtest?charset=utf8mb4&parseTime=true&loc=Local
   engin: InnoDB
   charset: utf8mb4
   loglevel: 6

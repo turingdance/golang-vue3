@@ -7,12 +7,10 @@ BINARY_NAME := {{.App.Name}}
 endif
 ifeq ($(OS),Windows_NT)
     SYSTEM := windows
-    # Windows 可执行文件后缀（.exe）
     BINARY_NAME := $(BINARY_NAME).exe
 endif
 DATETIME=$(shell date +%Y%m%d%H%M)
 
-.PHONY:build
 server:
 	@echo "build $(SYSTEM) as $(BINARY_NAME) DATATIME@$(DATETIME)"
 	go mod tidy
@@ -33,7 +31,8 @@ reverse:
 router:
 	codectl router  -a winlion -s ./internal/app/$(app)/rest
 
-.PHONY:clean
 clean:
 	go clean
 	rm $(BINARY_NAME)
+
+.PHONY:clean app

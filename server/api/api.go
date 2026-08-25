@@ -64,11 +64,6 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	httpserver.UseMiddleWare(middleware.Cros, middleware.AccessLog)
 	// api 服务
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
-
-	// 这里是生成的模板
-	//testapp.Initialize(appConf)
-	//httpserver.Handle("/testapp/", testapp.CreateRouter("/testapp/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
-
 	// 下面是资源文件服务
 	for _, config := range appConf.Storage {
 		if config.Driver == storage.DriverLocal {
@@ -79,7 +74,7 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 				// 签名鉴权
 				httpserver.Handle("/"+config.Bucket+"/", http.StripPrefix("/"+config.Bucket+"/", http.FileServer(http.Dir(config.Datapath))), middleware.NewSigner(appConf.Enpryt).Handle)
 			}
-			logrus.Info("Storage end")
+
 		}
 
 	}
@@ -87,7 +82,6 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	// 静态资源服务,该目录是console 项目下 npm run build:prod 指令编译后生成
 	httpserver.Handle("/", http.FileServer(http.FS(site.Assets)))
 	err = httpserver.Start()
-	logrus.Info("httpserver.Start end")
 	return httpserver, err
 }
 
