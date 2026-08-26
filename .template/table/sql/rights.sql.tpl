@@ -20,7 +20,7 @@ SELECT @appId := (select id from sys_rights where biz = '{{.App.Name|lcfirst}}')
 -- {{.Title}}({{.Module}})不存在则创建
 -- ----------------------------
 insert into sys_rights (type,component,uri,icon,title,pid,biz,redirect,sort_index,hidden)
-select 'view',  '{{.App.Name|lcfirst}}/{{.Module|lcfirst}}/index', '/{{.App.Name|lcfirst}}/{{.Module|lcfirst}}', '', '{{.Title}}',  @appId, '{{.App.Name|lcfirst}}:{{.Module|lcfirst}}','', 0, 0
+select 'view',  '{{.App.Name|lcfirst}}/{{.Module|lcfirst}}/index', '/{{.App.Name|lcfirst}}/{{.Module|lcfirst}}', 'cascader', '{{.Title}}',  @appId, '{{.App.Name|lcfirst}}:{{.Module|lcfirst}}','', 1, 0
 from dual 
 WHERE 
 NOT EXISTS(SELECT type,title FROM sys_rights where type='view' and biz = '{{.App.Name|lcfirst}}:{{.Module|lcfirst}}' );
