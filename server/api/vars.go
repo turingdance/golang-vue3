@@ -1,7 +1,7 @@
 package api
 
 var (
-	AppName   = ""
-	AppMemo   = ""
-	AppConfig = ""
+	ProjectName   = ""
+	ProjectTitle  = ""
+	ProjectConfig = ""
 )

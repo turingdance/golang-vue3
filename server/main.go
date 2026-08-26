@@ -13,7 +13,7 @@ var (
 )
 
 func main() {
-	flag.StringVar(&api.AppConfig, "c", "app-prod.yaml", "/path/to/configfile,only yaml/yml(app-prod.yaml)")
+	flag.StringVar(&api.ProjectConfig, "c", "app-prod.yaml", "/path/to/configfile,only yaml/yml(app-prod.yaml)")
 	flag.BoolVar(&version, "v", false, "version of app")
 	flag.StringVar(&signalstr, "s", "start", `
 	start:   run app 
@@ -23,12 +23,12 @@ func main() {
 	`)
 	flag.Parse()
 	// 如果为0
-	app := api.NewApp(api.AppName)
-	if api.AppMemo != "" {
-		app.WithOption(api.Description(api.AppMemo))
+	app := api.NewApp(api.ProjectName)
+	if api.ProjectTitle != "" {
+		app.WithOption(api.Description(api.ProjectTitle))
 	}
-	if api.AppConfig != "" {
-		app.WithOption(api.Config(api.AppConfig))
+	if api.ProjectConfig != "" {
+		app.WithOption(api.Config(api.ProjectConfig))
 	}
 	if version {
 		signalstr = "version"
