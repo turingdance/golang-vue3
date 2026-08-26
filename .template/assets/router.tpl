@@ -1,12 +1,9 @@
 
-//don't modify !!!!
-// create at ${datetime}
-// creeate by ${author}
+//don't modify !!!! creeate by ${author} ,at ${datetime}
 //go:generate  codectl router -a ${author} -s . -d . -n ${routerfile}
 package ${package}
 
 import (
-	"net/http"
 	"github.com/turingdance/infra/restkit"
 )
 var (
