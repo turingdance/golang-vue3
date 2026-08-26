@@ -2,8 +2,8 @@ APPNAME=$(app)
 BINARY_NAME=$(app)
 SYSTEM = LINUX
 ifeq ($(app),)
-APPNAME := {{.App.Name}}
-BINARY_NAME := {{.App.Name}}
+APPNAME := {{.Project.Name}}
+BINARY_NAME := {{.Project.Name}}
 endif
 ifeq ($(OS),Windows_NT)
     SYSTEM := windows

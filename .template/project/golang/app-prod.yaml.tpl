@@ -1,27 +1,27 @@
 
 engin:
     env: dev
-    pidfile: /etc/{{.App.Name}}.pid
+    pidfile: /etc/{{.Project.Name}}.pid
 http:
-    name: {{.App.Name}}
+    name: {{.Project.Name}}
     port: 80
     host:
 redis:
   dbIndex: 1
   addr: redis://127.0.0.1:6379
-  password: rootme@123
+  password: 
   maxIdle: 10
   idleTimeoutSec: 15
 
 log:
   level: 6
-  file: /var/logs/{{.App.Name}}/{{.App.Name}}.log
+  file: /var/logs/{{.Project.Name}}/{{.Project.Name}}.log
 
 discover:
   Impl:  
   Addr:  
   updateIntervalSecond: 30
-  basepath:  {{.App.Name}}
+  basepath:  {{.Project.Name}}
 auth:
   whiteList:
     -  /sys/captcha/
@@ -41,7 +41,7 @@ auth:
     -  /sys/dict/getOne
 
 database:
-  dsn: {{.App.Dsn|unescape}}
+  dsn: {{.Project.Dsn|unescape}}
   engin: InnoDB
   charset: utf8mb4
   loglevel: 6
@@ -68,13 +68,13 @@ oss:
   endpoint: 
   callbackUrl: 
   expireTime: 3360 
-  uploadDir: {{.App.Name}}/
+  uploadDir: {{.Project.Name}}/
 
 
 storage:
     - driver: local
       bucket: mnt
-      datapath: /data/{{.App.Name}}/public
+      datapath: /data/{{.Project.Name}}/public
       ssl: false
       host: localhost:3000/dev-api
       funSubDir: YYYY,MM,DD
@@ -83,7 +83,7 @@ storage:
       primary: true
     - driver: local
       bucket: res
-      datapath: /data/{{.App.Name}}/private
+      datapath: /data/{{.Project.Name}}/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -91,8 +91,8 @@ storage:
       authRequired: true  
       primary: false
     - driver: oss
-      bucket: {{.App.Name}}
-      datapath: /data/{{.App.Name}}/private
+      bucket: {{.Project.Name}}
+      datapath: /data/{{.Project.Name}}/private
       ssl: false
       host: 
       funSubDir: YYYY,MM,DD
@@ -113,7 +113,7 @@ miniapp:
   secret: 
   httpDebug: true
   log:
-    file: /var/logs/{{.App.Name}}/wxapp.log
+    file: /var/logs/{{.Project.Name}}/wxapp.log
     level: debug
   cacheConf:
     addr: 

@@ -1,5 +1,5 @@
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author {{.App.Author}}
+// @author {{.Project.Author}}
 
 package conf
 
@@ -10,12 +10,12 @@ import (
 	"github.com/spf13/viper"
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/rediskit"
-	"{{.App.Package}}/internal/pkg/dysms"
-	"{{.App.Package}}/internal/pkg/log"
-	"{{.App.Package}}/internal/pkg/storage"
-	"{{.App.Package}}/internal/server"
-	"{{.App.Package}}/internal/server/auth"
-	"{{.App.Package}}/internal/server/middleware"
+	"{{.Project.Package}}/internal/pkg/dysms"
+	"{{.Project.Package}}/internal/pkg/log"
+	"{{.Project.Package}}/internal/pkg/storage"
+	"{{.Project.Package}}/internal/server"
+	"{{.Project.Package}}/internal/server/auth"
+	"{{.Project.Package}}/internal/server/middleware"
 
 )
 

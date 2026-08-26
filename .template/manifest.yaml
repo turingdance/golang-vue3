@@ -23,6 +23,7 @@ meta:
   lang:   golang
   dbtype: mysql
   author: codectl
+  package: turingdance.com/turing
   version: 1.0.0.20260824
 
 # ---- 全局默认（作用于所有 replace 规则；单条规则可覆盖）----
@@ -43,14 +44,20 @@ defaults:
 project:
   pre_create: []
 
-  templates: []
-  # 示例（模板作者按需补充，占位保持空 list 也完全合法）：
-  # - tpl: project/gitignore.tpl
-  #   out: .gitignore
-  # - tpl: project/README.md.tpl
-  #   out: README.md
-  # - tpl: project/Makefile.tpl
-  #   out: Makefile
+  templates:
+    # —— 项目级 Go 后端 wiring（create 时渲染，所有 app 共享）——
+    - tpl: golang/api.vars.go.tpl
+      out: server/api/vars.go
+    - tpl: golang/conf.go.tpl
+      out: server/internal/conf/conf.go
+    - tpl: golang/app-dev.yaml.tpl
+      out: server/app-dev.yaml
+    - tpl: golang/app-prod.yaml.tpl
+      out: server/app-prod.yaml
+    - tpl: golang/makefile.tpl
+      out: server/Makefile
+    - tpl: web/package.json
+      out: web/package.json
 
   assets: []
 
@@ -80,18 +87,8 @@ app:
     # —— Go 后端应用级 wiring ——
     - tpl: golang/init.gen.go.tpl
       out: server/internal/app/{app.name}/init.gen.go
-    - tpl: golang/conf.go.tpl
-      out: server/internal/conf/conf.go
     - tpl: golang/api.go.tpl
       out: server/api/api.go
-    - tpl: golang/api.vars.go.tpl
-      out: server/api/vars.go
-    - tpl: golang/app-dev.yaml.tpl
-      out: server/app-dev.yaml
-    - tpl: golang/app-prod.yaml.tpl
-      out: server/app-prod.yaml
-    - tpl: golang/makefile.tpl
-      out: server/Makefile
 
     # —— 按应用拆分的通用逻辑/模型/REST 入口 ——
     - tpl: golang/logic.gen.go.tpl
@@ -136,7 +133,7 @@ table:
   post_create:
   # 典型用法示例：
     exec:
-      - codectl router -s server/internal/app/{app.name}/rest
+      - codectl router -t .template/assets/router.tpl -s server/internal/app/{app.name}/rest
       - codectl runsql --dir sql/{app.name}/
 
 # ---- 字段类型映射规则（保持不变）----
