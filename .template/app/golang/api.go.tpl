@@ -57,10 +57,8 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 
 	// 初始化缓存
 	cache.Initialize(appConf.Redis)
-	logrus.Info("cache.Initialize end")
 	// 初始化应用
 	sys.Initialize(appConf)
-	logrus.Info("sys.Initialize end")
 	httpserver := server.NewHttpServer(appConf.Http, server.UseBanner(conf.Banner()))
 	p.httpserver = httpserver
 	// 中间件,
@@ -91,11 +89,7 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 
 	// 静态资源服务,该目录是console 项目下 npm run build:prod 指令编译后生成
 	httpserver.Handle("/", http.FileServer(http.FS(site.Assets)))
-
-	//ecls
-	//httpserver.Handle("/ecls/", cls.CreateRouter("/ecls/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 	err = httpserver.Start()
-	logrus.Info("httpserver.Start end")
 	return httpserver, err
 }
 
