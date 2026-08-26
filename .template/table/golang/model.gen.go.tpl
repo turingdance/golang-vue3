@@ -24,28 +24,17 @@ type {{.Module|ucfirst}} struct{
         {{ $v.DataColumn | upercamel }} {{ $v.DataType }} `json:"{{ $v.DataColumn | camel }}" form:"{{ $v.DataColumn | camel }}" gorm:"type:{{gormtagtype $v.RawData.DataType $v.DataSize}};{{if eq $v.IsPrimaryKey true}}primaryKey;{{end}}{{if eq $v.IsIndex true}}index;{{end}}{{if eq $v.AutoIncrement true}}autoIncrement;{{end}}{{if eq $v.DataType "types.Date"}}time_format:2006-01-02;time_utc:1;{{end}}{{if or (eq $v.DataType "types.DateTime") (eq $v.DataType "time.Time")}}time_format:2006-01-02 15:04:05;time_utc:1;{{end}}{{if not $v.Title }}{{else}}comment:{{$v.Title}};{{end}}"`
     {{end}}
 }
-
 // TableName {{.Module|ucfirst}}'s table name
 func (*{{.Module|ucfirst}}) TableName() string {
 	return TableName{{.Module|ucfirst}}
 }
 func (obj *{{.Module|ucfirst}}) BeforeCreate(tx *gorm.DB) (err error) {
-	{{- range $i,$v := .Columns}}
-		{{if eq $v.DataColumn "StartAt"}} 
-			obj.StartAt = types.DateTimeNow()	
-		{{end}}
-		{{if eq $v.DataColumn "Deleted"}} 
-			obj.Deleted = 0
-		{{end}}
+	{{if eq .Primary.DataType "string"}}
+		obj.{{.Primary.DataColumn}} = MakePKID()
 	{{end}}
 	return
 }
 func (obj *{{.Module|ucfirst}}) BeforeUpdate(tx *gorm.DB) (err error) {
-	{{- range $i,$v := .Columns}}
-		{{if eq $v.DataColumn "UpdateAt"}} 
-		obj.UpdateAt = types.DateTimeNow()	
-		{{end}}
-	{{end}}
 	return
 }
 func init() {
