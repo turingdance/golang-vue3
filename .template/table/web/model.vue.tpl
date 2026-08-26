@@ -16,7 +16,7 @@
   const meta = ref([
   {type:'selection','column-key':"{{.Primary.DataColumn | camel}}",prop:"{{.Primary.DataColumn | camel}}","width":80}, 
   {{- range $i,$v := .Columns}}
-	{ prop:"{{$v.DataColumn | camel}}",domType:"{{$v.DomType}}",hidden:{{$v.Hidden}},dataType:"{{$v.DataType}}",label:"{{$v.Title}}",sortable:false,suportSearch:{{$v.SuportSearch}},suportCreate:{{$v.SuportCreate}},suportUpdate:{{$v.SuportUpdate}} },
+	{ prop:"{{$v.DataColumn | camel}}",domType:"{{$v.DomType}}",hidden:{{$v.Hidden}},dataType:"{{$v.DataType}}",label:"{{$v.Title}}",memo:"{{$v.Memo}}",sortable:{{$v.Sortable}},suportSearch:{{$v.SuportSearch}},suportCreate:{{$v.SuportCreate}},suportUpdate:{{$v.SuportUpdate}} },
 	{{end}}
   ])
   const handlers = ref({{.Module|camel|js}}Api)

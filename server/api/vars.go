@@ -1,7 +1,7 @@
 package api
 
 var (
-	ProjectName   = ""
-	ProjectTitle  = ""
-	ProjectConfig = ""
+	ProjectName   = "turing"
+	ProjectTitle  = "turing"
+	ProjectConfig = "app-prod.yaml"
 )

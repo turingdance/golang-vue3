@@ -14,8 +14,8 @@ import (
 	"turingdance.com/turing/internal/app/sys/args"
 	"turingdance.com/turing/internal/app/sys/logic"
 	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 	"turingdance.com/turing/internal/pkg/utils"
-	"turingdance.com/turing/internal/server/auth"
 	"turingdance.com/turing/internal/types"
 )
 
@@ -80,13 +80,13 @@ func (ctrl *Account) Register(w http.ResponseWriter, req *http.Request) {
 // 搜索
 func (ctrl *Account) Bindwxuser(w http.ResponseWriter, req *http.Request) {
 
-	railm, err := auth.ParseToken(req)
+	realm, err := tokenkit.ParseToken(req)
 	userId := ""
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	userId = railm["userId"].(string)
+	userId = realm.AccId
 	if userId == "" {
 		wraper.Error("鉴权信息有误,请重试").Encode(w)
 		return
@@ -227,12 +227,12 @@ func (ctrl *Account) Update(w http.ResponseWriter, req *http.Request) {
 	updatObj := model.Userinfo{}
 	updatObj.Pic = property.Pic
 	updatObj.Nickname = property.Nickname
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	updatObj.UserId = userId
+	updatObj.UserId = realm.AccId
 	if result, err := logic.UpdateUserinfo(updatObj); err != nil {
 		wraper.Error(err).Encode(w)
 	} else {
@@ -275,12 +275,12 @@ func (ctrl *Account) UpdateMyPwd(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	property.UserId = userId
+	property.UserId = realm.AccId
 
 	if err := logic.UpdatePassword(property, true); err != nil {
 		wraper.Error(err).Encode(w)
@@ -297,12 +297,12 @@ func (ctrl *Account) UpdatePwd(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	role, err := logic.ParseRole(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	if role != model.RoleAdmin {
+	if model.RoleType(realm.RoleKey) != model.RoleAdmin {
 		wraper.Error("只有管理员才有此权限进行操作").Encode(w)
 		return
 	}
@@ -324,12 +324,12 @@ func (ctrl *Account) Resetmobile(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	property.UserId = userId
+	property.UserId = realm.AccId
 	if err := logic.RestMobile(property); err != nil {
 		wraper.Error(err).Encode(w)
 	} else {
@@ -344,12 +344,12 @@ func (ctrl *Account) UpdateUserName(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	role, err := logic.ParseRole(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	if role != model.RoleAdmin {
+	if model.RoleType(realm.RoleKey) != model.RoleAdmin {
 		wraper.OkMsg("只有管理员才可以操作该接口").Encode(w)
 		return
 	}
@@ -364,12 +364,12 @@ func (ctrl *Account) UpdateUserName(w http.ResponseWriter, req *http.Request) {
 // 更新
 func (ctrl *Account) GetInfo(w http.ResponseWriter, req *http.Request) {
 
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	result, err := logic.FindUserinfo(userId)
+	result, err := logic.FindUserinfo(realm.AccId)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 	} else {
@@ -389,12 +389,12 @@ func (ctrl *Account) GetInfo(w http.ResponseWriter, req *http.Request) {
 // 更新
 func (ctrl *Account) GetMenu(w http.ResponseWriter, req *http.Request) {
 
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	result, err := logic.FindUserinfo(userId)
+	result, err := logic.FindUserinfo(realm.AccId)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 	} else {
@@ -402,10 +402,10 @@ func (ctrl *Account) GetMenu(w http.ResponseWriter, req *http.Request) {
 		role, _ := logic.FindRole(result.RoleId)
 		rights, _ := logic.FindRightsByIds(role.RightIds)
 		// 分组或者分页面都可
-		nodes := slicekit.Filter[model.Rights](rights, func(right model.Rights, index int, slice []model.Rights) bool {
+		nodes := slicekit.Filter(rights, func(right model.Rights, index int, slice []model.Rights) bool {
 			return right.Type == model.RightsTypeView || right.Type == model.RightsTypeGroup
 		})
-		nodes = slicekit.Sort[model.Rights](nodes, func(item1, item2 model.Rights) bool {
+		nodes = slicekit.Sort(nodes, func(item1, item2 model.Rights) bool {
 			return item1.SortIndex < item2.SortIndex
 		})
 		// 构建树形节点
@@ -433,12 +433,12 @@ func (ctrl *Account) Search(w http.ResponseWriter, req *http.Request) {
 
 // 更新
 func (ctrl *Account) Permit(w http.ResponseWriter, req *http.Request) {
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	result, err := logic.FindUserinfo(userId)
+	result, err := logic.FindUserinfo(realm.AccId)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 	} else {
@@ -454,19 +454,17 @@ func (ctrl *Account) Permit(w http.ResponseWriter, req *http.Request) {
 
 // token 续期
 func (ctrl *Account) Renewal(w http.ResponseWriter, req *http.Request) {
-	token := utils.GetAuthorizationFromRequest(req)
-	result, err := logic.ParseAccountFrom(token)
+	realm, err := tokenkit.GetRequestRealm(req)
+
 	if err != nil {
 
 		wraper.Error(err).Encode(w)
 	} else {
-
-		if token, err := logic.NewAccountSve().LoginUseUserId(result.UserId); err == nil {
+		if token, err := logic.NewAccountSve().LoginUseUserId(realm.AccId); err == nil {
 			wraper.OkData(token).Encode(w)
 		} else {
 			wraper.Error(err).Encode(w)
 		}
-
 	}
 }
 

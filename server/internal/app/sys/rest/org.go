@@ -6,6 +6,7 @@ import (
 	"turingdance.com/turing/internal/app/sys/args"
 	"turingdance.com/turing/internal/app/sys/logic"
 	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 
 	"github.com/turingdance/infra/wraper"
 
@@ -38,7 +39,7 @@ func (ctrl *Org) Search(w http.ResponseWriter, req *http.Request) {
 // 搜索机构信息
 func (ctrl *Org) Mine(w http.ResponseWriter, req *http.Request) {
 
-	_, err := logic.ParseUserId(req)
+	_, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return

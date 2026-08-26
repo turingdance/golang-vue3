@@ -7,6 +7,7 @@ import (
 	"turingdance.com/turing/internal/app/sys/args"
 	"turingdance.com/turing/internal/app/sys/logic"
 	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 	"turingdance.com/turing/internal/pkg/utils"
 	"turingdance.com/turing/internal/types"
 )
@@ -77,13 +78,13 @@ func (ctrl *Userinfo) UpdateUserinfo(w http.ResponseWriter, req *http.Request) {
 		wraper.Error("请选择部门").Encode(w)
 		return
 	}
-	userId, err := logic.ParseUserId(req)
+	realm, err := tokenkit.GetRealm(req.Context())
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	} else {
 		logic.UpdateUserinfo(model.Userinfo{
-			UserId:   userId,
+			UserId:   realm.AccId,
 			Nickname: arg.Nickname,
 			Pic:      arg.Pic,
 			DeptId:   arg.DeptId,
@@ -100,12 +101,12 @@ func (ctrl *Userinfo) Create(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	role, err := logic.ParseRole(req)
+	realm, err := tokenkit.GetRequestRealm(req)
 	if err != nil {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	if role != model.RoleAdmin {
+	if model.RoleType(realm.RoleKey) != model.RoleAdmin {
 		wraper.Error("只有管理员账户才可进行此操作").Encode(w)
 		return
 	}

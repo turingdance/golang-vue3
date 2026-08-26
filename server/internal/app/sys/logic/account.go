@@ -2,17 +2,14 @@ package logic
 
 //
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
-	"net/http"
 	"time"
 
 	"github.com/turingdance/infra/pkkit"
 	"turingdance.com/turing/internal/app/sys/args"
 	"turingdance.com/turing/internal/app/sys/model"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 	"turingdance.com/turing/internal/pkg/utils"
-	"turingdance.com/turing/internal/server/auth"
 	"turingdance.com/turing/internal/types"
 )
 
@@ -155,49 +152,8 @@ func (a *account) LoginUseSmsCode(acc args.Account) (token string, err error) {
 	return a.buildToken(orgInfo, user)
 }
 func (acc *account) buildToken(orgInfo model.Org, user model.Userinfo) (token string, err error) {
-	clain := map[string]interface{}{
-		"userId":   user.UserId,
-		"nickname": user.Nickname,
-		// "username": user.Username,
-		"pic":    user.Pic,
-		"roleId": user.RoleId,
-		"orgId":  orgInfo.OrgId,
-	}
-	return auth.GenerateToken(clain)
-}
-
-func ParseAccountFrom(input any) (user model.Userinfo, e error) {
-	user = model.Userinfo{}
-	if resultMap, err := auth.ParseToken(input); err == nil {
-		user.UserId = resultMap["userId"].(string)
-		user.Nickname = resultMap["nickname"].(string)
-		user.OrgId = utils.Atoi[uint](fmt.Sprintf("%f", resultMap["orgId"].(float64)))
-		user.RoleId = uint(resultMap["roleId"].(float64))
-	} else {
-		e = err
-	}
-	return user, e
-}
-
-func ParseUserId(req *http.Request) (userId string, e error) {
-	token := utils.GetAuthorizationFromRequest(req)
-	userInfo, err := ParseAccountFrom(token)
-	if err != nil {
-		return "", err
-	} else {
-		return userInfo.UserId, err
-	}
-}
-func ParseRole(req *http.Request) (userId model.RoleType, e error) {
-	token := utils.GetAuthorizationFromRequest(req)
-	userInfo, err := ParseAccountFrom(token)
-	if err != nil {
-		return "", err
-	} else {
-		tmp := model.Role{}
-		DbEngin.Where("id = ?", userInfo.RoleId).Find(&tmp)
-		return tmp.Code, err
-	}
+	realm := tokenkit.NewRealmBuilder().AccId(user.UserId).Avatar(user.Pic).NickName(user.Nickname).RoleKey(user.Role.Name).TenantId(uint64(user.OrgId)).Build()
+	return tokenkit.GenerateToken(realm)
 }
 
 // 注册
@@ -393,14 +349,11 @@ func Register(acc args.Account) (userId string, err error) {
 
 // 解析
 func Userinfo(token string) (result model.Userinfo, err error) {
-	mapresult, err := auth.ParseToken(token)
+	mapresult, err := tokenkit.ParseToken(token)
 	if err != nil {
 		return
 	}
-	var userInfo model.Userinfo
-	bts, _ := json.Marshal(mapresult)
-	err = json.Unmarshal(bts, &userInfo)
-	ret, err := FindUserinfo(userInfo.UserId)
+	ret, err := FindUserinfo(mapresult.AccId)
 	ret.Password = ""
 	ret.Mobile = ""
 	return ret, err
@@ -408,12 +361,9 @@ func Userinfo(token string) (result model.Userinfo, err error) {
 
 // 解析
 func UserId(token string) (userId string, err error) {
-	mapresult, err := auth.ParseToken(token)
+	mapresult, err := tokenkit.ParseToken(token)
 	if err != nil {
 		return
 	}
-	var userInfo model.Userinfo
-	bts, _ := json.Marshal(mapresult)
-	err = json.Unmarshal(bts, &userInfo)
-	return userInfo.UserId, err
+	return mapresult.AccId, err
 }

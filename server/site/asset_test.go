@@ -1,12 +1,10 @@
-package site_test
+package site
 
 import (
 	"fmt"
 	"io/fs" // ✅ 必须这个，不是 fscompiler
 	"path"
 	"testing"
-
-	"github.com/turig/test005/site"
 )
 
 func printEmbedFiles(fsys fs.FS, prefix string) error {
@@ -25,5 +23,5 @@ func printEmbedFiles(fsys fs.FS, prefix string) error {
 }
 
 func TestAsset(t *testing.T) {
-	printEmbedFiles(site.Assets, ".")
+	printEmbedFiles(Assets, ".")
 }

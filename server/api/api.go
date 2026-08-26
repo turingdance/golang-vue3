@@ -64,6 +64,9 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	httpserver.UseMiddleWare(middleware.Cros, middleware.AccessLog)
 	// api 服务
 	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
+
+	// let.Initialize(appConf)
+	// httpserver.Handle("/let/", let.CreateRouter("/let/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
 	// 下面是资源文件服务
 	for _, config := range appConf.Storage {
 		if config.Driver == storage.DriverLocal {

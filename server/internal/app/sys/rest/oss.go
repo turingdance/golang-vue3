@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	config "turingdance.com/turing/internal/conf"
-	"turingdance.com/turing/internal/server/auth"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 
 	"github.com/turingdance/infra/alikit/osskit"
 	"github.com/turingdance/infra/wraper"
@@ -23,13 +23,12 @@ func (ctrl *Oss) Policy(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 	} else {
 		// 获得token
-		token, _ := auth.ParseToken(req)
-		if userId, ok := token["userId"]; ok {
-			policy.Xvar["x-oss-callback-userId"] = userId
-		}
-		if orgId, ok := token["orgId"]; ok {
-			policy.Xvar["x-oss-callback-orgId"] = orgId
-		}
+		realm, _ := tokenkit.ParseToken(req)
+
+		policy.Xvar["x-oss-callback-userId"] = realm.AccId
+
+		policy.Xvar["x-oss-callback-orgId"] = realm.TenantId
+
 		wraper.OkData(policy).Encode(w)
 	}
 }

@@ -6,6 +6,7 @@ import (
 	"regexp"
 
 	"github.com/turingdance/infra/slicekit"
+	"turingdance.com/turing/internal/pkg/tokenkit"
 	"turingdance.com/turing/internal/pkg/utils"
 )
 
@@ -60,16 +61,22 @@ func (auth *Authorize) Handle(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
 		// 如果通过白名单
 		if auth.CheckInWhiteList(req.RequestURI, req.Method) {
-			next.ServeHTTP(w, req)
+			tokenStr := utils.GetAuthorizationFromRequest(req)
+			// 白名单
+			if realm, err := tokenkit.ParseToken(tokenStr); err != nil {
+				next.ServeHTTP(w, req)
+			} else {
+				newCtx := tokenkit.SetRequestRealm(req, &realm)
+				r := req.WithContext(newCtx)
+				next.ServeHTTP(w, r)
+			}
 			return
 		}
 		// post:/a/{}
-
-		token := utils.GetAuthorizationFromRequest(req)
-
+		tokenStr := utils.GetAuthorizationFromRequest(req)
 		//判断段是否满足
 		// 如果token 是空的
-		if token == "" {
+		if tokenStr == "" {
 			resp := utils.ResultError("请登录后再试")
 			resp.Code = http.StatusForbidden
 			err := resp.ResponseJson(w)
@@ -78,13 +85,15 @@ func (auth *Authorize) Handle(next http.Handler) http.Handler {
 			}
 			return
 		}
-		if _, err := ParseToken(token); err != nil {
+		if realm, err := tokenkit.ParseToken(tokenStr); err != nil {
 			resp := utils.ResultError(err.Error())
 			resp.Code = http.StatusForbidden
 			resp.ResponseJson(w)
 			return
 		} else {
-			next.ServeHTTP(w, req)
+			newCtx := tokenkit.SetRequestRealm(req, &realm)
+			r := req.WithContext(newCtx)
+			next.ServeHTTP(w, r)
 		}
 	})
 }
