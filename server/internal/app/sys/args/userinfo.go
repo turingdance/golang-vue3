@@ -27,10 +27,10 @@ type Userinfo struct {
 
 	CreateAt types.DateTime `json:"createAt" form:"createAt" time_format:"2006-01-02 15:04:05" time_utc:"1" `
 
-	RoleId  uint     `json:"roleId" form:"roleId"`
-	OrgId   uint     `json:"orgId" form:"orgId"`
-	DeptId  string   `json:"deptId" form:"deptId"`
-	DeptIds []string `json:"deptIds" form:"deptIds"`
+	RoleId   uint     `json:"roleId" form:"roleId"`
+	TenantId uint     `json:"tenantId" form:"tenantId"`
+	DeptId   string   `json:"deptId" form:"deptId"`
+	DeptIds  []string `json:"deptIds" form:"deptIds"`
 }
 
 // 分页

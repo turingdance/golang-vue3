@@ -22,9 +22,7 @@ func NewApp(name string, options ...AppOption) *App {
 	var exepath, _ = os.Executable()
 	var exeabspath, _ = filepath.Abs(exepath)
 	var currentDir = filepath.Dir(exeabspath)
-	if name == "" {
-		name = "MyApp"
-	}
+
 	var prg = &App{
 		Name:             name,
 		DisplayName:      name,

@@ -1,7 +1,7 @@
 package api
 
 var (
-	ProjectName   = "turing"
-	ProjectTitle  = "turing"
-	ProjectConfig = "app-prod.yaml"
+	AppName   = "matrixhub"
+	AppMemo   = "洞见,AI视频分析平台"
+	AppConfig = "app-prod.yaml"
 )

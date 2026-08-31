@@ -18,12 +18,12 @@ func CreateConfig(property model.Config) (result model.Config, err error) {
 // 创建
 func SaveConfig(property model.Config) (result model.Config, err error) {
 	var tmp model.Config
-	DbEngin.Model(&tmp).Where("org_id = ?", property.OrgId).Where("name = ?", property.Name).First(&tmp)
+	DbEngin.Model(&tmp).Where("tenant_id = ?", property.TenantId).Where("name = ?", property.Name).First(&tmp)
 	if tmp.Id > 0 {
 		tmp.Value = property.Value
 	}
 	tmp.Name = property.Name
-	tmp.OrgId = property.OrgId
+	tmp.TenantId = property.TenantId
 	tmp.Label = property.Label
 
 	err = DbEngin.Model(&tmp).Save(&tmp).Error
@@ -71,8 +71,8 @@ func FindConfig(id uint) (result model.Config, err error) {
 }
 
 // 查询一条
-func FindConfigValue(orgId uint, name string) (result model.Config, err error) {
-	if orgId == 0 {
+func FindConfigValue(tenantId uint, name string) (result model.Config, err error) {
+	if tenantId == 0 {
 		err = errors.New("缺少门店信息")
 		return
 	}
@@ -81,7 +81,7 @@ func FindConfigValue(orgId uint, name string) (result model.Config, err error) {
 		return
 	}
 	result = model.Config{}
-	err = DbEngin.Model(new(model.Config)).Where("org_id = ?", orgId).Where("name = ?", name).First(&result).Error
+	err = DbEngin.Model(new(model.Config)).Where("tenant_id = ?", tenantId).Where("name = ?", name).First(&result).Error
 	return result, err
 }
 

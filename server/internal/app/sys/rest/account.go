@@ -35,20 +35,20 @@ func (ctrl *Account) Register(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 	} else {
 		// 如果存在店铺名称,则创建一个门店
-		org := model.Org{}
+		org := model.Tenant{}
 		org.UserId = userId
 		// 注册时不注册团队信息
-		if arg.Orgname != "" {
-			org.Title = arg.Orgname
-		}
+
+		org.Name = "我的团队"
+
 		if arg.Tel != "" {
-			org.Tel = arg.Tel
+			org.Ctphone = arg.Tel
 		}
 		if arg.Linker != "" {
-			org.Linker = arg.Linker
+			org.Ctname = arg.Linker
 		}
-		if len(org.Title) > 0 {
-			_, err := logic.CreateOrg(org)
+		if len(org.Name) > 0 {
+			_, err := logic.CreateTenant(org)
 			if err != nil {
 				log.Error(err.Error())
 			}
@@ -60,11 +60,9 @@ func (ctrl *Account) Register(w http.ResponseWriter, req *http.Request) {
 		} else {
 			userAttr.Nickname = "用户" + utils.RandNumber(4)
 		}
-
 		if len(arg.Pic) > 0 {
 			userAttr.Pic = arg.Pic
 		}
-
 		userAttr.UserId = userId
 		logic.UpdateUserinfo(userAttr)
 		resp := ""

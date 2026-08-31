@@ -17,7 +17,7 @@ type Config struct {
 
 	Value string `json:"value" form:"value"`
 
-	OrgId uint `json:"orgId" form:"orgId"`
+	TenantId uint `json:"tenantId" form:"tenantId"`
 }
 
 // 分页
@@ -36,8 +36,8 @@ func (p *Config) Condtions() func(db *gorm.DB) *gorm.DB {
 			db = db.Where("value = ?", p.Value)
 		}
 
-		if p.OrgId > 0 {
-			db = db.Where("org_id = ?", p.OrgId)
+		if p.TenantId > 0 {
+			db = db.Where("tenant_id = ?", p.TenantId)
 		}
 
 		db = db.Where("deleted  = ?", p.Deleted)

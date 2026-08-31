@@ -19,7 +19,7 @@ type Userinfo struct {
 	Password    string             `json:"-" form:"password" gorm:"type:varchar(128);comment:密码" `
 	Nickname    string             `json:"nickname" form:"nickname" gorm:"type:varchar(40);comment:昵称" `
 	Pic         string             `json:"pic" form:"pic" gorm:"type:varchar(256);comment:头像" `
-	OrgId       uint               `json:"orgId" form:"orgId" gorm:"-"`
+	TenantId    uint               `json:"tenantId" form:"tenantId" gorm:"-"`
 	RoleId      uint               `json:"roleId" form:"roleId" gorm:"type:bigint;size:20;comment:角色ID"`
 	Role        Role               `json:"role" gorm:"foreignkey:RoleId;references:Id"`
 	Scope       []string           `json:"scope" gorm:"-"` // 权限

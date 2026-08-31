@@ -4,17 +4,16 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-
 	"github.com/kardianos/service"
 	"github.com/sirupsen/logrus"
 	"github.com/turingdance/infra/ipckit"
+	"turingdance.com/turing/internal/app/hub"
 	"turingdance.com/turing/internal/app/sys"
 	"turingdance.com/turing/internal/conf"
 	"turingdance.com/turing/internal/pkg/cache"
 	"turingdance.com/turing/internal/pkg/log"
 	"turingdance.com/turing/internal/pkg/storage"
 	"turingdance.com/turing/internal/server"
-	"turingdance.com/turing/internal/server/auth"
 	"turingdance.com/turing/internal/server/middleware"
 	"turingdance.com/turing/site"
 )
@@ -63,10 +62,14 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 	// 中间件,
 	httpserver.UseMiddleWare(middleware.Cros, middleware.AccessLog)
 	// api 服务
-	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
+	httpserver.Handle("/sys/", sys.CreateRouter("/sys/"), middleware.NewAuthorize(appConf.Auth.WhiteList).Handle)
 
-	// let.Initialize(appConf)
-	// httpserver.Handle("/let/", let.CreateRouter("/let/"), auth.NewAuthorize(appConf.Auth.WhiteList).Handle)
+	// 这里是生成的模板
+	hub.Initialize(appConf)
+	httpserver.Handle("/hub/", hub.CreateRouter("/hub/"), middleware.NewAuthorize(appConf.Auth.WhiteList).Handle)
+
+	logrus.Info("httpserver.Handle end")
+	// httpserver.Handle
 	// 下面是资源文件服务
 	for _, config := range appConf.Storage {
 		if config.Driver == storage.DriverLocal {
@@ -77,13 +80,12 @@ func (p *App) starthttp(appConf *conf.BootConf) (svc *server.HttpServer, err err
 				// 签名鉴权
 				httpserver.Handle("/"+config.Bucket+"/", http.StripPrefix("/"+config.Bucket+"/", http.FileServer(http.Dir(config.Datapath))), middleware.NewSigner(appConf.Enpryt).Handle)
 			}
-
 		}
 
 	}
 
 	// 静态资源服务,该目录是console 项目下 npm run build:prod 指令编译后生成
-	httpserver.Handle("/", http.FileServer(http.FS(site.Assets)))
+	httpserver.Handle("/", site.TryFileServer(http.FS(site.Assets),"index.html"))
 	err = httpserver.Start()
 	return httpserver, err
 }

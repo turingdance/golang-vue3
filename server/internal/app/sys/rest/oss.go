@@ -27,7 +27,7 @@ func (ctrl *Oss) Policy(w http.ResponseWriter, req *http.Request) {
 
 		policy.Xvar["x-oss-callback-userId"] = realm.AccId
 
-		policy.Xvar["x-oss-callback-orgId"] = realm.TenantId
+		policy.Xvar["x-oss-callback-tenantId"] = realm.TenantId
 
 		wraper.OkData(policy).Encode(w)
 	}
@@ -48,7 +48,7 @@ func (ctrl *Oss) Callback(w http.ResponseWriter, req *http.Request) {
 	logic.CreateResource(model.Resource{
 		UserId: resource.UserId,
 		ObjKey: resource.Object,
-		OrgId: resource.OrgId,
+		TenantId: resource.TenantId,
 		MimeType: resource.MimeType,
 		Size: resource.Size,
 		Media: media[0],

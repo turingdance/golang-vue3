@@ -1,4 +1,4 @@
-package auth
+package middleware
 
 import (
 	"fmt"
@@ -16,6 +16,10 @@ type RouteMatch struct {
 }
 type Authorize struct {
 	routes []RouteMatch
+}
+
+type AuthorizeConf struct {
+	WhiteList []string
 }
 
 // /post/\w+ GET,POST

@@ -1,11 +1,12 @@
 // gen by codectl ,donot modify ,https://github.com/turingdance/codectl.git
-// @author codectl
+// @author winlion
 
 package conf
 
 import (
 	"fmt"
 	"time"
+
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 	"github.com/turingdance/infra/alikit/osskit"
@@ -14,9 +15,7 @@ import (
 	"turingdance.com/turing/internal/pkg/log"
 	"turingdance.com/turing/internal/pkg/storage"
 	"turingdance.com/turing/internal/server"
-	"turingdance.com/turing/internal/server/auth"
 	"turingdance.com/turing/internal/server/middleware"
-
 )
 
 type Engin struct {
@@ -51,20 +50,19 @@ type DbConf struct {
 	ConnMaxIdle     int
 }
 
-
 // oss://[bucket]/[filekey]
 type BootConf struct {
-	Engin        Engin
-	Http         server.HttpConf
-	Log          log.LogConf
-	Local        Local
-	Database      DbConf
-	Redis        rediskit.RedisConf
-	Oss          osskit.OssConf
-	Storage      []storage.StorageConf
-	Dysms        dysms.DysmsConf
-	Enpryt       middleware.Enpryt
-	Auth         auth.Conf
+	Engin    Engin
+	Http     server.HttpConf
+	Log      log.LogConf
+	Local    Local
+	Database DbConf
+	Redis    rediskit.RedisConf
+	Oss      osskit.OssConf
+	Storage  []storage.StorageConf
+	Dysms    dysms.DysmsConf
+	Enpryt   middleware.Enpryt
+	Auth     middleware.AuthorizeConf
 }
 
 func ParseConf(appfile string) *BootConf {
@@ -87,6 +85,6 @@ func ParseConf(appfile string) *BootConf {
 	return &c
 }
 
-func Reload(){
-	 viper.Unmarshal(AppConf)
+func Reload() {
+	viper.Unmarshal(AppConf)
 }

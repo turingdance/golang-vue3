@@ -61,9 +61,9 @@ func (ctrl *Userinfo) Updatedeptandname(w http.ResponseWriter, req *http.Request
 		return
 	}
 	if err := logic.Updatedeptandname(arg.UserId, arg.DeptId, arg.Nickname); err != nil {
-		wraper.Error(err).Encode(w)
+		wraper.Error(err.Error()).Encode(w)
 	} else {
-		wraper.OkData(arg.OrgId).Encode(w)
+		wraper.OkData(arg).Encode(w)
 	}
 }
 
@@ -90,7 +90,7 @@ func (ctrl *Userinfo) UpdateUserinfo(w http.ResponseWriter, req *http.Request) {
 			DeptId:   arg.DeptId,
 			RoleId:   arg.RoleId,
 		})
-		wraper.OkData(arg.OrgId).Encode(w)
+		wraper.OkData(arg.TenantId).Encode(w)
 	}
 }
 

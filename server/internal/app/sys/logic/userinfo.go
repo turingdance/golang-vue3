@@ -73,7 +73,7 @@ func CountUserinfo(arg args.Userinfo) (total int64, err error) {
 }
 
 // 搜索
-func SetDefaultOrgId(userId string, refId uint) (err error) {
+func SetDefaultTenantId(userId string, refId uint) (err error) {
 	err = DbEngin.Model(new(model.Userinfo)).Where("user_id = ?", userId).UpdateColumn("default_ref_id", refId).Error
 	return err
 }

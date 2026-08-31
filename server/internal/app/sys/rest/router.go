@@ -30,7 +30,7 @@ var (
 	dictCtrl = &Dict{}
 
 	// 机构信息控制器
-	orgCtrl = &Org{}
+	tenantCtrl = &Tenant{}
 
 	//
 	ossCtrl = &Oss{}
@@ -61,7 +61,7 @@ var MapCtrl map[string]any = map[string]any{
 
 	"Dict": dictCtrl, // 字典控制器
 
-	"Org": orgCtrl, // 机构信息控制器
+	"Tenant": tenantCtrl, // 机构信息控制器
 
 	"Oss": ossCtrl, //
 
@@ -153,17 +153,17 @@ var Routes []restkit.Route = []restkit.Route{
 
 	{Package: "rest", Module: "Dict", HandlerFunc: dictCtrl.GetOne, Func: "GetOne", Path: "/dict/getOne", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取字典"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.Search, Func: "Search", Path: "/org/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Org{})"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.Search, Func: "Search", Path: "/tenant/search", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Tenant{})"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.Mine, Func: "Mine", Path: "/org/mine", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "搜索机构信息"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.Mine, Func: "Mine", Path: "/tenant/mine", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "搜索机构信息"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.Create, Func: "Create", Path: "/org/create", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "创建机构信息"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.Create, Func: "Create", Path: "/tenant/create", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "创建机构信息"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.Update, Func: "Update", Path: "/org/update", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "更新机构信息"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.Update, Func: "Update", Path: "/tenant/update", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "更新机构信息"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.Delete, Func: "Delete", Path: "/org/delete", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "删除机构信息,系统默认都是逻辑删除"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.Delete, Func: "Delete", Path: "/tenant/delete", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "删除机构信息,系统默认都是逻辑删除"},
 
-	{Package: "rest", Module: "Org", HandlerFunc: orgCtrl.GetOne, Func: "GetOne", Path: "/org/getOne", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取机构信息"},
+	{Package: "rest", Module: "Tenant", HandlerFunc: tenantCtrl.GetOne, Func: "GetOne", Path: "/tenant/getOne", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "获取机构信息"},
 
 	{Package: "rest", Module: "Oss", HandlerFunc: ossCtrl.Policy, Func: "Policy", Path: "/oss/policy", Method: []string{"GET", "POST", "OPTIONS"}, Comment: "RegisterRestCtrl(&Oss{})"},
 

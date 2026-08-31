@@ -11,7 +11,7 @@ type Config struct {
 	Name        string `json:"name" form:"name" gorm:"comment:名称;type:string;size:255"`
 	Label       string `json:"label" form:"label" gorm:"comment:展示;type:string;size:255"`
 	Value       string `json:"value" form:"value" gorm:"comment:值;type:string;size:1024"`
-	OrgId       uint   `json:"orgId" form:"orgId" gorm:"index;comment:组织ID"`
+	TenantId    uint   `json:"tenantId" form:"tenantId" gorm:"index;comment:组织ID"`
 	types.Model `gorm:"embedded"`
 }
 

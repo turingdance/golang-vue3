@@ -111,7 +111,7 @@ func (ctrl *Config) Value(w http.ResponseWriter, req *http.Request) {
 		wraper.Error(err).Encode(w)
 		return
 	}
-	if d, e := logic.FindConfigValue(property.OrgId, property.Name); e != nil {
+	if d, e := logic.FindConfigValue(property.TenantId, property.Name); e != nil {
 
 		wraper.Error(e.Error()).Encode(w)
 	} else {

@@ -145,14 +145,14 @@ func (a *account) LoginUseSmsCode(acc args.Account) (token string, err error) {
 	if user.Status != types.EnableStatusTrue {
 		return "", errors.New("该账号暂未激活请联系管理员")
 	}
-	orgInfo, _ := FindOrgByUserId(user.UserId)
+	TenantInfo, _ := FindTenantByUserId(user.UserId)
 	// 登录成功了,生成redis
 	// jwt 只处理 userId,username,pic,nickname
 	//initial.RedisEngin.
-	return a.buildToken(orgInfo, user)
+	return a.buildToken(TenantInfo, user)
 }
-func (acc *account) buildToken(orgInfo model.Org, user model.Userinfo) (token string, err error) {
-	realm := tokenkit.NewRealmBuilder().AccId(user.UserId).Avatar(user.Pic).NickName(user.Nickname).RoleKey(user.Role.Name).TenantId(uint64(user.OrgId)).Build()
+func (acc *account) buildToken(TenantInfo model.Tenant, user model.Userinfo) (token string, err error) {
+	realm := tokenkit.NewRealmBuilder().AccId(user.UserId).Avatar(user.Pic).NickName(user.Nickname).RoleKey(user.Role.Name).TenantId(uint64(user.TenantId)).Build()
 	return tokenkit.GenerateToken(realm)
 }
 
@@ -163,11 +163,11 @@ func (acc *account) LoginUseUserId(userId string) (token string, err error) {
 	if user.Empty() {
 		return "", errors.New("该用户不存在")
 	}
-	orgInfo, _ := FindOrgByUserId(user.UserId)
+	TenantInfo, _ := FindTenantByUserId(user.UserId)
 	// 登录成功了,生成redis
 	// jwt 只处理 userId,username,pic,nickname
 	//initial.RedisEngin.
-	return acc.buildToken(orgInfo, user)
+	return acc.buildToken(TenantInfo, user)
 }
 
 // 用户名 密码登录
@@ -236,11 +236,11 @@ func (a *account) LoginUseUsername(acc args.Account) (token string, err error) {
 		return "", errors.New("该用户密码不正确")
 
 	}
-	orgInfo, _ := FindOrgByUserId(user.UserId)
+	TenantInfo, _ := FindTenantByUserId(user.UserId)
 	// 登录成功了,生成redis
 	// jwt 只处理 userId,username,pic,nickname
 	//initial.RedisEngin.
-	return a.buildToken(orgInfo, user)
+	return a.buildToken(TenantInfo, user)
 }
 
 // 用户名 手机号密码登录
@@ -266,11 +266,11 @@ func (a *account) LoginUseMobile(acc args.Account) (token string, err error) {
 		return "", errors.New("该用户密码不正确")
 
 	}
-	orgInfo, _ := FindOrgByUserId(user.UserId)
+	TenantInfo, _ := FindTenantByUserId(user.UserId)
 	// 登录成功了,生成redis
 	// jwt 只处理 userId,username,pic,nickname
 	//initial.RedisEngin.
-	return a.buildToken(orgInfo, user)
+	return a.buildToken(TenantInfo, user)
 }
 
 // 查询一条
